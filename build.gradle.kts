@@ -40,6 +40,9 @@ compose.desktop {
             targetFormats(TargetFormat.Exe, TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "LadsCryptoTestUtility"
             packageVersion = "1.0.0"
+            windows {
+                iconFile.set(project.file("icons/LaDS_icon.ico"))
+            }
         }
     }
 }
