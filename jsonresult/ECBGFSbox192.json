@@ -1,0 +1,88 @@
+{
+    "cipher_mode": "ECB",
+    "key length": "192",
+    "jobs": [
+        {
+            "tests": [
+                {
+                    "count": "0",
+                    "plaintext": "1b077a6af4b7f98229de786d7516b639",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "count": "1",
+                    "plaintext": "9c2d8842e5f48f57648205d39a239af1",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "count": "2",
+                    "plaintext": "bff52510095f518ecca60af4205444bb",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "count": "3",
+                    "plaintext": "51719783d3185a535bd75adc65071ce1",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "count": "4",
+                    "plaintext": "26aa49dcfe7629a8901a69a9914e6dfd",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "count": "5",
+                    "plaintext": "941a4773058224e1ef66d10e0a6ee782",
+                    "key": "000000000000000000000000000000000000000000000000"
+                }
+            ],
+            "job_name": "ENCRYPT",
+            "parameters": [
+                "count",
+                "plaintext",
+                "key"
+            ]
+        },
+        {
+            "tests": [
+                {
+                    "ciphertext": "275cfc0413d8ccb70513c3859b1d0f72",
+                    "count": "0",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "ciphertext": "c9b8135ff1b5adc413dfd053b21bd96d",
+                    "count": "1",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "ciphertext": "4a3650c3371ce2eb35e389a171427440",
+                    "count": "2",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "ciphertext": "4f354592ff7c8847d2d0870ca9481b7c",
+                    "count": "3",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "ciphertext": "d5e08bf9a182e857cf40b3a36ee248cc",
+                    "count": "4",
+                    "key": "000000000000000000000000000000000000000000000000"
+                },
+                {
+                    "ciphertext": "067cd9d3749207791841562507fa9626",
+                    "count": "5",
+                    "key": "000000000000000000000000000000000000000000000000"
+                }
+            ],
+            "job_name": "DECRYPT",
+            "parameters": [
+                "ciphertext",
+                "count",
+                "key"
+            ]
+        }
+    ],
+    "state": "Encrypt and Decrypt",
+    "header_comments": "# AESVS GFSbox test data for ECB\n# State : Encrypt and Decrypt\n# Key Length : 192\n# Generated on Mon May 15 09:42:44 2023\n"
+}
