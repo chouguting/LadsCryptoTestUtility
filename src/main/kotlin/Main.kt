@@ -1,8 +1,10 @@
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.onClick
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ShoppingCart
@@ -21,6 +23,7 @@ import java.io.File
 import javax.swing.JFileChooser
 import javax.swing.JFrame
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun App() {
@@ -81,7 +84,9 @@ fun App() {
                                 }
 
                                 loadedFolderInfo.value = "loaded folder: $selectedDir , ${fileList.size} files loaded"
-                                folderLoaded.value = true
+                                if(fileList.size > 0){
+                                    folderLoaded.value = true
+                                }
                                 outputResult.value = ""
                             }
 
@@ -97,18 +102,19 @@ fun App() {
 
                     //choose output folder
                     AnimatedVisibility(visible = folderLoaded.value) {
-                        Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)){
+                        Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(20.dp)){
                             Button(onClick = {
                                 val fileChooser = JFileChooser()
                                 fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
                                 fileChooser.setCurrentDirectory(File("."))
-                                fileChooser.setDialogTitle("Choose a directory")
+                                fileChooser.setDialogTitle("Choose a folder")
                                 fileChooser.setAcceptAllFileFilterUsed(false) //disable all file type option
                                 val userSelection = fileChooser.showOpenDialog(JFrame())
                                 if (userSelection == JFileChooser.APPROVE_OPTION) {
                                     val selectedDir = fileChooser.selectedFile.toString()
                                     saveToThisFolder.value = selectedDir
-                                    saveToFolderInfo.value = "save to dir: $selectedDir"
+                                    saveToFolderInfo.value = "save to folder: $selectedDir"
+
                                     saveToFolderSelected.value = true
                                     outputResult.value = ""
                                 }
@@ -129,7 +135,7 @@ fun App() {
                     Spacer(modifier = Modifier.fillMaxWidth().height(20.dp))
 
                     //choose task
-                    AnimatedVisibility(visible = saveToFolderSelected.value) {
+                    AnimatedVisibility(visible = saveToFolderSelected.value&&folderLoaded.value) {
                         Column(modifier = Modifier.fillMaxWidth()){
                             Text("Choose the task you want to run: ")
                             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -161,8 +167,18 @@ fun App() {
                 }
 
                 //display file list
-                Column(modifier = Modifier.weight(1f).clip(RoundedCornerShape(20.dp)).background(Color.Cyan).fillMaxSize()) {
-
+                Column(modifier = Modifier.weight(1f).clip(RoundedCornerShape(20.dp)).background(Color.LightGray).padding(10.dp).fillMaxSize()) {
+                    for(filename in fileList){
+                        Text(filename, modifier = Modifier.onClick {
+                            fileList.remove(filename)
+                            fileAndItsPath.remove(filename)
+                            loadedFolderInfo.value = loadedFolderInfo.value.replace(", ${fileList.size+1} files loaded", ", ${fileList.size} files loaded")
+                            outputResult.value = ""
+                            if(fileList.size == 0){
+                                folderLoaded.value = false
+                            }
+                        })
+                    }
                 }
 
 
