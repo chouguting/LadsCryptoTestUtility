@@ -1,13 +1,8 @@
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.onClick
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,9 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import java.io.File
-import javax.swing.JFileChooser
-import javax.swing.JFrame
+import cavp.CavpTestFile
+import java.util.ArrayList
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -30,9 +24,12 @@ fun App() {
 
 
     val fileList = remember { mutableStateListOf<String>() }
+    val testAlgorithmList = remember { mutableStateListOf<String>() }
+    var cavpTestFiles = remember { ArrayList<CavpTestFile>() }
     val fileAndItsPath = remember { HashMap<String, String>()}
 
-    val loadedFolderInfo = remember { mutableStateOf("no folder loaded yet") }
+
+    val loadedFilesInfo = remember { mutableStateOf("no file loaded yet") }
     val folderLoaded = remember { mutableStateOf(false) }
 
     val saveToFolderInfo = remember { mutableStateOf("please select the output folder") }
@@ -67,34 +64,29 @@ fun App() {
                     //choose input folder
                     Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(20.dp)){
                         Button(onClick = {
-                            val fileChooser = JFileChooser()
-                            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
-                            fileChooser.setCurrentDirectory(File("."))
-                            fileChooser.setDialogTitle("Choose a directory")
-                            fileChooser.setAcceptAllFileFilterUsed(false) //disable all file type option
-
-                            val userSelection = fileChooser.showOpenDialog(JFrame())
-                            if (userSelection == JFileChooser.APPROVE_OPTION) {
-                                val selectedDir = fileChooser.selectedFile.toString()
-                                val fileLists = Utils.findSupportedFilesInDir(selectedDir);
-
-                                for (filename in fileLists) {
-                                    fileList.add(filename)
-                                    fileAndItsPath.put(filename, selectedDir + "\\" + filename)
+                            pickInputFile(
+                                fileList,
+                                fileAndItsPath,
+                                cavpTestFiles,
+                                loadedFilesInfo,
+                                folderLoaded,
+                                outputResult
+                            )
+                            //update loadedFileInfo
+                            testAlgorithmList.clear()
+                            for(cavpTestFile in cavpTestFiles){
+                                for(i in 0 until cavpTestFile.numberOfAlgorithm){
+                                    val numberOfTestGroup = cavpTestFile.numberOfTestGroups(i)
+                                    val algorithm_name = cavpTestFile.algorithmJsonLists[i].getString("algorithm")
+                                    val testCasesCount = cavpTestFile.getNumberOfAllTestCasesOfAlgorithm(i)
+                                    testAlgorithmList.add("$algorithm_name ($numberOfTestGroup test groups, $testCasesCount test cases)")
                                 }
-
-                                loadedFolderInfo.value = "loaded folder: $selectedDir , ${fileList.size} files loaded"
-                                if(fileList.size > 0){
-                                    folderLoaded.value = true
-                                }
-                                outputResult.value = ""
                             }
-
                         }) {
-                            Text("input file folder")
+                            Text("input file")
                         }
 
-                        Text(loadedFolderInfo.value)
+                        Text(loadedFilesInfo.value)
 
                     }
                     //spacer
@@ -104,31 +96,12 @@ fun App() {
                     AnimatedVisibility(visible = folderLoaded.value) {
                         Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(20.dp)){
                             Button(onClick = {
-                                val fileChooser = JFileChooser()
-                                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
-                                fileChooser.setCurrentDirectory(File("."))
-                                fileChooser.setDialogTitle("Choose a folder")
-                                fileChooser.setAcceptAllFileFilterUsed(false) //disable all file type option
-                                val userSelection = fileChooser.showOpenDialog(JFrame())
-                                if (userSelection == JFileChooser.APPROVE_OPTION) {
-                                    val selectedDir = fileChooser.selectedFile.toString()
-                                    saveToThisFolder.value = selectedDir
-                                    saveToFolderInfo.value = "save to folder: $selectedDir"
-
-                                    saveToFolderSelected.value = true
-                                    outputResult.value = ""
-                                }
-
-
-
+                                pickOutputFolder(saveToFolderInfo, saveToThisFolder, saveToFolderSelected, outputResult)
                             }) {
                                 Text("output folder")
                             }
                             Text(saveToFolderInfo.value)
-
                         }
-
-
                     }
 
                     //spacer
@@ -146,13 +119,13 @@ fun App() {
                                     Text("Convert to Json")
                                 }
                                 Button(onClick={
-                                    aesAndSave(mode = 0,fileList, fileAndItsPath, saveToThisFolder.value)
+                                    aesAndSave(mode = 0, fileList, fileAndItsPath, saveToThisFolder.value)
                                     outputResult.value = "AES done, result(json) saved to folder"
                                 }){
                                     Text("AES result to Json")
                                 }
                                 Button(onClick={
-                                    aesAndSave(mode = 1,fileList, fileAndItsPath, saveToThisFolder.value)
+                                    aesAndSave(mode = 1, fileList, fileAndItsPath, saveToThisFolder.value)
                                     outputResult.value = "AES done, result(rsp) saved to folder"
                                 }){
                                     Text("AES result to RSP")
@@ -167,14 +140,23 @@ fun App() {
                 }
 
                 //display file list
-                Column(modifier = Modifier.weight(1f).clip(RoundedCornerShape(20.dp)).background(Color.LightGray).padding(10.dp).fillMaxSize()) {
-                    for(filename in fileList){
-                        Text(filename, modifier = Modifier.onClick {
-                            fileList.remove(filename)
-                            fileAndItsPath.remove(filename)
-                            loadedFolderInfo.value = loadedFolderInfo.value.replace(", ${fileList.size+1} files loaded", ", ${fileList.size} files loaded")
+                Column(modifier = Modifier.weight(1.2f).clip(RoundedCornerShape(20.dp)).background(Color.LightGray).padding(10.dp).fillMaxSize().verticalScroll(rememberScrollState())) {
+                    for(testAlgorithm in testAlgorithmList){
+                        Text(testAlgorithm, modifier = Modifier.onClick {
+                            testAlgorithmList.remove(testAlgorithm)
+                            for(cavpTestFile in cavpTestFiles){
+                                val originalName = testAlgorithm.split("(").first().trim()
+                                cavpTestFile.removeAlgorithmWithNameOf(originalName)
+                            }
+                            //recalculate
+                            var allTestCasesCount = 0
+                            for(cavpTestFile in cavpTestFiles){
+                                allTestCasesCount += cavpTestFile.getNumberOfAllTestCases()
+                            }
+                            //update loadedFileInfo
+                            loadedFilesInfo.value = loadedFilesInfo.value.replace("found \\d+ test cases".toRegex(), "found $allTestCasesCount test cases")
                             outputResult.value = ""
-                            if(fileList.size == 0){
+                            if(allTestCasesCount == 0){
                                 folderLoaded.value = false
                             }
                         })
@@ -190,37 +172,6 @@ fun App() {
 
 
 
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .weight(1f)
-//                    .background(Color.White)
-//
-//            ) {
-//                Column(modifier = Modifier
-//                    .fillMaxSize()
-//                    .weight(1f)
-//                    ) {
-//
-//                }
-//                Column(modifier = Modifier
-//                    .fillMaxSize()
-//                    .weight(1f)
-//                    ) {
-//
-//                }
-//                Column(modifier = Modifier
-//                    .fillMaxSize()
-//                    .weight(1f)
-//                    ) {
-////                    Icon(
-////                        Icons.Rounded.ShoppingCart,
-////                        contentDescription = ""
-////                    )
-//                }
-//
-//
-//            }
 
 
 
