@@ -1,13 +1,15 @@
+import cavp.CavpTestFile
 import tw.edu.ntu.lads.chouguting.java.cipers.AESEngine
 import org.json.JSONObject
 import tw.edu.ntu.lads.chouguting.java.JsonUtils
+import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
 import java.io.FileWriter
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-fun convertToJsonAndSave(fileList: List<String>, filePathMap: HashMap<String, String>, saveToFolder: String){
+fun convertToJsonAndSave(fileList: List<String>, filePathMap: HashMap<String, String>, saveToFolder: String) {
 
     for (filename in fileList) {
 //        val filename: String = currentSelectedFileList.get(index)
@@ -33,7 +35,7 @@ fun convertToJsonAndSave(fileList: List<String>, filePathMap: HashMap<String, St
     }
 }
 
-fun aesAndSave(mode:Int, fileList: List<String>, filePathMap: HashMap<String, String>, saveToFolder: String){
+fun aesAndSave(mode: Int, fileList: List<String>, filePathMap: HashMap<String, String>, saveToFolder: String) {
     //mode 0: aes to json
     //mode 1: aes to rsp
     println("do AES")
@@ -69,3 +71,38 @@ fun aesAndSave(mode:Int, fileList: List<String>, filePathMap: HashMap<String, St
     }
 
 }
+
+
+fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String) {
+    for (cavpTestFile in cavpTestFiles) {
+        val numberOfAlgorithm = cavpTestFile.numberOfAlgorithm
+        for (algorithmIndex in 0 until numberOfAlgorithm) {
+            val algorithmName = cavpTestFile.algorithmJsonLists[algorithmIndex].getString("algorithm")
+            val numberOfTestGroup = cavpTestFile.numberOfTestGroups(algorithmIndex)
+            for (testGroupIndex in 0 until numberOfTestGroup) {
+                val numberOfTestCases = cavpTestFile.numberOfTestCases(algorithmIndex, testGroupIndex)
+                val direction =
+                    if (algorithmName.lowercase().contains("aes")) {
+                        cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getString("direction")
+                    } else {
+                        ""
+                    }
+                for (testCaseIndex in 0 until numberOfTestCases) {
+                    val testCaseJson = cavpTestFile.getTestCase(algorithmIndex, testGroupIndex, testCaseIndex)
+                    if (algorithmName.lowercase().contains("aes")) {
+                        AESEngine.runAESWithTestCase(testCaseJson, direction, algorithmName)
+                    } else if (algorithmName.lowercase().contains("sha")) {
+                        SHAEngine.runSHAWithTestCase(testCaseJson, algorithmName)
+                    }
+
+                }
+
+            }
+        }
+        cavpTestFile.saveRspToFolder(saveToFolder)
+    }
+
+
+}
+
+

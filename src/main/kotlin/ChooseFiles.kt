@@ -44,8 +44,8 @@ fun pickInputFolder(
 
 
 fun pickInputFile(
-    fileList: SnapshotStateList<String>,
-    fileAndItsPath: HashMap<String, String>,
+//    fileList: SnapshotStateList<String>,
+//    fileAndItsPath: HashMap<String, String>,
     cavpTestFiles: ArrayList<CavpTestFile>,
     loadedFilesInfo: MutableState<String>,
     fileLoaded: MutableState<Boolean>,
@@ -68,26 +68,28 @@ fun pickInputFile(
         val selectedFiles = fileChooser.selectedFiles
 //        val selectedFilePath = ArrayList<String>()
         var testCaseCount = 0;
-        fileList.clear()
-        fileAndItsPath.clear()
+//        fileList.clear()
+//        fileAndItsPath.clear()
         cavpTestFiles.clear()
         for (file in selectedFiles) {
-            if (fileAndItsPath.containsKey(file.getName())) {
-                JOptionPane.showMessageDialog(
-                    null,
-                    file.getName() + " already exists",
-                    "Duplicate File(s)",
-                    JOptionPane.ERROR_MESSAGE
-                )
-            } else {
-                fileList.add(file.getName())
-                fileAndItsPath.put(file.getName(), Path.of(file.absolutePath).toString())
-                cavpTestFiles.add(CavpTestFile(file.absolutePath))
-                testCaseCount += cavpTestFiles.last().getNumberOfAllTestCases()
-            }
+//            if (fileAndItsPath.containsKey(file.getName())) {
+//                JOptionPane.showMessageDialog(
+//                    null,
+//                    file.getName() + " already exists",
+//                    "Duplicate File(s)",
+//                    JOptionPane.ERROR_MESSAGE
+//                )
+//            } else {
+//                fileList.add(file.getName())
+//                fileAndItsPath.put(file.getName(), Path.of(file.absolutePath).toString())
+//                cavpTestFiles.add(CavpTestFile(file.absolutePath))
+//                testCaseCount += cavpTestFiles.last().getNumberOfAllTestCases()
+//            }
+            cavpTestFiles.add(CavpTestFile(file.absolutePath))
+            testCaseCount += cavpTestFiles.last().getNumberOfAllTestCases()
         }
-        loadedFilesInfo.value = "${fileList.size} files loaded, found $testCaseCount test cases"
-        if (fileList.size > 0) {
+        loadedFilesInfo.value = "${cavpTestFiles.size} files loaded, found $testCaseCount test cases"
+        if (cavpTestFiles.size > 0) {
             fileLoaded.value = true
         }
         outputResult.value = ""

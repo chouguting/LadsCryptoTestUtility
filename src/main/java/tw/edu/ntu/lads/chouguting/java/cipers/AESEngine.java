@@ -1,6 +1,5 @@
 package tw.edu.ntu.lads.chouguting.java.cipers;
 
-import cavp.CavpTestFile;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,11 +13,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.spec.AlgorithmParameterSpec;
 
+import static tw.edu.ntu.lads.chouguting.java.cipers.CipherUtils.hexStringToBytes;
+import static tw.edu.ntu.lads.chouguting.java.cipers.CipherUtils.bytesToHexString;
+
 public class AESEngine {
 
 
     public final static String MODE_ECB = "ECB";
     public final static String MODE_CBC = "CBC";
+
+    public final static String MODE_CFB8 = "CFB8";
+
+    public final static String MODE_CFB128 = "CFB128";
+
+    public final static String MODE_CTR = "CTR";
+
 
     private String cipherMode = AESEngine.MODE_ECB;
 
@@ -31,10 +40,17 @@ public class AESEngine {
     }
 
     public void setCipherMode(String cipherMode) {
-        if (cipherMode.toLowerCase().contains(MODE_ECB)) {
+        if (cipherMode.toUpperCase().contains(MODE_ECB)) {
             this.cipherMode = MODE_ECB;
-        } else if (cipherMode.toLowerCase().contains(MODE_CBC)) {
+        } else if (cipherMode.toUpperCase().contains(MODE_CBC)) {
             this.cipherMode = MODE_CBC;
+        }
+        else if (cipherMode.toUpperCase().contains(MODE_CFB8)) {
+            this.cipherMode = MODE_CFB8;
+        }else if (cipherMode.toUpperCase().contains(MODE_CFB128)) {
+            this.cipherMode = MODE_CFB128;
+        }else if (cipherMode.toUpperCase().contains(MODE_CTR)) {
+            this.cipherMode = MODE_CTR;
         }
 
     }
@@ -42,9 +58,9 @@ public class AESEngine {
     public String encrypt(String textHexString, String ivHexString, String keyHexString) {
         try {
             //Hex String 轉成 Byte
-            byte[] textByte = AESEngine.HexStringToBytes(textHexString);
-            byte[] ivBytes = AESEngine.HexStringToBytes(ivHexString);
-            byte[] keyBytes = AESEngine.HexStringToBytes(keyHexString);
+            byte[] textByte = hexStringToBytes(textHexString);
+            byte[] ivBytes = hexStringToBytes(ivHexString);
+            byte[] keyBytes = hexStringToBytes(keyHexString);
             AlgorithmParameterSpec ivObject = new IvParameterSpec(ivBytes);
             SecretKeySpec keyObject = new SecretKeySpec(keyBytes, "AES");
             Cipher cipher = Cipher.getInstance("AES/" + cipherMode + "/NoPadding");
@@ -55,7 +71,8 @@ public class AESEngine {
             }
             // byte 轉成 Hex String
             byte[] cipherTextByte = cipher.doFinal(textByte);
-            String byte2HexStr = AESEngine.bytesToHexString(cipherTextByte);
+            String byte2HexStr = bytesToHexString(cipherTextByte);
+//            System.out.println("AES "+this.cipherMode+" encrypt success");
             return byte2HexStr.toLowerCase();
 
         } catch (Exception e) {
@@ -68,11 +85,11 @@ public class AESEngine {
     public String decrypt(String cipherTextHexString, String ivHexString, String keyHexString) {
         try {
             //轉成 Byte
-            byte[] cipherBytes = AESEngine.HexStringToBytes(cipherTextHexString);
+            byte[] cipherBytes = hexStringToBytes(cipherTextHexString);
 //            byte[] ivBytes = ivString.getBytes("UTF-8");
-            byte[] ivBytes = AESEngine.HexStringToBytes(ivHexString);
+            byte[] ivBytes = hexStringToBytes(ivHexString);
 //            byte[] keyBytes = keyString.getBytes("UTF-8");
-            byte[] keyBytes = AESEngine.HexStringToBytes(keyHexString);
+            byte[] keyBytes = hexStringToBytes(keyHexString);
             AlgorithmParameterSpec ivObject = new IvParameterSpec(ivBytes);
             SecretKeySpec keyObject = new SecretKeySpec(keyBytes, "AES");
 //            Cipher cipher = Cipher.getInstance("AES/"+cipherMode+"/PKCS5Padding");
@@ -84,7 +101,8 @@ public class AESEngine {
             }
             // byte 轉成 Hex String
             byte[] plainTextByte = cipher.doFinal(cipherBytes);
-            return AESEngine.bytesToHexString(plainTextByte).toLowerCase();
+//            System.out.println("AES "+this.cipherMode+" decrypt success");
+            return bytesToHexString(plainTextByte).toLowerCase();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,35 +110,26 @@ public class AESEngine {
         return "";
     }
 
-    public static String bytesToHexString(byte[] bytes) {
-        char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-        char[] hexChars = new char[bytes.length * 2]; // 1 byte represent 2 hex chars
-        int v;
-        //byte 0 => char[0], char[1]
-        //byte 1 => char[2], char[3]
-        //byte 2 => char[4], char[5] ...
-        for (int j = 0; j < bytes.length; j++) {
-            v = bytes[j] & 0xFF; // 0xFF = 1111 1111
-            hexChars[j * 2] = hexArray[v / 16]; // v/16 = v >> 4, is the higher 4 bits
-            hexChars[j * 2 + 1] = hexArray[v % 16]; // v%16 is the lower 4 bits
+    
+
+    public static void runAESWithTestCase(JSONObject testCaseJsonObject, String direction, String aesMode) {
+        AESEngine aesEngine = new AESEngine(aesMode);
+
+        String textHexString = (direction.equalsIgnoreCase("encrypt")) ?
+                testCaseJsonObject.getString("pt") : testCaseJsonObject.getString("ct");
+        String keyHexString = testCaseJsonObject.getString("key");
+        String ivHexString = (testCaseJsonObject.has("iv")) ?
+                testCaseJsonObject.getString("iv") : "";
+        if (direction.equalsIgnoreCase("encrypt")) {
+            String cipherText = aesEngine.encrypt(textHexString, ivHexString, keyHexString);
+            testCaseJsonObject.put("ct", cipherText);
+        } else if (direction.equalsIgnoreCase("decrypt")) {
+            String plainText = aesEngine.decrypt(textHexString, ivHexString, keyHexString);
+            testCaseJsonObject.put("pt", plainText);
         }
-        return new String(hexChars);
-    }
 
-    public static byte[] HexStringToBytes(String hexString) {
-        int len = hexString.length();
-        byte[] bytes = new byte[len / 2]; // 2個hex char 代表 1 byte
-        for (int i = 0; i < len; i += 2) {
-            bytes[i / 2] = (byte) ((Character.digit(hexString.charAt(i), 16) << 4) // higher 4 bits
-                    + Character.digit(hexString.charAt(i + 1), 16)); // lower 4 bits
-        }
-        return bytes;
-    }
 
-    public static CavpTestFile runAESWithCavpFile(){
-        CavpTestFile cavpTestFile = new CavpTestFile();
 
-        return cavpTestFile;
     }
 
     public static JSONObject runAESWithJson(JSONObject inputJson) {

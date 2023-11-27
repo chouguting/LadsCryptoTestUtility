@@ -2,14 +2,15 @@ package cavp
 
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.FileWriter
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
-import kotlin.collections.ArrayList
 
 class CavpTestFile() {
 //    lateinit var topJsonArray: JSONArray
     lateinit var headerJSONObject: JSONObject
+    lateinit var filename: String
     val algorithmJsonLists = ArrayList<JSONObject>()
     val numberOfAlgorithm:Int
         get() = algorithmJsonLists.size
@@ -20,6 +21,7 @@ class CavpTestFile() {
     constructor(filePath: String) : this() {
         val jsonString = Files.readString(Path.of(filePath), StandardCharsets.UTF_8)
         val filename = filePath.trim().split("\\").last()
+        this.filename = filename
 
         //top is an array
         //first element is the meta data
@@ -85,6 +87,26 @@ class CavpTestFile() {
                 break
             }
         }
+    }
+
+    fun saveRspToFolder(saveToThisFolder:String){
+        var fileNameWithoutExtension = filename
+        if(fileNameWithoutExtension.contains(".json")){
+            fileNameWithoutExtension= fileNameWithoutExtension.replace(".json", "")
+        }
+        if(fileNameWithoutExtension.contains("_req")){
+            fileNameWithoutExtension = fileNameWithoutExtension.replace("_req", "")
+        }
+        val newFileName = "${fileNameWithoutExtension}_rsp.json"
+        val fileWriter = FileWriter("$saveToThisFolder\\$newFileName")
+        val outputJsonArray = JSONArray()
+        outputJsonArray.put(headerJSONObject)
+        for(i in 0 until numberOfAlgorithm){
+            outputJsonArray.put(algorithmJsonLists[i])
+        }
+        fileWriter.write(outputJsonArray.toString(8))
+        fileWriter.close()
+
     }
 
 }
