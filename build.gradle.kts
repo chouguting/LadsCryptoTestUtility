@@ -24,6 +24,8 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
     implementation(files("libraries/json-20231013.jar"))
+    implementation(platform("org.kotlincrypto.hash:bom:0.4.0"))
+    implementation("org.kotlincrypto.hash:sha3")
 }
 
 tasks.compileJava {

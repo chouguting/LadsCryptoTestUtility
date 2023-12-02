@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import cavp.CavpTestFile
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.ArrayList
@@ -36,11 +36,15 @@ fun App() {
     val loadedFilesInfo = remember { mutableStateOf("no file loaded yet") } //info of loaded files
     val inputFileLoaded = remember { mutableStateOf(false) } //whether input file is loaded
 
-    val saveToFolderInfo = remember { mutableStateOf("please select the output folder") }
-    val saveToThisFolder = remember { mutableStateOf("") }
-    val saveToFolderSelected = remember { mutableStateOf(false) }
+    val saveToFolderInfo = remember { mutableStateOf("please select the output folder") } //info of save to folder
+    val saveToThisFolder = remember { mutableStateOf("") }  //save to this folder
+    val saveToFolderSelected = remember { mutableStateOf(false) }  //whether save to folder is selected
 
-    val outputResult = remember { mutableStateOf("") }
+    val outputResult = remember { mutableStateOf("") }  //task result output
+
+    val coroutineScope = rememberCoroutineScope() //coroutine scope
+
+    val runningTask = remember { mutableStateOf(false) } //whether is running tasks
 
 
     MaterialTheme {
@@ -50,6 +54,8 @@ fun App() {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
+
+            //Top bar
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End,
@@ -70,6 +76,7 @@ fun App() {
                 )
             }
 
+            //input file selection
             Row(modifier = Modifier.fillMaxSize()) {
                 Column(modifier = Modifier.weight(2f).fillMaxSize()) {
                     //choose input folder
@@ -77,21 +84,23 @@ fun App() {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
-                        Button(onClick = {
-                            pickInputFile(
-                                cavpTestFiles,
-                                loadedFilesInfo,
-                                inputFileLoaded,
-                                outputResult
-                            )
-                            //update loadedFileInfo
-                            testAlgorithmList.clear()
-                            for (cavpTestFile in cavpTestFiles) {
-                                for (i in 0 until cavpTestFile.numberOfAlgorithm) {
-                                    val numberOfTestGroup = cavpTestFile.numberOfTestGroups(i)
-                                    val algorithm_name = cavpTestFile.algorithmJsonLists[i].getString("algorithm")
-                                    val testCasesCount = cavpTestFile.getNumberOfAllTestCasesOfAlgorithm(i)
-                                    testAlgorithmList.add("$algorithm_name ($numberOfTestGroup test groups, $testCasesCount test cases)")
+                        Button(enabled = !runningTask.value, onClick = {
+                            coroutineScope.launch(Dispatchers.Default) {
+                                pickInputFile(
+                                    cavpTestFiles,
+                                    loadedFilesInfo,
+                                    inputFileLoaded,
+                                    outputResult
+                                )
+                                //update loadedFileInfo
+                                testAlgorithmList.clear()
+                                for (cavpTestFile in cavpTestFiles) {
+                                    for (i in 0 until cavpTestFile.numberOfAlgorithm) {
+                                        val numberOfTestGroup = cavpTestFile.numberOfTestGroups(i)
+                                        val algorithm_name = cavpTestFile.algorithmJsonLists[i].getString("algorithm")
+                                        val testCasesCount = cavpTestFile.getNumberOfAllTestCasesOfAlgorithm(i)
+                                        testAlgorithmList.add("$algorithm_name ($numberOfTestGroup test groups, $testCasesCount test cases)")
+                                    }
                                 }
                             }
                         }) {
@@ -110,8 +119,10 @@ fun App() {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(20.dp)
                         ) {
-                            Button(onClick = {
-                                pickOutputFolder(saveToFolderInfo, saveToThisFolder, saveToFolderSelected, outputResult)
+                            Button(enabled = !runningTask.value, onClick = {
+                                coroutineScope.launch(Dispatchers.Default) {
+                                    pickOutputFolder(saveToFolderInfo, saveToThisFolder, saveToFolderSelected, outputResult)
+                                }
                             }) {
                                 Text("output folder")
                             }
@@ -123,21 +134,21 @@ fun App() {
                     Spacer(modifier = Modifier.fillMaxWidth().height(20.dp))
 
 
-                    //choose task
-                    val running = remember { mutableStateOf(false) }
-                    val runningScope = rememberCoroutineScope()
 
+
+                    //do tasks part: run button
                     AnimatedVisibility(visible = saveToFolderSelected.value && inputFileLoaded.value) {
                         Column(modifier = Modifier.fillMaxWidth()) {
                             Text("Choose the task you want to run: ")
                             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                                Button(enabled = !(running.value), onClick = {
+                                Button(enabled = !(runningTask.value), onClick = {
+                                    println("run button press on ${Thread.currentThread().name}")
                                     //多執行緒
-                                    runningScope.launch {
-                                        running.value = true
+                                    coroutineScope.launch(Dispatchers.Default) {
+                                        runningTask.value = true
                                         val saveFolderPath = saveToThisFolder.value
                                         outputResult.value = "Running... Please wait"
-                                        delay(2000)
+//                                        delay(2000)
                                         try {
                                             runAndSave(cavpTestFiles, saveFolderPath)
                                             outputResult.value =
@@ -145,10 +156,10 @@ fun App() {
                                         } catch (e: Exception) {
                                             outputResult.value = "Error: $e"
                                         }
-                                        running.value = false
+                                        runningTask.value = false
                                     }
                                 }) {
-                                    if (running.value) {
+                                    if (runningTask.value) {
                                         CircularProgressIndicator(
                                             modifier = Modifier.size(20.dp),
                                             strokeWidth = 2.dp,
@@ -170,6 +181,7 @@ fun App() {
                     //spacer fill max size
                     Spacer(modifier = Modifier.fillMaxSize().weight(1f))
 
+                    //bottom part
                     Text(
                         "developed by Gordon Chou @ NTU LaDS 2023",
                         fontFamily = FontFamily.SansSerif,
@@ -184,6 +196,7 @@ fun App() {
                 ) {
                     for (testAlgorithm in testAlgorithmList) {
                         Text(testAlgorithm, modifier = Modifier.onClick {
+                            if(runningTask.value) return@onClick //if running task, return
                             testAlgorithmList.remove(testAlgorithm)
                             for (cavpTestFile in cavpTestFiles) {
                                 val originalName = testAlgorithm.split("(").first().trim()

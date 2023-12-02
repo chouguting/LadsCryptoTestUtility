@@ -25,4 +25,22 @@ public class CipherUtils {
         }
         return bytes;
     }
+
+
+    public static byte[] byteArrayXor(byte[] bytes1, byte[] bytes2) {
+        if (bytes1.length != bytes2.length) {
+            throw new IllegalArgumentException("The length of two byte arrays must be the same.");
+        }
+        byte[] result = new byte[bytes1.length];
+        for (int i = 0; i < bytes1.length; i++) {
+            result[i] = (byte) (bytes1[i] ^ bytes2[i]);
+        }
+        return result;
+    }
+
+    public static byte[] getSingleByte(byte[] array, int location){
+        byte[] result = new byte[1];
+        result[0] = array[location];
+        return result;
+    }
 }
