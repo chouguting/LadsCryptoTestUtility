@@ -88,11 +88,11 @@ public class SHAEngine {
 
 
 
-    public static void runSHAWithTestCase(JSONObject testCaseJsonObject, String shaMode, String testType){
+    public static void runSHAWithTestCase(JSONObject testCaseJsonObject, String shaMode, String testType, Boolean mctEnabled){
         SHAEngine shaEngine = new SHAEngine(shaMode);
         String messageHexString = testCaseJsonObject.getString("msg");
 
-        if(testType.toUpperCase().equals("MCT")){
+        if(testType.toUpperCase().equals("MCT") && mctEnabled){
             ArrayList<String> mctResults = shaEngine.doMCTHash(messageHexString);
             JSONArray mctResultJsonArray = new JSONArray();
             for(String mctResultHex: mctResults){

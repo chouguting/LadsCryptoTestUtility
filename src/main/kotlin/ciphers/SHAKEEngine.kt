@@ -13,12 +13,12 @@ class SHAKEEngine() {
         const val MODE_SHAKE_128= "SHAKE_128"
         const val MODE_SHAKE_256= "SHAKE_256"
 
-        fun runSHAKEWithTestCase(testCaseJsonObject: JSONObject, shakeMode:String, testType:String){
+        fun runSHAKEWithTestCase(testCaseJsonObject: JSONObject, shakeMode:String, testType:String, mctEnabled:Boolean){
 
             val shakeEngine = SHAKEEngine(shakeMode)
             val messageHexString = testCaseJsonObject.getString("msg")
 
-            if(testType == "MCT") { //Monte Carlo Test
+            if(testType == "MCT" && mctEnabled) { //Monte Carlo Test
                 val shakeLength = testCaseJsonObject.getInt("len")   //想要幾個bit
                 val shakeByteLength = shakeLength / 8        //1個byte = 8個bit
                 val mctResultList = shakeEngine.doMCTHash(messageHexString, shakeByteLength)

@@ -5,6 +5,9 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,7 +26,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.ArrayList
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun App() {
@@ -43,6 +46,8 @@ fun App() {
     val outputResult = remember { mutableStateOf("") }  //task result output
 
     val coroutineScope = rememberCoroutineScope() //coroutine scope
+
+    val mctTestEnable = remember { mutableStateOf(true) } //whether to run mct test
 
     val runningTask = remember { mutableStateOf(false) } //whether is running tasks
 
@@ -133,6 +138,43 @@ fun App() {
                     //spacer
                     Spacer(modifier = Modifier.fillMaxWidth().height(20.dp))
 
+                    //options
+                    AnimatedVisibility(visible = saveToFolderSelected.value && inputFileLoaded.value) {
+                        Column(modifier = Modifier.fillMaxWidth()){
+                            Text("options: ")
+                            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                FilterChip(
+                                    onClick = {
+                                        if(!runningTask.value){
+                                            mctTestEnable.value = !(mctTestEnable.value)
+                                        }
+                                    },
+                                    label = {
+                                        Text("with Monte Carlo Test")
+                                    },
+                                    selected = mctTestEnable.value,
+                                    leadingIcon = if (mctTestEnable.value) {
+                                        {
+                                            Icon(
+                                                imageVector = Icons.Filled.Done,
+                                                contentDescription = "Done icon",
+                                                modifier = Modifier.size(FilterChipDefaults.IconSize)
+                                            )
+                                        }
+                                    } else {
+                                        null
+                                    }
+                                )
+                            }
+
+
+                        }
+                    }
+
+
+                    //spacer
+                    Spacer(modifier = Modifier.fillMaxWidth().height(20.dp))
+
 
 
 
@@ -150,7 +192,7 @@ fun App() {
                                         outputResult.value = "Running... Please wait"
 //                                        delay(2000)
                                         try {
-                                            runAndSave(cavpTestFiles, saveFolderPath)
+                                            runAndSave(cavpTestFiles, saveFolderPath, mctTestEnable.value)
                                             outputResult.value =
                                                 "Execution success! \nOutput files are saved to $saveFolderPath"
                                         } catch (e: Exception) {

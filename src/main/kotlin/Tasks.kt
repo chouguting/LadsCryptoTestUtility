@@ -7,7 +7,7 @@ import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
 
 
 
-fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String) {
+fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mctEnabled:Boolean) {
 //    delay(1000)
     println("runAndSave on ${Thread.currentThread().name}")
     for (cavpTestFile in cavpTestFiles) {
@@ -32,11 +32,11 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String) {
                 for (testCaseIndex in 0 until numberOfTestCases) {
                     val testCaseJson = cavpTestFile.getTestCase(algorithmIndex, testGroupIndex, testCaseIndex)
                     if (algorithmName.lowercase().contains("aes")) {
-                        AESEngine.runAESWithTestCase(testCaseJson, direction, algorithmName, keyLength, testType)
+                        AESEngine.runAESWithTestCase(testCaseJson, direction, algorithmName, keyLength, testType, mctEnabled)
                     } else if(algorithmName.lowercase().contains("shake")){  //"shake"裡面有"sha"，所以要先判斷"shake"
-                        SHAKEEngine.runSHAKEWithTestCase(testCaseJson, algorithmName, testType)
+                        SHAKEEngine.runSHAKEWithTestCase(testCaseJson, algorithmName, testType, mctEnabled)
                     } else if (algorithmName.lowercase().contains("sha")) {
-                        SHAEngine.runSHAWithTestCase(testCaseJson, algorithmName, testType)
+                        SHAEngine.runSHAWithTestCase(testCaseJson, algorithmName, testType, mctEnabled)
                     }
 
                 }
@@ -45,8 +45,6 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String) {
         }
         cavpTestFile.saveRspToFolder(saveToFolder)
     }
-
-
 }
 
 

@@ -311,7 +311,7 @@ public class AESEngine {
     }
 
 
-    public static void runAESWithTestCase(JSONObject testCaseJsonObject, String direction, String aesMode, int keyLength, String testType) {
+    public static void runAESWithTestCase(JSONObject testCaseJsonObject, String direction, String aesMode, int keyLength, String testType, Boolean mctEnabled) {
         AESEngine aesEngine = new AESEngine(aesMode);
 
         String textHexString = (direction.equalsIgnoreCase("encrypt")) ?
@@ -321,7 +321,7 @@ public class AESEngine {
                 testCaseJsonObject.getString("iv") : "";
 
 
-        if (testType.toUpperCase().equals("MCT")) {
+        if (testType.toUpperCase().equals("MCT") && mctEnabled) {
 
             ArrayList<String> mctResults = aesEngine.doMctAES(direction, textHexString, keyHexString, ivHexString, keyLength);
             JSONArray mctResultJsonArray = new JSONArray();
