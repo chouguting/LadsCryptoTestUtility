@@ -70,7 +70,7 @@ public class AESEngine {
             byte[] cipherTextByte = cipher.doFinal(textByte);
             String byte2HexStr = bytesToHexString(cipherTextByte);
 //            System.out.println("AES "+this.cipherMode+" encrypt success");
-            return byte2HexStr.toLowerCase();
+            return byte2HexStr;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,7 +99,7 @@ public class AESEngine {
             // byte 轉成 Hex String
             byte[] plainTextByte = cipher.doFinal(cipherBytes);
 //            System.out.println("AES "+this.cipherMode+" decrypt success");
-            return bytesToHexString(plainTextByte).toLowerCase();
+            return bytesToHexString(plainTextByte);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,9 +112,10 @@ public class AESEngine {
     //direction: encrypt or decrypt
     //textHexString: plaintext or ciphertext
     //when in decrypt mode, we use plaintext as Ciphertext
-    private ArrayList<String> doGeneralMct(String direction, String textHexString, String keyHexString, String ivHexString, int keyLength) {
+    private JSONArray doGeneralMct(String direction, String textHexString, String keyHexString, String ivHexString, int keyLength) {
         //we use the same
-        ArrayList<String> outputResult = new ArrayList<String>();
+//        ArrayList<String> outputResult = new ArrayList<String>();
+        JSONArray outputResult = new JSONArray();
         try {
             //Hex String 轉成 Byte
             byte[] initTextByte = hexStringToBytes(textHexString);
@@ -125,10 +126,10 @@ public class AESEngine {
             keyByteList.add(initKeyBytes);
             ArrayList<byte[]> ivByteList = new ArrayList<byte[]>(); //for next round
             ivByteList.add(initIvBytes);
-            System.out.println("direction: " + direction);
+//            System.out.println("direction: " + direction);
 
             for (int i = 0; i < 100; i++) {
-                System.out.println("Round: " + i);
+//                System.out.println("Round: " + i);
                 ArrayList<byte[]> plainTextByteList = new ArrayList<byte[]>();
                 plainTextByteList.add(initTextByte);
 
@@ -175,7 +176,26 @@ public class AESEngine {
                     plainTextByteList.add(cipherTextByte); //plaintext for next round is iv of current round(only for first round)
                 }
                 byte[] lastCipherTextByte = plainTextByteList.get(plainTextByteList.size() - 1); //get last ciphertext
-                outputResult.add(bytesToHexString(lastCipherTextByte));  //add to output result
+//                outputResult.add(bytesToHexString(lastCipherTextByte));  //add to output result
+                //create new json object
+                JSONObject currentRoundResult = new JSONObject();
+                currentRoundResult.put("key", bytesToHexString(currentKeyByte)); //add key to output result
+                if(!this.cipherMode.equals(AESEngine.MODE_ECB)){ //if not ECB, add iv to currentRoundResult
+                    currentRoundResult.put("iv", bytesToHexString(currentIvByte)); //add iv to output result
+                }
+                if (direction.equalsIgnoreCase("encrypt")) {
+                    currentRoundResult.put("pt", bytesToHexString(initTextByte)); //initial plaintext
+                    currentRoundResult.put("ct", bytesToHexString(lastCipherTextByte)); //calculated ciphertext
+
+                } else if (direction.equalsIgnoreCase("decrypt")) {
+                    currentRoundResult.put("ct", bytesToHexString(initTextByte)); //initial ciphertext
+                    currentRoundResult.put("pt", bytesToHexString(lastCipherTextByte)); //calculated plaintext
+                }
+
+
+                outputResult.put(currentRoundResult); //add current round result to output result
+
+                //for next round
                 byte[] secondLastCipherTextByte = plainTextByteList.get(plainTextByteList.size() - 2); //get second last ciphertext
                 byte[] lastKey = keyByteList.get(keyByteList.size() - 1);
                 if (keyLength == 128) {
@@ -211,9 +231,10 @@ public class AESEngine {
     }
 
 
-    private ArrayList<String> doCfb8Mct(String direction, String textHexString, String keyHexString, String ivHexString, int keyLength) {
+    private JSONArray doCfb8Mct(String direction, String textHexString, String keyHexString, String ivHexString, int keyLength) {
         //we use the same
-        ArrayList<String> outputResult = new ArrayList<String>();
+//        ArrayList<String> outputResult = new ArrayList<String>();
+        JSONArray outputResult = new JSONArray();
         try {
             //Hex String 轉成 Byte
             byte[] initTextByte = hexStringToBytes(textHexString);
@@ -255,7 +276,22 @@ public class AESEngine {
                     plainTextByteList.add(cipherTextByte); //plaintext for next round is iv of current round(only for first round)
                 }
                 byte[] lastCipherTextByte = plainTextByteList.get(plainTextByteList.size() - 1); //get last ciphertext
-                outputResult.add(bytesToHexString(lastCipherTextByte));  //add to output result
+//                outputResult.add(bytesToHexString(lastCipherTextByte));  //add to output result
+                JSONObject currentRoundResult = new JSONObject();
+                currentRoundResult.put("key",bytesToHexString(currentKeyByte)); //add key to output result
+                currentRoundResult.put("iv", bytesToHexString(currentIvByte)); //add iv to output result
+                if(direction.equalsIgnoreCase("encrypt")){
+                    currentRoundResult.put("pt", bytesToHexString(initTextByte)); //initial plaintext
+                    currentRoundResult.put("ct", bytesToHexString(lastCipherTextByte)); //calculated ciphertext
+                }else if(direction.equalsIgnoreCase("decrypt")){
+                    currentRoundResult.put("ct", bytesToHexString(initTextByte)); //initial ciphertext
+                    currentRoundResult.put("pt", bytesToHexString(lastCipherTextByte)); //calculated plaintext
+                }
+
+
+                outputResult.put(currentRoundResult); //add current round result to output result
+
+
                 byte[] lastKey = keyByteList.get(keyByteList.size() - 1);
                 if (keyLength == 128) {
                     byte[] bytesForXor = new byte[16]; //16 bytes = 128 bits
@@ -300,7 +336,7 @@ public class AESEngine {
     }
 
 
-    public ArrayList<String> doMctAES(String direction, String textHexString, String keyHexString, String ivHexString, int keyLength) {
+    public JSONArray doMctAES(String direction, String textHexString, String keyHexString, String ivHexString, int keyLength) {
         if (cipherMode.equals(AESEngine.MODE_ECB) || cipherMode.equals(AESEngine.MODE_CBC)  || cipherMode.equals(AESEngine.MODE_CFB128)) {
             return doGeneralMct(direction, textHexString, keyHexString, ivHexString, keyLength);
         }else if(cipherMode.equals(AESEngine.MODE_CFB8)){
@@ -322,20 +358,8 @@ public class AESEngine {
 
 
         if (testType.toUpperCase().equals("MCT") && mctEnabled) {
-
-            ArrayList<String> mctResults = aesEngine.doMctAES(direction, textHexString, keyHexString, ivHexString, keyLength);
-            JSONArray mctResultJsonArray = new JSONArray();
-            for (String mctResultHex : mctResults) {
-                JSONObject mctResultJsonObject = new JSONObject();
-                if (direction.equalsIgnoreCase("encrypt")) {
-                    mctResultJsonObject.put("ct", mctResultHex);
-                } else if (direction.equalsIgnoreCase("decrypt")) {
-                    mctResultJsonObject.put("pt", mctResultHex);
-                }
-                mctResultJsonArray.put(mctResultJsonObject);
-            }
+            JSONArray mctResultJsonArray = aesEngine.doMctAES(direction, textHexString, keyHexString, ivHexString, keyLength);
             testCaseJsonObject.put("resultsArray", mctResultJsonArray); //mct: Monte Carlo Test
-
             return;
         }
 

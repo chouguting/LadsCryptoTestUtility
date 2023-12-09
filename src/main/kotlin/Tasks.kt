@@ -1,13 +1,11 @@
 import cavp.CavpTestFile
+import ciphers.DRBGEngine
 import ciphers.SHAKEEngine
-import kotlinx.coroutines.delay
 import tw.edu.ntu.lads.chouguting.java.cipers.AESEngine
 import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
 
 
-
-
-fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mctEnabled:Boolean) {
+fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mctEnabled: Boolean) {
 //    delay(1000)
     println("runAndSave on ${Thread.currentThread().name}")
     for (cavpTestFile in cavpTestFiles) {
@@ -18,25 +16,41 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
             for (testGroupIndex in 0 until numberOfTestGroup) {
                 val numberOfTestCases = cavpTestFile.numberOfTestCases(algorithmIndex, testGroupIndex)
                 val testType = cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getString("testType")
-                val direction =
+                val aesDirection =
                     if (algorithmName.lowercase().contains("aes")) {
                         cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getString("direction")
                     } else {
                         ""
                     }
-                val keyLength = if (algorithmName.lowercase().contains("aes")) {
+                val aesKeyLength = if (algorithmName.lowercase().contains("aes")) {
                     cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getInt("keyLen")
                 } else {
                     0
                 }
+
+                val drbgReturnedBitsLen = if (algorithmName.lowercase().contains("drbg")) {
+                    cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getInt("returnedBitsLen")
+                } else {
+                    0
+                }
+
                 for (testCaseIndex in 0 until numberOfTestCases) {
                     val testCaseJson = cavpTestFile.getTestCase(algorithmIndex, testGroupIndex, testCaseIndex)
                     if (algorithmName.lowercase().contains("aes")) {
-                        AESEngine.runAESWithTestCase(testCaseJson, direction, algorithmName, keyLength, testType, mctEnabled)
-                    } else if(algorithmName.lowercase().contains("shake")){  //"shake"裡面有"sha"，所以要先判斷"shake"
+                        AESEngine.runAESWithTestCase(
+                            testCaseJson,
+                            aesDirection,
+                            algorithmName,
+                            aesKeyLength,
+                            testType,
+                            mctEnabled
+                        )
+                    } else if (algorithmName.lowercase().contains("shake")) {  //"shake"裡面有"sha"，所以要先判斷"shake"
                         SHAKEEngine.runSHAKEWithTestCase(testCaseJson, algorithmName, testType, mctEnabled)
                     } else if (algorithmName.lowercase().contains("sha")) {
                         SHAEngine.runSHAWithTestCase(testCaseJson, algorithmName, testType, mctEnabled)
+                    } else if (algorithmName.lowercase().contains("drbg")) {
+                        DRBGEngine.runDrbgWithTestCase(testCaseJson, drbgReturnedBitsLen)
                     }
 
                 }

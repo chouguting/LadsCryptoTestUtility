@@ -26,6 +26,7 @@ dependencies {
     implementation(files("libraries/json-20231013.jar"))
     implementation(platform("org.kotlincrypto.hash:bom:0.4.0"))
     implementation("org.kotlincrypto.hash:sha3")
+    implementation("org.bouncycastle:bcprov-jdk15on:1.68")
 }
 
 tasks.compileJava {
