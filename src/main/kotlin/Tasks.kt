@@ -28,11 +28,33 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
                     0
                 }
 
+                val shakeMaxOutLen = if (algorithmName.lowercase().contains("shake") && cavpTestFile.getTestGroup(
+                        algorithmIndex,
+                        testGroupIndex
+                    ).has("maxOutLen")
+                ) {
+                    cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getInt("maxOutLen")
+                } else {
+                    0
+                }
+
+                val shakeMinOutLen = if (algorithmName.lowercase().contains("shake") && cavpTestFile.getTestGroup(
+                        algorithmIndex,
+                        testGroupIndex
+                    ).has("minOutLen")
+                ) {
+                    cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getInt("minOutLen")
+                } else {
+                    0
+                }
+
                 val drbgReturnedBitsLen = if (algorithmName.lowercase().contains("drbg")) {
                     cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getInt("returnedBitsLen")
                 } else {
                     0
                 }
+
+
 
                 for (testCaseIndex in 0 until numberOfTestCases) {
                     val testCaseJson = cavpTestFile.getTestCase(algorithmIndex, testGroupIndex, testCaseIndex)
@@ -46,7 +68,14 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
                             mctEnabled
                         )
                     } else if (algorithmName.lowercase().contains("shake")) {  //"shake"裡面有"sha"，所以要先判斷"shake"
-                        SHAKEEngine.runSHAKEWithTestCase(testCaseJson, algorithmName, testType, mctEnabled)
+                        SHAKEEngine.runSHAKEWithTestCase(
+                            testCaseJson,
+                            algorithmName,
+                            testType,
+                            mctEnabled,
+                            shakeMaxOutLen,
+                            shakeMinOutLen
+                        )
                     } else if (algorithmName.lowercase().contains("sha")) {
                         SHAEngine.runSHAWithTestCase(testCaseJson, algorithmName, testType, mctEnabled)
                     } else if (algorithmName.lowercase().contains("drbg")) {

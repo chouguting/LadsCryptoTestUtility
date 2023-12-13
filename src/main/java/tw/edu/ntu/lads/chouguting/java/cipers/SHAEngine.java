@@ -53,6 +53,15 @@ public class SHAEngine {
 
     //MCT: Monte Carlo Test
     public ArrayList<String> doMCTHash(String initialTextHexString){
+        if(this.shaMode.toUpperCase().contains("SHA3")) {
+            return doSHA3MCTHash(initialTextHexString);
+        }else{
+            return doSHA2MCTHash(initialTextHexString);
+        }
+    }
+
+    //SHA 2 MCT: Monte Carlo Test
+    public ArrayList<String> doSHA2MCTHash(String initialTextHexString){
         ArrayList<String> outputResult = new ArrayList<String>();
         byte[] seedByte = CipherUtils.hexStringToBytes(initialTextHexString);
         try {
@@ -85,6 +94,33 @@ public class SHAEngine {
         return outputResult;
     }
 
+    //SHA 3 MCT: Monte Carlo Test
+    public ArrayList<String> doSHA3MCTHash(String initialTextHexString){
+        ArrayList<String> outputResult = new ArrayList<String>();
+        byte[] seedByte = CipherUtils.hexStringToBytes(initialTextHexString);
+        try {
+
+            MessageDigest digest = MessageDigest.getInstance(this.shaMode);
+
+            for(int i=0; i<100;i++){
+                ArrayList<byte[]> messageDigestList = new ArrayList<byte[]>();
+                messageDigestList.add(seedByte); //add 1 times
+                for(int j=0;j<1000;j++){
+                    byte[] lastDigest = messageDigestList.get(messageDigestList.size()-1);
+                    //use last message digest as new message
+                    byte[] newDigest = digest.digest(lastDigest);
+                    messageDigestList.add(newDigest);
+                }
+                //use last message digest as new seed
+                seedByte = messageDigestList.get(messageDigestList.size()-1);
+                outputResult.add(CipherUtils.bytesToHexString(seedByte));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return outputResult;
+    }
+
 
 
 
@@ -93,6 +129,7 @@ public class SHAEngine {
         String messageHexString = testCaseJsonObject.getString("msg");
 
         if(testType.toUpperCase().equals("MCT") && mctEnabled){
+
             ArrayList<String> mctResults = shaEngine.doMCTHash(messageHexString);
             JSONArray mctResultJsonArray = new JSONArray();
             for(String mctResultHex: mctResults){
