@@ -21,19 +21,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "04B74D5C6C811911A13E367EB8C486091D1855091CB036897B66523D831A23EB",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "EA590720E30F1B1E35D409ACEED9B023827CC71E300B051AA0EFCCC587E90BA9",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "0DE588E9341E0AE225E16D7A06C6F197C862AAEF19BCB5EC1548F68620948D58",
-                                                "returnedbits": "C005F62F7406467CB21EF4A6F4F4E77FFECD5C66843B2F9E965B5D561A0CC48D",
+                                                "returnedbits": "C3EE9972C0CB3C3A9C6F7EC839820E319F292F13EEBD5625C4A81B06427D9086",
                                                 "tcId": 1,
                                                 "persoString": "C47FC0",
                                                 "nonce": "EC8696027779A54074556DE4CF8653FE"
@@ -47,19 +45,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "AFEC2EA0FD6ABFFFD4619F7E5AB601D611BB14D9EBA361BC263A6BC0197056C0",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "58FC766858973703D911BF842BF8B93E05DEB6EB7A90F69411651B6749C26018",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "E8FD044146D3A49259FA33ED026FEF1EFA91BF2F5A688ADFC7BA1862EDE97502",
-                                                "returnedbits": "751A38233A5C4DC20A2775E2F2BF592CAEA3747AA96B731FEF14DB6643B12BA3",
+                                                "returnedbits": "19607BE94168CB186B0E1FE1C8A5A8839F1168E332A56138C26FD9C94958A6DB",
                                                 "tcId": 2,
                                                 "persoString": "44FD95",
                                                 "nonce": "FE3217672BD59C7FD980E4EEC4E0A718"
@@ -73,19 +69,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "D52087DFA09BB9D158556CE22FA5B40E806CF49D069D695623D77A7C9388758D",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "B851BCEC13EEC45668DC61FD43E0827D6ED9BABFAED21D264C36F8F9A1342714",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "65D061A980F4E99F984A0D674F2F850DD042047B25FE415D82044158D9CC199C",
-                                                "returnedbits": "2FC9362C5D922FED405D39EC03E58889005849FEE47F5734E50192641B263B07",
+                                                "returnedbits": "1D91A763A29559EA751A5029C6022F9A24B73192F2D147EE7410F004F2068A46",
                                                 "tcId": 3,
                                                 "persoString": "D0DE4F",
                                                 "nonce": "09B4F5E3D25B9AB9929170A8382794EE"
@@ -99,19 +93,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "E0ADA01FECC7B79B17562B3043FF8681CE9745579B178E56AB899CB114C833A0",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "E05584D39FEB971DE7F9447F0DF5424C40E9CFC607232893BF6FFA2EB63811AA",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "89CAD49C7A791FA1011B3253B432284D47850A0130E6D6DB322CEE2C77F73528",
-                                                "returnedbits": "4E960803562A08171398B64C2E618B603286747E7F78AFB5D18741D5BD68D953",
+                                                "returnedbits": "083642C78EEEF6907B18E50D35BB09FB0FFE758BB5D7123233991E864FBE09A3",
                                                 "tcId": 4,
                                                 "persoString": "3EB66D",
                                                 "nonce": "76BBD15BA151F177C33DEAFC3FE7CE60"
@@ -125,19 +117,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "22CAC563F6F64F1AE74482115D2B32AC4D06C6D97F3737D53E45808CF3C84B3A",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "8BB8935F88CA1AACB2D90B872DD7EF1FC05B578E483DD57B27E2A6440E2039DE",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "DB16D0F4D515CD9996502D007E5821F89B4B7A925BF97CBA710AA3FBDA59B7E0",
-                                                "returnedbits": "6D26FA9846853E623FDE536D6DF93E2AA5040F0C158031636FF8F7C89712D57A",
+                                                "returnedbits": "B79FE99F40F0AFB8A64356A9AC5203A6D55DE3AAECE762B6CD63E8E76A3D068E",
                                                 "tcId": 5,
                                                 "persoString": "6C521C",
                                                 "nonce": "2D9BB16675386F0AD3421B7B6B40028A"
@@ -151,19 +141,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "8A100C78B0476DD6C86782BA6D0F5235B953D133B961C1E397C869DF847227C5",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "90C4859C5AFB97E139224CD3A919325B210D9FA1DA79D5A3C04BDB3ECDC15E6E",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "098325BAD92FA6BB7C0362F0049E3955759A384087072A45FA73F46C51467ECF",
-                                                "returnedbits": "B543EAA37EDC76650CE785EC4754DFD891045B73BB85FB97853A4527F5CCC93B",
+                                                "returnedbits": "5C3FC4C19137DD8CC9605D089399CBD29E2270901389FD99E90CEB17489434FD",
                                                 "tcId": 6,
                                                 "persoString": "C88814",
                                                 "nonce": "5CAF078ABAAB8363BC68C5B356DD6163"
@@ -177,19 +165,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "E5DBDFBAF9DEF5946BF0DCAACB4BCEBFA15D5C1238A92A14ABC6091D09B389F1",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "EDDBD38B43F1C1A00B223C197638674D7D1CC34366DB50E448BACCE8F3794303",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "9D22470BF291F09AD0266EF2F5A4E6881BD22D01DB16B65D6020541C363FED39",
-                                                "returnedbits": "54241F5AC6827AC32F1B3EB41BEAED6479D1FA5FDBC50B4FE99B53B662FF77CD",
+                                                "returnedbits": "3F2FBBEE42385D6096D6740C5819A48D75E73DE88657BCC21ECB2BFBD5CD368C",
                                                 "tcId": 7,
                                                 "persoString": "4E41D9",
                                                 "nonce": "992510B7D79D7585216B24B320622708"
@@ -203,19 +189,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "713086DDC966296469778F578B690C37AFB0BCC04394DBE2EEED74816ED7E160",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "2A4981A957115699AD19BB7FF5FCA691AD04CC70580F2C13E67AF0FE57AD812D",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "D35292F9312DF447C2979D40175E7E646C439B05E0DF0945C1148EB3F3EA8D03",
-                                                "returnedbits": "A1365403121B2A1B2815708C13000C8015163C0187252218FF6366EADE86990E",
+                                                "returnedbits": "8C0BBB14FBCF7398B13F6BB9F2C03CB8031E162CB05A0E6BCB02376D801BFF8A",
                                                 "tcId": 8,
                                                 "persoString": "12AE50",
                                                 "nonce": "598C12F26E6745A8821F8704C2AA415E"
@@ -229,19 +213,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "B142B5122EBED27DFE7099DA8A3130C13873D065B7BCF3F59D5D34717BE7F82E",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "48AE38E25D16980382790DA3969129533B445030281E6BA878E170973EB64838",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "7057EA51B45042FFFAD09715F6D268718C9DB67BF4F56D66F083528C24BEBCAD",
-                                                "returnedbits": "2AF2EF0F764F56EA0325075E8E9CE996EBF41978B6A14DEFD2D467990C930ED8",
+                                                "returnedbits": "7CEA056D3F8C06E1B76C8E885236B4827F3A43EB060B836CF2C3495BEB831F52",
                                                 "tcId": 9,
                                                 "persoString": "71CAFB",
                                                 "nonce": "2517EF17AB26E9BFB1FB767D288BB4BA"
@@ -255,19 +237,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "F9454CE275C08EE6D30B212A6DBFA2611058D8ACE7BFC30BE2CE25D73F28AF73",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "FF342A4349D619D84CD938555D04DA3E1255B2A7960762C7627D9CBBDB182887",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "732C95927AB5C05C48A0E2AAE4B2DB76EBDC1D585181671BD8E142181745FA36",
-                                                "returnedbits": "CD310DCAFC16E23ACC5DB868FF3A91387CB4DF4907714B06AC93CE024FF4DA20",
+                                                "returnedbits": "9067525ACF0455066649E9F597A32F3BEB2E785FDDB4C73BCB7B2C75FE095DC6",
                                                 "tcId": 10,
                                                 "persoString": "71C892",
                                                 "nonce": "347154A06A0AF08223B3CDBC6DDB075E"
@@ -281,19 +261,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "7EF7B3FE33AC43934DA7C6DEF5076B54C082E2B3D02D10D10C33E997DC09F802",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "40D264110AFE9CDD26E889AF969718BAF4D0508CCD6D2534DF0F6BC0CE4EBDF0",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "929202F62F9B1FDA81122CC3D35329EF1F2F61BA39409527188FF5C1ADE849F8",
-                                                "returnedbits": "C6276711E1E82AAEA8494DAC05DF257532F9EBD407C617B8F6DCCFFC5B39EC3E",
+                                                "returnedbits": "D355D2430935A5EE6480D999C9B8021D56EE868DCABEBF0B5916D4702E51C7ED",
                                                 "tcId": 11,
                                                 "persoString": "06690F",
                                                 "nonce": "C62BDE0B3AF7A9F49316739259696C57"
@@ -307,19 +285,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "6A6FCF77475E928C0CCFFFE8A5888D032381FC9435A647C461AF4EBC93C7A7B9",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "3419E7B516B22E890421DA9946A616FBF2B37F49BE0FFACF7460A30B19C3DAE1",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "29C354CF7FEBC9ABC9286323A108599E65807B3DAE37140CC334E6CB8AE39C81",
-                                                "returnedbits": "1DA835709338D6A602EC80DA5F4B695BC228D075C2072A978F4E0803F261417E",
+                                                "returnedbits": "1186C6CCF9DD05825BE0A3E8D46D15DDFB529BC34C14BCDA3101B8656EC14953",
                                                 "tcId": 12,
                                                 "persoString": "CE4B9E",
                                                 "nonce": "9517922E9643FCEE2785E421C9F068C7"
@@ -333,19 +309,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "FA451C9EBF2CEB1D046A14674B261124C35EAB157E9AB0B52F33C13DDAA385EB",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "DA4FC5C7C4C9FE03B3400BDB31C0E660BB1BA93C9FD69366E77B05D0A9E028AA",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "66686A5355D1FC1B3087F5B9AEBAD56351A6B4420878387E78105605D1FD7B28",
-                                                "returnedbits": "740176BB16110EABA1FEEB5809DDFD19C0DC6A6FDE767D3AC87FE384F129AA80",
+                                                "returnedbits": "EC4DE3E5F24605E27EA13252328EF05FDFFF2B9DCBC0D7A7FB30F571FF574FCA",
                                                 "tcId": 13,
                                                 "persoString": "C7A143",
                                                 "nonce": "C886429FD76FCB492883EFCDD2EE2D66"
@@ -359,19 +333,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "EA0474F892672D3701BB7FBE5E9ED8DF1948DE2FD298D9AE1D7D093C708EF526",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "A6BC73D2D68C65453F166A27D831D0E30B6E80AC889C8B8D46DEAACD85E3108D",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "90C845AB068A9FA8B74AB88E36690915CAD72AC594A78A82DE444C6FCE435C27",
-                                                "returnedbits": "D8CFBBEEDC830E9F1D4A2CB8E7D860150B2CAF27949F021F12F4F53895047A63",
+                                                "returnedbits": "1FC961411F99C1867BC6EF31FCCF73E48F85DE02E968E0AF1D43E232009E0056",
                                                 "tcId": 14,
                                                 "persoString": "47135A",
                                                 "nonce": "CD54F5FC1B9DFC2C9ACC2F41CF63ADC3"
@@ -385,19 +357,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "35D0A6E3817FDB94EC22EECAB8F9F142BD5D3A01A2F088AE0DE9BC5965981CCC",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "DCD565E6FE5287DED804F897A74F08B31BBE4E4DC58CB4BEB47C5B587681C896",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "4248DDD430CF236B059EEFBEC20336D17AEB7DF03E2004D4AB5C0CDA7EEFAD04",
-                                                "returnedbits": "3F36265166F80C7E6F5B5F2B121CE03A18982F53E971F34D6D8A9C35342C4F2B",
+                                                "returnedbits": "8FCCED4B3AA7D2B9E17520A83CD49FE935DA84044F42F9669BF9ABD7D7FE6FDD",
                                                 "tcId": 15,
                                                 "persoString": "621319",
                                                 "nonce": "911970E7CFD456725CE88C9162825A3F"
@@ -426,19 +396,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "53CF8AC043BD5D6C1077028D540B048832F2FEC13604EB37E40B00BD2B9F4216",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "D0CA06BC4FABF0264F556FFD939D231BF505249AB53590298F09DF32515D80DA",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "7AF4FCBB4923BED24B3FB7391878784A9D5D92AE353B044B9164F7976C6EDCD3",
-                                                "returnedbits": "1ED384A0F4A27F44A72BD2B173CC0EBC76E5A30BD71639C52926C1C8D3291598",
+                                                "returnedbits": "AD7A577A645C82371D29F37AA6D360380E31927E916F3B8680ED78C2C8E77A96",
                                                 "tcId": 16,
                                                 "persoString": "0E183AA9",
                                                 "nonce": "3A567A6C8D2E1F0B9A0E94B108F7D6CD"
@@ -452,19 +420,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "E2FF69B90AE98DCA49861F1DE125E4FA76FA1D17079D4ACC376375AC17E9EB77",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "8706A7B9497C23CA994A048AFAA39B1F16C77442A0A29A8AFBE27F5007D57364",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "F8416630C9130FA33676AB112F85EDBC665D375A0C3278F9145111B5DA3F78BC",
-                                                "returnedbits": "C3E1395B1C5ACCAE706DC8A1269CAAC3B0E9D3347C4291FBC6EB26D6FED8E256",
+                                                "returnedbits": "A8E336328C60C97DD95F01FE7D1A01B875A154DA79AB254243681EC09C9B7C7D",
                                                 "tcId": 17,
                                                 "persoString": "DA9BFBD2",
                                                 "nonce": "AE0B9BD7EF8F2AF4F999652BF2511CF9"
@@ -478,19 +444,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "3AD0107ED56CC38039A5F8CD5C759EADF2E1250A5A7E24058CB3416154566D5D",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "7B990BF13BD9D5C4D40CACD6C783BA8C250C66B0FFD1FE731B479A0239AE72E2",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "D410401EFD43A8225776FAB1F80DC2CC0D11C0B41F755A15CE68D8FC7E35D372",
-                                                "returnedbits": "3D52EDDDE5BF99A06A9A62710B6268924FE4DD2453E081EE2A52C8775D2805C7",
+                                                "returnedbits": "0DE801475200434156FB5C2A041EEE20BE0DFA28ABA61E6B80C965066F3016A1",
                                                 "tcId": 18,
                                                 "persoString": "A4F86EFF",
                                                 "nonce": "095BC971773E4666CECC24C2BFD74BEC"
@@ -504,19 +468,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "4ADA0A1A10E6BF0E02AAB103BF122990AEBCC7F637AE89D4016BC395EE942738",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "BF7845B8AE7F13BDF2449071AFC8C025C85F818FEEA6ED982625B9E1D46E5CFC",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "741BC012F06AF23381B5D45D1DE7A46E7C458E7F2D6CAE0AAB05F46A391BC3E3",
-                                                "returnedbits": "600A5994E73DFCF23972520534E7488CA752B130E47C5FF3811F9CE76699C419",
+                                                "returnedbits": "61140CBCE44D86D17BC28A4DA412CEFDC9FB0C1ACA4DFF5849430317CF200E33",
                                                 "tcId": 19,
                                                 "persoString": "484EC5C7",
                                                 "nonce": "B48B6E05A40A4D34FFD21A6876E7B68A"
@@ -530,19 +492,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "F34105CAB298BC23F49E454AB1D6F0270AB2C7DA96F9C19F501596DFFF09FA7D",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "7A269C00160CD545E570358F4DBD9EA8F162CF4A627DABFF934BC0E54F744E95",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "AD16CC3FF97846A2EF1C2A909683710813DC7F451E317AA7536D7AA8F80B7AC1",
-                                                "returnedbits": "D153F003CA76144E464CCABA4D33EBB6AF978C6AABECB28044D7D7B3507E4D1F",
+                                                "returnedbits": "C4CF01E6EDC678E8B3457FFDB83EDFDE398134CAEBC0D570A441BF03B7CD52AE",
                                                 "tcId": 20,
                                                 "persoString": "8A15BB3E",
                                                 "nonce": "E70B881CCB41358C1B56E5B07C1515FF"
@@ -556,19 +516,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "27DD3EB949C832991925D32D1A4DA5667E5AF621F2DDF9B5C4D8719DBF24C628",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "41FD66D0EBE73B5BB5A93CF795B26D287C563D638B76CED438256ED4E931D8C7",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "D69D614E5EFA5CDFDB6513376DC63C2F5584E125B74D533719F0BABF68C879F7",
-                                                "returnedbits": "06F9C6A2127CEE8508D69434C2BDE4663AA16A1A953C569A0ABAAF7FD97A3830",
+                                                "returnedbits": "7EF273463CE9D57F4D715847497745A4BDEAE8F8AF16C4D43378FC0E58AC1577",
                                                 "tcId": 21,
                                                 "persoString": "051F1F55",
                                                 "nonce": "6695011A96348F62A1269046E31037DA"
@@ -582,19 +540,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "403FA4F1D67604381596FCA52F9DAF34FB3BB529B9F59368A994A5365F033B71",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "AA944E0852C4142EB2A6EE7B95A5973ADFA15FE64136B220924AC76E6E1F5ADA",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "B3610C14387E2F141B15D59F03A7EBE50B8D5C75B8E254D5EE92DC922415922A",
-                                                "returnedbits": "686C73A4BC62D3B92667259A8BD6A9E590BF68F030CD35409F5E302EE2CE9C52",
+                                                "returnedbits": "011173EA3C9024E5DD50B44BF676B0521A80E70BDEB7E6EEAD04FA70A2686BBB",
                                                 "tcId": 22,
                                                 "persoString": "C72EF0F7",
                                                 "nonce": "83E5B137CB29120DF07AFFCEE7DCB3A6"
@@ -608,19 +564,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "C8F9CE6EAE177614BC580FA4C97250FB4A66870B9E872D97459BFC5BB6C19814",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "3F8E9C782B2FD3A9DC3AB0F1E43BFCEC58FEE058E634C596BA5F9A77524B48C1",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "9AB3A2AD389A65381FAD936E946E061DED132E0825BD4FDD95C70678860F0FF4",
-                                                "returnedbits": "08F95E59993E7BB5EE4A3DAE6844BC7F6A445CF89629FD837D16C3C009ADDF6F",
+                                                "returnedbits": "CE831F072073B8D3130E1579A4E6DF58C6A524A16208D72FF842CB2D6291E4C2",
                                                 "tcId": 23,
                                                 "persoString": "DD7E4D55",
                                                 "nonce": "BC54E3076D900BB92807080CDFDA8DE0"
@@ -634,19 +588,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "74FF15B5620C5E06500D997359F28F50C9D721092797EA18A9B72E00CD6356B7",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "9D102F0898E2A236F6B87E209E0FC4B51E6A41208E2C0E060704BEB58801FA11",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "4FC67FE2FD23999BAA1407E70942AB20458B07382C83050755D21D7AAD448583",
-                                                "returnedbits": "1994D6A903DE1925E3B357FE3773B4F15E4EC21FFBCC7C69A730B3762E6D1A6D",
+                                                "returnedbits": "8BCE3A4C7BBF3C62423C7296BA911F1DD6B62E9799537AAC9DAE8B616D07D1C2",
                                                 "tcId": 24,
                                                 "persoString": "6D794B94",
                                                 "nonce": "1F7AB450B43C61B9B76D610C3270D4A4"
@@ -660,19 +612,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "98915B6DBC4A446FB8028897FBD6507822ACEDE37FB565645C562C3540455276",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "BFEC654FDD99444986D8D01E0998A1471C34C0B0F31671A8AF0F0BC6F97BA204",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "858B43CF44D7C826B62E5C5042909D76464F2537EA82AC7D660461EC134FB72C",
-                                                "returnedbits": "900AF2CACEF684C8A0580190B9CF78EEA20CC0156584C6044B31A8231808955C",
+                                                "returnedbits": "56A7F7768B4DDBD6C1620132A277B0E96A6409C062157E56254ADD7665A6DC5D",
                                                 "tcId": 25,
                                                 "persoString": "6C6C1A36",
                                                 "nonce": "6F2D65FFFD7F7C55E818E7CAAA32B588"
@@ -686,19 +636,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "3C8FDC1C92975BA36FA8A372BE59BF85B93FCA23998F974668B08E374022F977",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "50E72EBAA0ADB47536D5A5A9DF4D2726C4186EA537F1F3B967280EC426CC84A1",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "E96707B2980705BEA14D8EC7241267BD6FCDA1B73EB657B42818960A9C3AF9E6",
-                                                "returnedbits": "F8E5D3B94495FAD74A54D2E975DF05D3338020837B2CD7A8614970D09C532B37",
+                                                "returnedbits": "DC9A0FC7BBB5AAD5EF700302E6FC8268D3665F20154EC06BB183BD72C6D89F22",
                                                 "tcId": 26,
                                                 "persoString": "D5963460",
                                                 "nonce": "EA9ECB5665BEAAF9C225F5DC345C06EF"
@@ -712,19 +660,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "DB4FD4CF987A8634B3FA8DF558AA2399BA692DE0DC84CE6D34C575788741BF62",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "025A4098BC2F9E11194890AEB9D7F6B5B9DC1C2F45F7CE590AD670636809C93B",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "4E6E515B99BE58686A27953BE50B8DE234419EEA202407936639DF5607E6DA49",
-                                                "returnedbits": "85C04B6AAC31A58F2762E979B3AA676C7BD6616860717CC2528EA57C39841F18",
+                                                "returnedbits": "A39953AD900F4A3FE832FDAFED1F8EDD6493BE4F78EBE9033E80E0264BB89995",
                                                 "tcId": 27,
                                                 "persoString": "5514F0B3",
                                                 "nonce": "CE220E7957A5369C38B0DDD8317443BC"
@@ -738,19 +684,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "42D780B46F69C486FA2C43F751D61AB3359BA5B2EFCCB2735D3B5F1E9CB2DFE0",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "D9831819D5CAD7FACBD8455827AF525643C31D072D8B866B6818E7957ED72AF0",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "C57A6C7DBEE8DEEE82E5A9669C4BE7D239A1039C507F8657EC3E605ABB84AE8F",
-                                                "returnedbits": "018C2CDF4D28605641181213873DB89EBCF5910AAD4067EF1795C3E008198E03",
+                                                "returnedbits": "F4AF6CA58E9F2E0E97683F489EBB38CE14677AF99C86DB0EB2026176D610D6F4",
                                                 "tcId": 28,
                                                 "persoString": "5F0A8AA6",
                                                 "nonce": "7623C659EAA4B32D43B3D70ADE1F5B9E"
@@ -764,19 +708,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "8F02FEC7E4ADAC36B57CDC64866DC693D55B260865164A0BB17A16EE2FE23699",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "D357E85823F485DBC20FB3F6AE2CA22D6A8E55F08C179A9C19A12B34FAF75696",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "4BE09CAC712DB8382D0AF2C81FAAD4E79FF9160B95C3885F491029DC1A61C043",
-                                                "returnedbits": "23D53800688112741215FA5CE3667B6723F0CCA8214FDDF5F52C7F5C6A4733AD",
+                                                "returnedbits": "C3E7B95417ABC909D0CF1794DB36EBA46ECACA4188E3EC0BF53FB5D597196C1E",
                                                 "tcId": 29,
                                                 "persoString": "A60B2F63",
                                                 "nonce": "3A7800ABB1AC83CE5E65652B1B41C26F"
@@ -790,19 +732,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "CC357A92A583550F78F88C7F31ECDD21B904CF63232FC93C7FF875752E357F9A",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "84011C70967142DA576AD113A57B60011107E5439B7916636AD6EE0586744883",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "CA5E2727C51EDD2996867564DF03B66A52FC64794D000C3EDB572DA8ACAE822E",
-                                                "returnedbits": "AAB3E86C010A387A2CAE3D892D9E3C647DEA5DC86F0B597FAC002D9C9F18EA83",
+                                                "returnedbits": "979DCEB68A415EC106A0DF46E498AE509D796110F368BC055FD637311559E168",
                                                 "tcId": 30,
                                                 "persoString": "7A1AA9CB",
                                                 "nonce": "467494D0233B2679E5187E2305A1755F"
@@ -831,19 +771,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "30DF2B7CC909A7D3F123BA18330B9EB191837BA0CF736EB96C453AF54C9829F5",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "F1A8F7EAD8B1E296B6A3A8CC307E18526E51B0E894C69491E7B4CF3ADC8AA810",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "62C70D87567F8D947F0D7C7CCDBF377D1B68263E6069E791F575F4ADD1399700",
-                                                "returnedbits": "2A041869CD4486084C795216191363F2E374A823A4090AAFFB75407ADF7D2EC0",
+                                                "returnedbits": "1039876E1C8964A2F51E5A651990623C3775C411BF279DBACF91516BCE203D2D",
                                                 "tcId": 31,
                                                 "persoString": "",
                                                 "nonce": "1731DE98ABCC58FEE165C0C2CDA8F7C7"
@@ -857,19 +795,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "CF5CE7377763FBF0118E3962DF05473CA4061C9A43E38DA58E8A259309E8DCF0",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "2AF01D584E6DF5220A434B714D9E14B311811CC9AF3BFBEF8358880CB7C86B4F",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "39917E57DE412379DB33B7442CCDBE4A615FC13545233575699885344D0190CA",
-                                                "returnedbits": "BB147CD4BF5F7AD0CA534371F20E92EC1D237EA0A67F63C56AF087DBE4F27F40",
+                                                "returnedbits": "40D8685859E85F6155303E0C3841BD986184045327B3EAC4951D5BB4EC7DEF87",
                                                 "tcId": 32,
                                                 "persoString": "",
                                                 "nonce": "0A6158D067B2A14461024B6F6B0E5261"
@@ -883,19 +819,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "A48492C99F67B8CDCA037EB3C661284D8767AA1C59326C7552C86D85B5653A80",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "BA9A22391CCED5FCC41502210466262F23AF10A3E0EED0E1F4CFADF2726C21E2",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "F154FEEF23AFB758641BECD833AB799121C062EBC5D766A115A0009D7F0D6208",
-                                                "returnedbits": "50C247E6DB55110C66DC2DE5E6D206378A8CEF2E0B1774F4D5677AF3558EB3D5",
+                                                "returnedbits": "71625EFA62BC2E41E7181548AE740F20210A2F3DEB4F61C0FFADC336A8A5594E",
                                                 "tcId": 33,
                                                 "persoString": "",
                                                 "nonce": "D5DC4F275880DE85A04CFDCBE3F23A26"
@@ -909,19 +843,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "0DA831F85741EF1025C0BD90F53F576A54189164DDC60DDBCF9F4A047AEE60BE",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "A9EAD771B6FE6223D1050FF88BFB03542F7F729288BA72F1EC24F0DFA7FA5085",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "DC1DC22BBD425487AF3F0B8AD220B8D0C56D4F24B24C6CD722571388012AE1C4",
-                                                "returnedbits": "96EEFDF64AF4784CD73055D368E6013008B4638FD8B8AD1BD46E38812BFF3B58",
+                                                "returnedbits": "97BBCDE9CB44BF5D6E85756C65F8B1D36907685AC62666C088E9E7CEF7E7C8F0",
                                                 "tcId": 34,
                                                 "persoString": "",
                                                 "nonce": "4E67B4A04D95F52A48AB9CC8D61533CF"
@@ -935,19 +867,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "E81E6853DCF933A2BF71F7D2A4992353688E3F4A76755BD253AA347863EA6808",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "7556171F29DF0E4988EBA01C7A32FF5FDD73A388E705FA9DB4709B42DF40E3EB",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "BADA56A6807ACF4266D62058BBC5BC5E087AEB885AFDED1D48C9352427D8FDC2",
-                                                "returnedbits": "5CA3BFE16825F5CECE11A4A6C29C2AF2B3F46421A05D7BEB5026B58B7E58982D",
+                                                "returnedbits": "080F62A0B790122EEE6C44E9427C2CDAC29AD998611C3EA8122B862748411ACB",
                                                 "tcId": 35,
                                                 "persoString": "",
                                                 "nonce": "305C433E3C798F7F70D1646D86A390C4"
@@ -961,19 +891,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "51BAEC99B88103B8F73BF15CB772B2E7A2D722F903C59687F3F282C0FBAAE67B",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "4CE67DCEE13AE9D94E8527F6A43B4FB702397E5FBF0AAB4BCFBAFA74A1430C2A",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "8CFA190BDB5016BC94E865ADFA29B1ED36B67C80FB5F01AD7D899F454EF84972",
-                                                "returnedbits": "268ADFF7E2D9AB23BE7465F519AACBBF55371D98BD1EA5807CF8084BCBF0AEE3",
+                                                "returnedbits": "53E123698FA81B64943BFC0C04BC91E92F91297BFC8ECD369A4B6E68B25B8A1D",
                                                 "tcId": 36,
                                                 "persoString": "",
                                                 "nonce": "6E79A094464A18B97381535070E2E44A"
@@ -987,19 +915,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "7E4F4DB6C352B245C5CC5A9D5C0165ED1E3DA428ED43FB6844AB21CA8DAB18FA",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "B10131BA97DF4AFD8442C32951E27995EF96792216A01C004E5DF164BFFC261E",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "8D01F8D7215E3CC9A7DD696C2169D99FE5D156232ABCF4BA1C7D79EE3BACD624",
-                                                "returnedbits": "8F00E229BB038370E8B2281B41DDB370923EF25C4FF8482CB13435BAADCCF78F",
+                                                "returnedbits": "591A1FDD8798D7F4B2B0F892BD0AA29118AE61A8C5A85C17F669A697FFE53066",
                                                 "tcId": 37,
                                                 "persoString": "",
                                                 "nonce": "AB3FB08A0B5BC3B6D98C0975C51688AA"
@@ -1013,19 +939,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "EDEE2E22BF7339F64318835D4DF1698EFDDBCA166A5F05E7819382B5B33C9D81",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "7AEB3FF18078BC63DF55AA522718EE7A1C7146FF9BD26F79E773381D2A7A88BD",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "5F20F92D9CB5BD99C37B3EE2DB9A921C542CEFC4075E2A987A5AD67B419300EB",
-                                                "returnedbits": "F7EACD37F7AF22DAA4CFF0F6A6E88FAD9800CDEC7D8732FAB92E4E3C987652AA",
+                                                "returnedbits": "A6CD15B84BB5BDA108E5EE3443285A89D530CAB7D27688D338B2D88C68437A6E",
                                                 "tcId": 38,
                                                 "persoString": "",
                                                 "nonce": "7EFAA7CB3A7ABA7B9ED308A288147982"
@@ -1039,19 +963,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "8E738DD9271CB018F99B23975621DB3F463E25F77C6D3275C95BAD983AB0A6FF",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "A696A0FC79E9E69DF7F8690651C0A7223826CAFD28E3667B10D5B6CCF9EE3A6D",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "48AEC52318CE30BEE8787073BEC4EF4297DF32E35D83FF4CD7F94CFCC949F20E",
-                                                "returnedbits": "F65E6394D59DEA07DCD773BF4A8EFC5097E9DB2D82FA71A312EFFFB521A665CD",
+                                                "returnedbits": "EFBD51AB5FA5E5BFF6C3D200B824F7B9A61EE68EB8F5EE6D47A4E49CF98F67CE",
                                                 "tcId": 39,
                                                 "persoString": "",
                                                 "nonce": "406A50991E63885EF368A000519CB1BA"
@@ -1065,19 +987,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "CACC52AF1167DD25873DCCEF6536FCC898D222409861DC3753F55AAA4971E50C",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "DA23BAFB71393BEB6DBD91D78F3905C2D1C57F03DD05DC3197465C9C3545002A",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "EB704143EA921287F8A5624E549F7E12AC7DDF49EFC536FA8F6CDBAA38A3E5E4",
-                                                "returnedbits": "C74FAF59779140F30686205127E8C07A9E833305014596F2692F750D43C31B08",
+                                                "returnedbits": "FC221F3A3E0AB348B8628724FBCE74E0ED2CBBB72D22561C4D38065BD7D8461B",
                                                 "tcId": 40,
                                                 "persoString": "",
                                                 "nonce": "A9D01D1832BB5DE8BF2D2F1C2A6A557C"
@@ -1091,19 +1011,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "993C37119EA99BFF963D605EE34E420674A57451BF2BAE7D19DEA3680A8E07FB",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "6D5E23293D13CA6B82BE16546DFD2CBBFD7D0C282D6748D1083412296349A654",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "ADD7F15D978909E0298BDD3ACEDDFD5E37D187943974A12B239DC96FF156FB8C",
-                                                "returnedbits": "1D0B0D90640E308D1642297E358F43E4C42A25C7B8ABFEFC274F97CE4352BD06",
+                                                "returnedbits": "DB31D026D2AF8809D02560641CD5B5957E5A2EF891A663B5C43384086CF3B67E",
                                                 "tcId": 41,
                                                 "persoString": "",
                                                 "nonce": "9249869EDA61B25A8471BBAB29953F85"
@@ -1117,19 +1035,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "8DA06E23163C14124D6A4015118709D98920FDAAB330E312CA86F337E23F91A4",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "8DDD58D4C84247CBFBE8EE89B1753C2F4A47F11277BF17707ED289E7BBBD7824",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "788B41BE2920A35A698A95D08DB11C4D204F832E1A216C9D8A502484603D7937",
-                                                "returnedbits": "2774A1A85B3FEE13A6C620FAFF98451DB7B9BD87FDBAE33CFCF36AAC353FE381",
+                                                "returnedbits": "423763CF92DC709650B531A8D2416EC8EFF5E9D9F7ADE0D405A8812479667ABE",
                                                 "tcId": 42,
                                                 "persoString": "",
                                                 "nonce": "568843130CABAB805F333C4A2F8636CB"
@@ -1143,19 +1059,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "C05AB74427C87EDE9435F68210BD4D83624CC44E99A12A7C6C8580D0796693F3",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "A4938B638D9C1A0E0EEF2872BEEF03975A7430E7A19482D6F22181723FDE0A14",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "8063EC6F7466A46CCF67C3F053F83ED76DD4BE5077E642CB88B3D3BA31EA362C",
-                                                "returnedbits": "43BB374EE9FCB8C7D5BED7B52A60F606AA15A76871D61D3A9400EFA991D43B2E",
+                                                "returnedbits": "5D09C5468225B119AB254E28AEC958322A3E62D43A0BF53A38DD82CE2F4B05B9",
                                                 "tcId": 43,
                                                 "persoString": "",
                                                 "nonce": "BD47353BC96434F6F215A814AD417585"
@@ -1169,19 +1083,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "12DFEB87714CDED1DA7DF52544DFEDF27E1938AA6D20638AFF8E760FA49C5523",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "F74516FDAD7743597550918A49D1C6C5E5AF4632EB17372D094BDDF541951ECD",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "FB58938BBD335E28678E333DF20BE0490F4EF2D54414D9B8048D3EB82FCF64A1",
-                                                "returnedbits": "9D190770C3556E163A4BFC0BD5A947DB6879642FCA4C38D0A90B39619FD959F1",
+                                                "returnedbits": "7DB72B25989803C06E0006B49C274CC4DDDA0124654F3CF18842F5C4C41A057B",
                                                 "tcId": 44,
                                                 "persoString": "",
                                                 "nonce": "9E9E3FCB0367DAAC5118EE9685DC7BA6"
@@ -1195,19 +1107,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "2086B55DBA9F41BF03945F1653D5A73E26AF429CD14A137ECC64BBA7C7E5E48B",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "13A4C6E06B6B5FF497F8BF348383CB1564BF09F422B62ED6A7F5AC5691B0072C",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "CECD1A898790851913DBAC55C1381837398AECA07A27172084A1F2E4B5136142",
-                                                "returnedbits": "C89202617598A334F1106765F91DFD3EEE384F4537926766ACEBD49DB15D6776",
+                                                "returnedbits": "C867A030D26FEF85930F7BE5EB4FA9C4F360AD9E8A1DB42D86D1896ED8D89AC4",
                                                 "tcId": 45,
                                                 "persoString": "",
                                                 "nonce": "D859339CDAA37160B183D2EA0842A397"
@@ -1236,19 +1146,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "18471C0FA655D168059552E2D54FD8E976A6EB6882AFCABED55BB4C99C9925DD",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "22AA912355646D8A9F53454604389144EB0AADBE54E977A52EB985172180DF41",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "78F97C837C0D4BED0EB7A49B8690D0253571FF3616E96B295F097CD64E610CAD",
-                                                "returnedbits": "5D4085FC5EEA729862215A41D82CA4EA9C06D8ADABA0ED38EBEF3CE6163BD8C2",
+                                                "returnedbits": "1A090A21C1786505BFE4F3C9B935F6AFEB5543F5B5FFB5A9471985E03F4AAA63",
                                                 "tcId": 46,
                                                 "persoString": "99",
                                                 "nonce": "808C58572D8E6492DD868AE6FB37F413"
@@ -1262,19 +1170,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "9509CEB7577D5B734E20CC90CFE5E1A40AC3A4DBBEC4C9D10DEF17A63D2D2A51",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "86304769B57AF14DE02AAC4A1814A9526B568E85CA0B65BECEF92BEC7B275CF5",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "4AA219AF6D3F8B54DE8843A1B2824160DB46BFE72FB06EFEB1D451ACBE1695C0",
-                                                "returnedbits": "4880D711F8A66038D30885A740B437FF0686A3FEBF662BC3D2262164732A5214",
+                                                "returnedbits": "EB8A3D8A31F640F11722F4D2F3736B44540B2E0C7014D328124D0BD4F30BB2FC",
                                                 "tcId": 47,
                                                 "persoString": "73",
                                                 "nonce": "09734818A75BED442F78BBB974981ECB"
@@ -1288,19 +1194,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "8C626C05803730EA5CC2022FE8A69EFD6B8AD3DD20526064EE09A952C7CD7A17",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "66CE331F2B2737D01E473AE467B6EDA13984BE7A91530379ADD96884B3EF3272",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "13E679BD7586010BC850E192AFF262EC9739E554B09B42C0C41F9E659C352BF0",
-                                                "returnedbits": "9132E06278DC889369D58B2B6C19131F0332E635557925E18A1320C8BFD9C3D6",
+                                                "returnedbits": "BA39643BF837BC7DAE7BC7D99860D72FB1E5EA543D132B3D90F69432E584323C",
                                                 "tcId": 48,
                                                 "persoString": "BF",
                                                 "nonce": "E8A34C0902CE062EC137FB27B05FCB54"
@@ -1314,19 +1218,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "DABBC378891B2FB30BD1511FEAE4613B3B8353287D054DEB7C5CE51F96153B9C",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "17CBE0009F481EF9794DB9177D0AC77FE1517AD6248D5D6AA5C47E627DF87245",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "CBD9087AFC796A0862AB59AFFF6D38C0E9E97A269372D093C080DF36D0127E1E",
-                                                "returnedbits": "AE0C5BF5289F5E5213D63C1C6F680606D9DD4E619653381A0D9A0F3397039F27",
+                                                "returnedbits": "85D83DB691EE60AC24F38D44983FEFB19BFDD590242B62FE648449A81D5BA8C5",
                                                 "tcId": 49,
                                                 "persoString": "FF",
                                                 "nonce": "B72F046CB3EA4EFD515322AEBFE34F4B"
@@ -1340,19 +1242,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "BE0879ABFBBB39C9920D360F14BC2B48580F5698FB5E4C177BB711A2D1C25B57",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "FC039A904F97D8E3E436ECE810AE8D86B554B3BA159B89AEA994AFCA50F3E5C3",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "3150486A883538F63499F1BF3D8BEDFF9623768EFB8B821F91AD9A162508B31D",
-                                                "returnedbits": "9E0A2CA3CCBF6D0AAACB7FDA00F81DAC18F00A7F0F6E024E71B500972B76BBB0",
+                                                "returnedbits": "A8DC1C4339243F5A8B7D2922198B799BFACC375DFE68BEDDEEE4105AF9C9F067",
                                                 "tcId": 50,
                                                 "persoString": "82",
                                                 "nonce": "ABC6FBCF7BD9C1C7CED40DE253B54138"
@@ -1366,19 +1266,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "5218D90D290F0791F59E10D738C38B86E3CEF364B2E61552A4C1589E22E17D0F",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "2F06C538A06E1F5F4B3DEF32DEAC656EE07FE2603C7CA5C0C12EE4337317507A",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "F7F24D41F6B0B3609B9A9B2DC9EA7B54A714782C9CDA2F75249BCD845AAEC36A",
-                                                "returnedbits": "0F0FCD9136B00902E3B22B1BA439583A01843B0300341C3289F6B22B4AF55E1C",
+                                                "returnedbits": "944354D72DCA886184A8632093813AE322DE07EDAE5F2A721B8B48B30C620685",
                                                 "tcId": 51,
                                                 "persoString": "DF",
                                                 "nonce": "5B9AB5C1FA6E6E87CE965321A1C2A0A7"
@@ -1392,19 +1290,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "5369088D04D5477F6CE830E359195A46A316F87C9E414CDF5998DBD30A0E5D47",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "2FA8C56801D52BB8921F3188ECF88DB9E056B0E36F794E12E35C02424B2AC6D5",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "00C0E599B1B237816537F144288D82BC8309EC9618AA5A9FFFF625698A25E9B2",
-                                                "returnedbits": "4FA03530643BC9CA3EFB2311FC2D0609B4AEE2030CD670DF3014DF359C098E38",
+                                                "returnedbits": "6BBFCE9CBC9FCFB19885EC1D9D3A6A44B5AF10ECB4DD6D0FED14F1FAF6CF1A07",
                                                 "tcId": 52,
                                                 "persoString": "AF",
                                                 "nonce": "6F06B24AF04BA7ECAA56092F2ECFD536"
@@ -1418,19 +1314,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "AF0E05A1C02F4765D060E023CD18DABF79224EA7E54B0562D27AEF3F57939D5B",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "AD053449520D1D445494AD3EABBBD164FA90048ACAC24617379ECB8CFE4367A4",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "84AF9ED44F691A813C652BB14146DEB8084F66D6229CD6A2A497BD4F1708DADB",
-                                                "returnedbits": "0517C1BEC0B47DD4DCBB9A0C2951404E7F5A4CA4037ACBE80F3D5CD73032C39A",
+                                                "returnedbits": "997F10F253F021D46A02FE953F4738F005EF767DE7AF563406CE1C875423C39A",
                                                 "tcId": 53,
                                                 "persoString": "BB",
                                                 "nonce": "C5BE3341990EFA4E54520D74760B1E6A"
@@ -1444,19 +1338,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "EC43EB8A1FBDAAF8AA61DA3ED8A572288088BD53202621FB6385329E661E08C7",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "E69DC2D91A750E65D32CBEDDA018CB5BF81795C4D1FFAC7468D89074E3FB44D1",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "567240DC839432DDC406E2C1A83C4251C77FBF16957AE82C9FF22F514C20BAD1",
-                                                "returnedbits": "CA72015D565CE49F966F7B941D114E0DF2DE4291347A325631D7FEDCF241D1C6",
+                                                "returnedbits": "8202389CDB451BC0A3A646A205936DE7AB1F8ACAE7825CD665F45B08557D5F84",
                                                 "tcId": 54,
                                                 "persoString": "2D",
                                                 "nonce": "1BC23B9E408492BE30565150AA82E7BE"
@@ -1470,19 +1362,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "D24ED48537AD2108532D2A2C8D95D2C2A44AC97C778930DA47AB7BB9618610A3",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "8E5601F474C5BC2BCD17D9CB0694D79F0DDA1EF61D393F410EFA1A0CEF13EF6A",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "09E4AAB05D0AA3647A3789BB856530DB3308E9E52E624183F765F0DAB9843A91",
-                                                "returnedbits": "BFF39C404FDCA4D6E9FF15840FE89AAD34B2F3F96E1AAF6EFFA670A71870D8E6",
+                                                "returnedbits": "F06CB2CEBE562C11A839239510424A258C10AC046DF296FF3280CF8E2D2031EF",
                                                 "tcId": 55,
                                                 "persoString": "50",
                                                 "nonce": "5C6022E92DFE7C79E56D6BF26E312192"
@@ -1496,19 +1386,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "E391FB00F444DAD10899A1D8C83E28F136CEF9B4C6D83138050C5E4F6472FE5C",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "5AFE2D136EC59F991CCD5DAAE5545B1C90295CEA58FB92704D2BCE8B23B70AB0",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "333DD77F6B8EADB4589874A2DAC9C9C499BC930B4303FD6BD4830F449553AF7D",
-                                                "returnedbits": "CD9B8D54572593CC5C058AF4B1032D25E3829D99257656D1FD7AA89226204992",
+                                                "returnedbits": "EC7111A97D4C9321D07B5434A51ECC7C53702DF378EE4BD59E1F1553504A8F9D",
                                                 "tcId": 56,
                                                 "persoString": "82",
                                                 "nonce": "DCEB0B5D4250D8216D2CF9A571A86360"
@@ -1522,19 +1410,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "060F8E549DF59A96334DBC05FBFBADE5DEC95F899E4B1B4A4A740ACB26A427C4",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "89744B165EEAF54011C83D85467FE11FACDF28EF64E97F7E8DAB68AE96E06577",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "A9064F9F15FE4F0E94DB6C27548801FE96495BC54D30140625F16ED30B4B95E5",
-                                                "returnedbits": "BB697DB39881F5233B18DDA92DC4FA10483F32B7838BF4360F808B133FDF1E95",
+                                                "returnedbits": "FBA7D80ADB56B92D1FE16D19297D3C036FCAE58DCC99D3502CF95764FEE5A547",
                                                 "tcId": 57,
                                                 "persoString": "97",
                                                 "nonce": "067821BA4D431F30C5FC51C071B0A473"
@@ -1548,19 +1434,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "0AFEDB0DF9378B8AE348A57EF6FB706AFAFE9C1F20169B7A2575C085236C7F87",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "CE1E783B1BE63D0DE719588BE782D490921BA24822F9E7140DA8EE89BC6A3721",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "48647DEB2FB2C7B4DF0424E7B636BBB3BD5B62B4ECECCD05E89837E73EB155A3",
-                                                "returnedbits": "58D5794813BE205D7263B25E970A40E31F0A121B5E6BBD124683DA91BD559CC0",
+                                                "returnedbits": "23361C9361FC1DBBB09E83E5DEDE9E26DC66052C5A5124378FCFCD5BC8C1C552",
                                                 "tcId": 58,
                                                 "persoString": "CE",
                                                 "nonce": "704BC2DC80BF37F371C004F9689FBEEB"
@@ -1574,19 +1458,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "1E362C4AC062673F99E22D4E6405D8C960947B617E900600979839BF7540B7D5",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "165795D4226F161FEF2F97A4B4262A9D2C9E856F13AEC2230B0BEDB14F7DA738",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "E2E97812703653B29A817A1B05FF6AA64D5B1E03F5F039E717D5A82B67491D3C",
-                                                "returnedbits": "1F86937B7FFBF1290A013BE26BE23B4BBB2A83C284F225C41DF3BFC8A5435AAA",
+                                                "returnedbits": "607619C11016BD5CE64C1D40C913C491100F75742C4D498E9043E7202B2850D4",
                                                 "tcId": 59,
                                                 "persoString": "D4",
                                                 "nonce": "B4E3C315AA0D6AE5ED1564E6B0CE43D2"
@@ -1600,19 +1482,17 @@
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "CCB11D513141AD85AD40BBB7C07FE1185897518A4303188F34C787CE3D2BF785",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         },
                                                         {
                                                                 "entropyInput": "",
-                                                                "returnedBits": "780F27C6A5C4DD817F113A198633267006FED6DEC4AD27CE171CCFC1E07CA3AE",
                                                                 "intendedUse": "generate",
                                                                 "additionalInput": ""
                                                         }
                                                 ],
                                                 "entropyInput": "DBA40A761B460652CEFA5245A9ADE862AA3AB4F945B0A4658B4D3C484BE902D2",
-                                                "returnedbits": "0809253A588497B56543EE02772492F8BBD26F360FDDBB3AD65242C4EF7BD390",
+                                                "returnedbits": "CE013F824D2FB652CEE441E46EBB131CC7C45D653340384CC651DAFBE0D6C035",
                                                 "tcId": 60,
                                                 "persoString": "B7",
                                                 "nonce": "30F34FA120F99F6A0EC44EF9DA795623"

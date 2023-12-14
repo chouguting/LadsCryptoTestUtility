@@ -2,6 +2,8 @@ package ciphers
 
 import org.bouncycastle.crypto.digests.SHA256Digest
 import org.bouncycastle.crypto.prng.*
+import org.bouncycastle.crypto.prng.drbg.HashSP800DRBG
+import org.bouncycastle.util.encoders.Hex
 import org.json.JSONObject
 import tw.edu.ntu.lads.chouguting.java.cipers.CipherUtils
 import java.util.*
@@ -15,6 +17,7 @@ class DRBGEngine(
 
     //固定式 entropy source provider
     class FixedEntropySourceProvider(private val entropy: ByteArray) : EntropySourceProvider {
+
         override fun get(entropySizeInBits: Int): EntropySource {
             return FixedEntropySource(entropy)
         }
@@ -25,14 +28,17 @@ class DRBGEngine(
             }
 
             override fun entropySize(): Int {
-                return data.size * 8 //1 byte = 8 bits
+                return data.size * 8  //1 byte = 8 bits
             }
 
             override fun isPredictionResistant(): Boolean {
-                return true
+                return false
             }
+
+
         }
     }
+
 
     // 建立 DRBG
     lateinit var drbg: SP800SecureRandom
@@ -57,6 +63,7 @@ class DRBGEngine(
         // 設定 personalization string
         builder.setPersonalizationString(personalizationByteArray)
 
+
         drbg = builder.buildHash(SHA256Digest(), nonceByteArray, false)
     }
 
@@ -70,7 +77,7 @@ class DRBGEngine(
     fun generateRandomNumber(returnedBitsLen: Int): String {
         val outputByteLength = returnedBitsLen / 8 //1 byte = 8 bits
         val random = ByteArray(outputByteLength)
-        drbg.nextBytes(random) //cavp test 的文件說要生成兩次，第一次的結果不要用
+//        drbg.nextBytes(random) //cavp test 的文件說要生成兩次，第一次的結果不要用
         drbg.nextBytes(random)
         val randomHexString = CipherUtils.bytesToHexString(random)
         return randomHexString
@@ -78,15 +85,13 @@ class DRBGEngine(
 
 
     companion object {
-
-
         fun runDrbgWithTestCase(testCaseJsonObject: JSONObject, drbgReturnedBitsLen: Int) {
             val entropyInputHexString = testCaseJsonObject.getString("entropyInput")
             val nonceHexString = testCaseJsonObject.getString("nonce")
             val personalizationHexString = testCaseJsonObject.getString("persoString")
             val drbgEngine = DRBGEngine(entropyInputHexString, nonceHexString, personalizationHexString)
-            testCaseJsonObject.put("returnedbits", drbgEngine.generateRandomNumber(drbgReturnedBitsLen))
-
+//            testCaseJsonObject.put("returnedbits", drbgEngine.generateRandomNumber(drbgReturnedBitsLen))
+            var resultHexString = ""
             //addtional tasks
             if (testCaseJsonObject.has("otherInput")) {
                 val otherJsonArray = testCaseJsonObject.getJSONArray("otherInput")
@@ -97,11 +102,15 @@ class DRBGEngine(
                         val reseedEntropyInputHexString = otherJsonObject.getString("entropyInput")
                         drbgEngine.reseed(reseedEntropyInputHexString)
                     } else if (intendedUse.lowercase() == "generate") {
-                        val returnedBitsHexString = drbgEngine.generateRandomNumber(drbgReturnedBitsLen)
-                        otherJsonObject.put("returnedBits", returnedBitsHexString)
+//                        val returnedBitsHexString = drbgEngine.generateRandomNumber(drbgReturnedBitsLen)
+                        resultHexString = drbgEngine.generateRandomNumber(drbgReturnedBitsLen)
+//                        otherJsonObject.put("returnedBits", returnedBitsHexString)
                     }
                 }
             }
+
+                testCaseJsonObject.put("returnedbits", resultHexString)
+
         }
 
 
@@ -109,25 +118,60 @@ class DRBGEngine(
 }
 
 
+//fun main() {
+//    // 將 entropy 和 nonce 從 hex string 轉換為 byte array
+//    val entropy = Base64.getDecoder().decode("0DE588E9341E0AE225E16D7A06C6F197C862AAEF19BCB5EC1548F68620948D58")
+//    val nonce = Base64.getDecoder().decode("EC8696027779A54074556DE4CF8653FE")
+//
+//    // 建立 entropy source provider
+//    val entropySourceProvider = DRBGEngine.FixedEntropySourceProvider(entropy)
+//
+//    // 建立 DRBG
+//    val builder = SP800SecureRandomBuilder(entropySourceProvider)
+//    builder.setPersonalizationString("personalization".toByteArray())
+//    val drbg: SP800SecureRandom = builder.buildHash(SHA256Digest(), nonce, false)
+//
+//
+//    // 產生隨機數字
+//    val random = ByteArray(16)
+//    drbg.nextBytes(random)
+//
+//
+//    // 輸出隨機數字
+//    println(Base64.getEncoder().encodeToString(random))
+//}
+
+
 fun main() {
-    // 將 entropy 和 nonce 從 hex string 轉換為 byte array
-    val entropy = Base64.getDecoder().decode("0DE588E9341E0AE225E16D7A06C6F197C862AAEF19BCB5EC1548F68620948D58")
-    val nonce = Base64.getDecoder().decode("EC8696027779A54074556DE4CF8653FE")
+    val entropyInput = Hex.decode("0DE588E9341E0AE225E16D7A06C6F197C862AAEF19BCB5EC1548F68620948D58")
+    val nonce = Hex.decode("EC8696027779A54074556DE4CF8653FE")
+    val persoString = Hex.decode("C47FC0") // Replace with your persoString
 
-    // 建立 entropy source provider
-    val entropySourceProvider = DRBGEngine.FixedEntropySourceProvider(entropy)
+    val entropySource = FixedEntropySource(entropyInput)
+    val hashDrbg = HashSP800DRBG(SHA256Digest(),entropyInput.size*8, entropySource, persoString, nonce)
 
-    // 建立 DRBG
-    val builder = SP800SecureRandomBuilder(entropySourceProvider)
-    builder.setPersonalizationString("personalization".toByteArray())
-    val drbg: SP800SecureRandom = builder.buildHash(SHA256Digest(), nonce, false)
-
-
-    // 產生隨機數字
-    val random = ByteArray(16)
-    drbg.nextBytes(random)
+    // Reseed
+    val additionalInput = Hex.decode("")
+    entropySource.data = Hex.decode("FF8079285B47239775AFBF2C65BB886ADC8E785DDE527E860EE43057B58091E4")
+    hashDrbg.reseed(additionalInput)
 
 
-    // 輸出隨機數字
-    println(Base64.getEncoder().encodeToString(random))
+    // Generate random bits without printing
+    entropySource.data = Hex.decode("")
+    val firstRandomBits = ByteArray(256 / 8)
+    hashDrbg.generate(firstRandomBits, null, false)
+    println(Hex.toHexString(firstRandomBits))
+
+    // Generate random bits and print
+    val secondRandomBits = ByteArray(256 / 8)
+    hashDrbg.generate(secondRandomBits, null, false)
+    println(Hex.toHexString(secondRandomBits))
+}
+
+
+class FixedEntropySource(var data: ByteArray) : EntropySource {
+    override fun isPredictionResistant(): Boolean = false
+
+    override fun getEntropy(): ByteArray = data
+    override fun entropySize(): Int = data.size * 8
 }
