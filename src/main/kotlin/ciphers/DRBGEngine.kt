@@ -143,16 +143,16 @@ class DRBGEngine(
 
 
 fun main() {
-    val entropyInput = Hex.decode("0DE588E9341E0AE225E16D7A06C6F197C862AAEF19BCB5EC1548F68620948D58")
-    val nonce = Hex.decode("EC8696027779A54074556DE4CF8653FE")
-    val persoString = Hex.decode("C47FC0") // Replace with your persoString
+    val entropyInput = Hex.decode("E8FD044146D3A49259FA33ED026FEF1EFA91BF2F5A688ADFC7BA1862EDE97502")
+    val nonce = Hex.decode("FE3217672BD59C7FD980E4EEC4E0A718")
+    val persoString = Hex.decode("44FD95") // Replace with your persoString
 
     val entropySource = FixedEntropySource(entropyInput)
     val hashDrbg = HashSP800DRBG(SHA256Digest(),entropyInput.size*8, entropySource, persoString, nonce)
 
     // Reseed
     val additionalInput = Hex.decode("")
-    entropySource.data = Hex.decode("FF8079285B47239775AFBF2C65BB886ADC8E785DDE527E860EE43057B58091E4")
+    entropySource.data = Hex.decode("6B3E3D8B62F827BD6171CFB6B56339F1E3D1D83AE212572689663A6D91060329")
     hashDrbg.reseed(additionalInput)
 
 
@@ -160,7 +160,7 @@ fun main() {
     entropySource.data = Hex.decode("")
     val firstRandomBits = ByteArray(256 / 8)
     hashDrbg.generate(firstRandomBits, null, false)
-    println(Hex.toHexString(firstRandomBits))
+//    println(Hex.toHexString(firstRandomBits))
 
     // Generate random bits and print
     val secondRandomBits = ByteArray(256 / 8)
