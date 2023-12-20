@@ -1,0 +1,1516 @@
+[
+        {
+                "isSample": true,
+                "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0c0lkIjoiNDYzOTI5IiwidnNJZCI6IlsyMDE2OTkzXSIsInN1YiI6IkU9dHRzdWlAdHV2LW5vcmQuY29tLCBDTj1BUElUTCwgT1U9SVQsIE89VFVWQVAsIEw9VGFpcGVpLCBTPVRhaXdhbiwgQz1UVyIsIm5iZiI6MTcwMjM2MDE0MiwiZXhwIjoxNzAyMzYxOTQyLCJpYXQiOjE3MDIzNjAxNDIsImlzcyI6Ik5JU1QgQUNWUCBERU1PIn0.xVBfQY2hyY6e6Wa-abUJPwmalqNiZfeEJerytjWhXAE",
+                "vectorSetUrls": ["/acvp/v1/testSessions/463929/vectorSets/2016993"],
+                "url": "/acvp/v1/testSessions/463929"
+        },
+        {
+                "isSample": true,
+                "testGroups": [
+                        {
+                                "mode": "SHA2-256",
+                                "returnedBitsLen": 256,
+                                "tests": [
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "63E3017C4CBC47B029409DA8B34E5B322B33350382B4D9FEA9518F18D90807B6",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "FD2D05D3D128DFC61997105D8B00667071BB23561BDB34F6E314D2E53D04AF26",
+                                                "returnedbits": "7C94CA7E75E81353913B0F92E1A4595DA836D6550F856AF0BA620EF2E9E5F620",
+                                                "tcId": 1,
+                                                "persoString": "",
+                                                "nonce": "8DD324C174BC6B466046F631545B50F5"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "07B35DE07A9D0D294BAAC01C6ED0D4526E3EF19A96D8D9013D2869003859EDAE",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "A45CAECBF20F0E43ED30032C2B20A0DE547F071557DC09F8D3A9080C64E0741C",
+                                                "returnedbits": "ECD1E7133160D3EEA68DB9D7DA1824834B3A335916D4F9EB986D17AD471790A2",
+                                                "tcId": 2,
+                                                "persoString": "",
+                                                "nonce": "213552E41276FC2B4A61D911267AD025"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "16ECC642B780FD3C00A33095EB7F0A756443E768DD412241C2CA341AEDD756DA",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "7A8012B41CB0D6B3A99CC01A5E75346CF4DA7D750B6491F7E3DDD7DA08CA72E0",
+                                                "returnedbits": "B0CAA2254E1941DEF221A54D47E92332A0C71322BA68D8BCB5FC04DB37850354",
+                                                "tcId": 3,
+                                                "persoString": "",
+                                                "nonce": "BF8B98CC04F39C2C9E8A3B1CF5FD2B36"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "696BB0A299496BAA2F64AF7C8E70B2C4F81C108DBFA4929F8388F205159A0F0D",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "EEE0EFA99A6A6AAA5EE5A8F34BCC040C95C0EA33878074A6A76AD9AB33707F35",
+                                                "returnedbits": "9274A32A20B65D7E3153001A40CD12BF434B551D6D7D61ADE1EFCD8CA0BA6948",
+                                                "tcId": 4,
+                                                "persoString": "",
+                                                "nonce": "BFFCDD2F07E7C848EA4DE9A00D8A3A26"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "E1B099E14D01E6841F98AD03F0F0E8FBA7D680512996A28BB44CCBB3E37E5A43",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "F1D2FFCACC5F5FC29541AEB43EE08E7D052B38630838B5E387BFEAA978CB2EB6",
+                                                "returnedbits": "8C76E5B9AAA9A4EAEAC0A12A596D583B4DBE89EEFCEE7E6C28E12FB3867050B4",
+                                                "tcId": 5,
+                                                "persoString": "",
+                                                "nonce": "4BBC90754D0C682910FE5EB52273B4F2"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "5480C5B26DBB08CA70BB54744DF2272845633EECD353C08D2DC109DE9B82F58C",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "C87B534ED5D1123937B93B7EDBE77D3AB24349E16BAAC12A0639FDE7934F5E39",
+                                                "returnedbits": "A6629936B8AF5FCDBA1A1D9F9B8B409D3B643916A066031F4E6CC3257076F91A",
+                                                "tcId": 6,
+                                                "persoString": "",
+                                                "nonce": "808E50AAB322ECED2B5DCFEE8D9AFE3F"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "48473204981DCB486EF58625477779FB19A398C4CF33ACB63B7B800CA50B8EF3",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "8336E362415C9D986C917F48A26705230F083CBB13FC91A29CD98A678F29B781",
+                                                "returnedbits": "746D1E937D73CCB5651FB75A7393A3657532C6F6BACA386E8FC0179617A945C0",
+                                                "tcId": 7,
+                                                "persoString": "",
+                                                "nonce": "0CB3E18A93A5DA9F71B2146E0C4DEA64"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "4BE2BE69A18DDDD5F46E21443C8934BCD64815001B7A7C2F58E7D05BB7603B8B",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "70EF46427EE16CCD6A41A0C2EFB954077ECF74BD0A23B33E5F8E6E2B71FCE123",
+                                                "returnedbits": "D336BAB3798577E10DC008BFD5CF95F34A2B5367E2B999B99CE66C9FBA4B25CF",
+                                                "tcId": 8,
+                                                "persoString": "",
+                                                "nonce": "613663FE90FD29A54DAAD7191FF82F9A"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "4E2B8B412C33CDEBC8B6398B1301504BF2CB3BF1EDB604FD4E1478C3E9DD576B",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "710CE745F5FD15A132B49C72F2547D7F0ACE87BB7492298087F198BE32DEDF31",
+                                                "returnedbits": "63BA9C2CF8AF2033DB8C4286EF8503726FF264CE918F38BF035AEF6D8F3DA28C",
+                                                "tcId": 9,
+                                                "persoString": "",
+                                                "nonce": "640D42A66293795EB333985D11BC68D9"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "3120F4A24C15D0901E5008C4AE1647E2E4BDF28B4AB536EC072C71B953CFFCBB",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "F864DF5CE9C2B1ACB2870D7A2D6A27AA3685B3A87F366C8880377F2FCD1113A2",
+                                                "returnedbits": "790229459A6AD2C3CA77A5A40ECFD5332504632403477276DC432C0FF313E9F5",
+                                                "tcId": 10,
+                                                "persoString": "",
+                                                "nonce": "DD75D0D25725950F62B5EFE178A78415"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "0961E47455010A5B46B10DE9F2F1CB29A7759B8D81A8DE03D0DB3CE207E3FA2C",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "1F5C853BD8AC9D481EFBE89D03E7B6F71F705583B7CDF3CF19BDB5A4DDCADD31",
+                                                "returnedbits": "1A841A695440DEF8A58CA4308244DFA229331107509DEE8F2748EEB46D3FCFDE",
+                                                "tcId": 11,
+                                                "persoString": "",
+                                                "nonce": "06C3FA3FF622D80D730297D1AF509F7D"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "45A33EE05A299113A6976D9F482B59405DB6D775554D2D97E82C9279B3DA9FCB",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "5807D168E89F34075E9BF77AC9E96C569F3F7230D07C893AE6FB8367FED3C544",
+                                                "returnedbits": "E4C75409343932DB6461139F954C60CB4D0C2845B21AA0A63E38D6E949C5273B",
+                                                "tcId": 12,
+                                                "persoString": "",
+                                                "nonce": "A075C7F0150D455DBDF6B803B0100789"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "4E76E333B995E8AC4762DF1BA883DE85BDA12EFD1780F0E28949ED2EB9BEBAE6",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "FF569057450D775807A6C64153CADB2970831DB7AECEC50651B0F6E7F6B7D473",
+                                                "returnedbits": "8BA467872C0D09303E76C8F39ECF46A1CDA0FDD6D82490A0F25CAFB31A04BAFE",
+                                                "tcId": 13,
+                                                "persoString": "",
+                                                "nonce": "8F90B41056A1322D8FD6AB7629A4317A"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "41CB7B47A9084C93B87EF5DCB5FC2B308393275E3E39C0F09BF83B28A1C56EC6",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "74544F33DB0D0CF0D15D24E0639A179E27CB3B4756C7BCEA478F70CB3D707C9B",
+                                                "returnedbits": "A9A60AA35AC75FA016895C91F2B442A2E24DD01F1830CCDC064FC0EC841EB455",
+                                                "tcId": 14,
+                                                "persoString": "",
+                                                "nonce": "5771282D1FCAB59CBFB856B7E2A2F7F4"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "8BF2524A188634445875486EFE9FCBD245EAEBB9781FF307CCB4107F643B36B6",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "B5829C8A4A20E2C16E2BB177798E613A2FC904A80105CE8E558512D0787229FF",
+                                                "returnedbits": "B8A6062210682D2BE16A0288A31FF2989F0FB0701B57FBE0DE6C6678AB7B5C3E",
+                                                "tcId": 15,
+                                                "persoString": "",
+                                                "nonce": "40B07342A06F4A46C07572798F789400"
+                                        }
+                                ],
+                                "derFunc": false,
+                                "tgId": 1,
+                                "entropyInputLen": 256,
+                                "persoStringLen": 0,
+                                "testType": "AFT",
+                                "reSeed": true,
+                                "nonceLen": 128,
+                                "predResistance": false,
+                                "additionalInputLen": 0
+                        },
+                        {
+                                "mode": "SHA2-256",
+                                "returnedBitsLen": 256,
+                                "tests": [
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "8DEEFC2D48D6412ACD41255AB5BF6FF8790626841985B658087BD6F15E78F003",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "5CDA3300B033ABAEDE8FA5618A0F02D1D07B6F0F33D8D74DEB50DEA9C7CFC3AB",
+                                                "returnedbits": "DD3B89B8FBAA84A889DE20A77554DF653BF706E73F0116A92AC63F1A18CFE559",
+                                                "tcId": 16,
+                                                "persoString": "2B7606C5",
+                                                "nonce": "BBBD0E4D8268D31E19D03E57C06DF8C8"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "30E8FB1772A106FFA86876B2F8C7B7D27F3B2EEBF9CFBD09D0A169ECCBCA0921",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "0DB82FC7E5CB21A0ABBFBAA5BA328EF3CC414AF3E1BBBCBF2CA18052EFD3976C",
+                                                "returnedbits": "6666FB7F629BFFC9F8D72CE59102978674F9F3366CBF0739D7799B352317FD4A",
+                                                "tcId": 17,
+                                                "persoString": "887FD5C5",
+                                                "nonce": "B5B587BAF5389A15512D4B5B538C9FD4"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "FE03736D725D720CAF71AC3D2ED832EED5B71455C18FAFAA22E77CCD53924D03",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "36B5751F5B46E2DB56750D3995AC33987FE242143F5E13B4581B367DD4929DAF",
+                                                "returnedbits": "5DE582805F69EC86249C04D2596935CEDB7C52E1785E6CB0B73CFF3D56D8931B",
+                                                "tcId": 18,
+                                                "persoString": "39D9DD8F",
+                                                "nonce": "CA9B324E297A8016B757E382B71290AB"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "997D5BC20BDFD1DABC899916939707812BCDCE034CB88CCE7F8EFE60543DB2A0",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "72BC821F8F7A802907245B472950C294C7E5AEEA319430F0E595683FD4514549",
+                                                "returnedbits": "8E35C4415F3F06025474827F97898AFFABC2B1ACAF18A7C71FAC72173648D660",
+                                                "tcId": 19,
+                                                "persoString": "FF7717EC",
+                                                "nonce": "2CD15704E6A2B17119EBF87CBE021E0E"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "D3D126BEEBE87FE5376D5A55ABCDE8C8F5063825519374EF7CC3F9051B21DADB",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "C9BED8118536E96D80CFB918555CC4C63DF9ED7354E641830B855E86AD98D0C0",
+                                                "returnedbits": "0F7347FBB81CD09939BEA3B63411803B7CDC080E40F3C662F628DB0AE0A0A003",
+                                                "tcId": 20,
+                                                "persoString": "FA25AB86",
+                                                "nonce": "F8C318741427C162696F58A05490BFA2"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "5CA00BA3F11C15AAF7BF30FEA38B1FC75935173B9C67503466A0BF4C5CE8FDD1",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "29C3AFA236B2F13DA1B7C0216A55094105D049509A157C27C22ABABEF2B23625",
+                                                "returnedbits": "7B0B8150190832FB590D7FDFA76C0B8A8D653AF6E68249DAE6756721F6FFEE73",
+                                                "tcId": 21,
+                                                "persoString": "9AAF1744",
+                                                "nonce": "60A6251B827CC8F50D9A436504760BAF"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "BD59BE4164C4E188DE7626E9436EE25A2185B94AF8C0B4368BB84B20B869B2F3",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "774953863E308B3CCDD4D6F56E776EC21F47D5F2CFE1B59ED8E0582B45696A9B",
+                                                "returnedbits": "38FD07CC53EDBD0004854015AEBC05D3EA2BFD04E34901437844ED8058F0F4D4",
+                                                "tcId": 22,
+                                                "persoString": "D3A2A59A",
+                                                "nonce": "B2ECA64533A5950201F63F50DF5C035A"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "D1EF2F43B2056C655709B1B03C47083428F76EDB564B7B88177E2B436610D259",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "59D3CB26D601B8C9A78B7D8470FA481F4BD08A7B357C0F30AF7DCA8F237EE176",
+                                                "returnedbits": "FA03822700205090E0DD7616BE1B257AAE129F480E7E5CCA624234C541106032",
+                                                "tcId": 23,
+                                                "persoString": "FB92B99B",
+                                                "nonce": "DBDCD435A10B978B6999D3EFFAE0798B"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "19BD62416B5061690BC141A3649B69FEBFF45FF8F1C032F3254C0504A58EF175",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "90E3E0B4A23C822F33255FE0D68D1B23EBCAAA5A427B0134BBD57163598B53DF",
+                                                "returnedbits": "F5AB92D3B12B6AE293B8BC510F06934AD459E95A31A1CA9BC59571EBD8CEEBD0",
+                                                "tcId": 24,
+                                                "persoString": "25486596",
+                                                "nonce": "BFB17EC6A230DF948C5C9AD4A411A674"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "C77D4F7235C9E53F4A0073C5EABFE0419D7C6665CC107D83393002E689618A7C",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "34C7FB39004A168A09CC39A9063557F563B54346335B3244E1CD93ADBF13E29E",
+                                                "returnedbits": "D295AA4DE92D9E42582D4158AAC4693554FD0FFBD1F57325F8BB78B06BA088E0",
+                                                "tcId": 25,
+                                                "persoString": "1A3F662F",
+                                                "nonce": "FB04CC1893A5DE13AEEFBD52822E48FF"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "277DE329A68F11DDFF83B7EFC5D45DBE191CFE2E7FCFA6856A3251024C7B695B",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "A2408CC2F16F7BE5A3D8686640F35F8B0802F5FF810232D4F0B03AB3FF03A96A",
+                                                "returnedbits": "4E7C2B25295FE78E1D966B833F09B12BC594BB38DED39641EBB6D48CB9B4D29D",
+                                                "tcId": 26,
+                                                "persoString": "CA1A870F",
+                                                "nonce": "E70002B5BDF1E3AC84651DFA8515A728"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "4C711C0EC4A7CC0C2B3A95F83DB4ADC1BF5CF5B51312F9F597750352CFE33E31",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "D888B05B85C2B7049C03B5A65B7B0FAF6804E58230F0D9239A072FCF903ECA96",
+                                                "returnedbits": "B00F4DC56C91B901F44689123351007C65CD0DF8824C54148B1E642E6BF7849B",
+                                                "tcId": 27,
+                                                "persoString": "FF153FC8",
+                                                "nonce": "27A909A41F1A19A691EFCCB7EB7DC688"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "5F8B5209F893A149E7ADBCCB529B211C9842FB9AA991AC2B94DC3937C4AC28FF",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "D88BE3A5967AC57A4298BAA68545FB3763188A06B1E6278B9F3A483B1DF69908",
+                                                "returnedbits": "5562B91D9F547613474C25BE23C1679C418F2FE124A0B4C8FB3DB9193FA456FC",
+                                                "tcId": 28,
+                                                "persoString": "0EC13088",
+                                                "nonce": "BFE0FCD6A3C7FBE6D35D240400A03220"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "49D877237ABC9065F7AF017B9D69AA89DB1F806427600B2ABECCC8002A274D8D",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "B39B510B6FC42F9D8C0F9751B9F0F867EEC4D0EB0AC2B1A5F53AB48E74BE6B48",
+                                                "returnedbits": "DCC826C61473B58FAB62B9D3B2FD5615D91F0F63C75B8696745C0FC8F603D006",
+                                                "tcId": 29,
+                                                "persoString": "2A13CECC",
+                                                "nonce": "950CA53ECAF7736FD54DABC2F9DE1633"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "E98C061891EDBB1F6AC3B5AEE22BE146D6B8632BD55918A4FDD6A5DD343309C5",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "9DE545B72115C8450FD1AC24C86D4C3489008775D5E99C279AEA462045105083",
+                                                "returnedbits": "25F7A3E13038BAED081D2CA846FEDCBFFCFBAF5429C804778B58EB4BB68B89D8",
+                                                "tcId": 30,
+                                                "persoString": "CC5D63BB",
+                                                "nonce": "97F5EDCC12BA90F7FFB67253DA52708C"
+                                        }
+                                ],
+                                "derFunc": false,
+                                "tgId": 2,
+                                "entropyInputLen": 256,
+                                "persoStringLen": 32,
+                                "testType": "AFT",
+                                "reSeed": true,
+                                "nonceLen": 128,
+                                "predResistance": false,
+                                "additionalInputLen": 0
+                        },
+                        {
+                                "mode": "SHA2-256",
+                                "returnedBitsLen": 256,
+                                "tests": [
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "BD2BC03051671EA3F58330849F24F523A80BE725E16E8A8BFD2F7D602C16662A",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "CBCCDD15428921E2F9E49035C9A905B4353237D30AAC5406DF16F4CAC322B129",
+                                                "returnedbits": "090EEBEB2E9C87A22FA34F4806A16E296BEAE738687EF48A7BF57E302DB34462",
+                                                "tcId": 31,
+                                                "persoString": "EB",
+                                                "nonce": "6B217984309944DE2EDE47C474B8B05F"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "0E0C4F5F912E9B0A5CB31CC877D13B2112976A8F55F04673C4C231018C4D7422",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "236431026682F1C1056F82917F3940A774B610FACB60E5CD6AAED53A43367CA4",
+                                                "returnedbits": "704A913A8B511772E8074665F67BA2A649A1150CA39277035940019CD0D06C4A",
+                                                "tcId": 32,
+                                                "persoString": "E4",
+                                                "nonce": "F962E7BCE3A9668D4BD7543313B0E13A"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "A2572353F245A0207A3F67C70626DD06F00F43AA0576EA181606570015DB4B8C",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "F4C314125FF5610C24C5CCFDE46DCB5B03B6407F473C44499DFD172987459A0C",
+                                                "returnedbits": "12B7953427DD3BDC9C024BE7556266CF4733075379A5A81F2488CB51EE1951EE",
+                                                "tcId": 33,
+                                                "persoString": "EA",
+                                                "nonce": "DFFAF72B83BC89DFEEC787FE0FF9D492"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "1CBC9B0DFBF7E49B8CB5E920E3B11968BBA81751723E826C188CA2C7E0A516A0",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "D10B90ABE2441961B6DF318DAFBEEE608DCDA8DA2425D64014239C217238899B",
+                                                "returnedbits": "36F6356ABF3DF905644C9CE1F4F6DD12A541B69921653059869AC2C43283E519",
+                                                "tcId": 34,
+                                                "persoString": "16",
+                                                "nonce": "F3B191C449A39DF5CB9A36DEC7D622C5"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "D23AD56D4B8A67EC4CEDFAC2FFE58943E0CAFBCA4AB7D165FF22B9B147883CDE",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "8F91D72E495A3B4FE37E15E9CDFF7B02C90103E86B1CCB1FD88AABB7D0BB368A",
+                                                "returnedbits": "04200DC2F8088939F5585BA6009D4AB720855EDE50D7DECFA70058D87FC74AED",
+                                                "tcId": 35,
+                                                "persoString": "65",
+                                                "nonce": "E96481DEF6DF0CFE9729F94094C0E497"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "00B8AFE6FAA4340080DE6B8590D53B1B5EAA8366569DA9F394BE6DCAC2C26DF1",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "44ADC4C995C2418F8587893F0634092E14CE75A9C62322555C3E7B8B899A58E3",
+                                                "returnedbits": "B59CF0596369BF2C306BF2AE8B1BB6989CB1CC4E0314C26F15805B2FB84632BE",
+                                                "tcId": 36,
+                                                "persoString": "66",
+                                                "nonce": "8AD71748633A78FC9FD320E90D739DF1"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "1ADC97CC7E32D7AA30D8E48049D4EA10E42FC026035521D61FFB8D510D4B8B22",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "3E527D5B7A631AB33E3E41C4E2F30F6C6C7786E5FB1FDD2FA92872C728FAF14B",
+                                                "returnedbits": "4830152D8D5A165B139726A5247410F1D70AEE54FA758FD89C827133A3FBD22E",
+                                                "tcId": 37,
+                                                "persoString": "5F",
+                                                "nonce": "234ADCC4A21A2AC19D1C07C634B73A44"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "01D7E94E7E933E04DB2B1238F4509753C909522E765E4F0B2FA8E1585DF316A0",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "21E1294D195817EA8EDE118476BC371869D6D5816C458935343F3A86741ADC40",
+                                                "returnedbits": "9ADB7BB98628D5F0E3FF6CF3ABD5416C4288C57ADC481CEA12254B087F6543A5",
+                                                "tcId": 38,
+                                                "persoString": "68",
+                                                "nonce": "2F5ABFCDAEBF1C581942943851355C77"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "C067047A6B6C579FB839D1705B8369168B728907E9B7A5E2DEB35B839A725A1A",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "DD6447EE2BFABA20481803C6881D12D924A167FAFE59602293A8BBAFF717865E",
+                                                "returnedbits": "23587C033CFACBCDA8ABC9101A4AA741F6FB81B9F276D5CCCDCDBBD272D7C510",
+                                                "tcId": 39,
+                                                "persoString": "B6",
+                                                "nonce": "38BD3B780F39F0C05ADC7A72818AF63E"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "69773D244EC60994360D2AC0020BD4DE749192A8B849FA14D159C1B27ADDCB90",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "D7AD0AFBA9E6A6BE65A587CC4269EEA9E554E78926D43C19DC3FC9D0F8382F38",
+                                                "returnedbits": "8190E8AC4C0BE8EBBD946D2201EE9CA582B84A2494A9D68A0F801B4D7A5C1CAD",
+                                                "tcId": 40,
+                                                "persoString": "B4",
+                                                "nonce": "ADADE65584E82F9515A3995A797FE082"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "F1081D8C2F00D63F0443598C443137AC4A08B6F9FE20F24318DB883C409C498E",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "268BAC88660097063494F121AD662CF4745062B81EE262F59D671C128264EDD8",
+                                                "returnedbits": "73709E54818314C767E8B3545F7A6551685B9DF95271756B58F0A848E8E17D84",
+                                                "tcId": 41,
+                                                "persoString": "85",
+                                                "nonce": "DC4B24762A4F93D0903886520C262FEA"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "F8EA3A56410B9278D63AF78EB94D4D646CA5C966484E8BF7DE190154846F6AEC",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "BD88D7F6C20C982FF4D2C2BC08327247DEAC9D476BE7304C914F8E410EF8A39D",
+                                                "returnedbits": "BEDDD703B5CFC682DEB5747DA26A0FE35EA21000CA946336B9ED86102D0919B1",
+                                                "tcId": 42,
+                                                "persoString": "E5",
+                                                "nonce": "DB8FCE105E6CBBFDD62B96D1C3AA55A0"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "DA4F3AE437BA230D61DD27823E5DAB31EFD4AC34F32D581E727FA31D0BBCD2A2",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "E38E48E8FAFD5BF47A93A0EC2ADE9CED96BF509130AAA34E44931C9A956E4E9F",
+                                                "returnedbits": "1566ED7BF07DC2049F0D4E03398EB1530E42CDC370C854BA9E1A43A967AFA577",
+                                                "tcId": 43,
+                                                "persoString": "63",
+                                                "nonce": "BCCFAD7CDEEF181714553E3EE5545309"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "3A794955AA5EE8C094CAAD3D6213EEF557A0684142BCACC2FADDF3E6963AE8A5",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "79A43295FDD5A51EF71972810153E9B37DFE0AEE4C2B7672F19AD9C6E5F6E938",
+                                                "returnedbits": "26CF50536A58723AAD28F2FC5CC68B3D899A53B261CB5EB425E670829A47D9A7",
+                                                "tcId": 44,
+                                                "persoString": "E9",
+                                                "nonce": "B6A67D81C7F021541C90BB71570A8233"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "FAEA77EEA0900D3D8D6BF5329278BA01166B7BFD1AEBA0ABFD18F133052B63ED",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "330F786026C89EF7F7F8E38D0ABAA7A3D1844EE87E6ED226658C68CC646FAFBC",
+                                                "returnedbits": "C92F2939338D3285795B5B73E0E3A9E9D150A2A60C14EC6ACA014DF4766DF824",
+                                                "tcId": 45,
+                                                "persoString": "88",
+                                                "nonce": "EFA4ED875F6C122E9849060C4D5DF0B5"
+                                        }
+                                ],
+                                "derFunc": false,
+                                "tgId": 3,
+                                "entropyInputLen": 256,
+                                "persoStringLen": 8,
+                                "testType": "AFT",
+                                "reSeed": true,
+                                "nonceLen": 128,
+                                "predResistance": false,
+                                "additionalInputLen": 0
+                        },
+                        {
+                                "mode": "SHA2-256",
+                                "returnedBitsLen": 256,
+                                "tests": [
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "D20979A7F1B2A60BE5BD34CDD5129BB33021382C6563543852D7FF412DAB7C9F",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "BEAAE64C9A22C6BE6BC8DBEC770F3164E354E0BB02B50B1C30FD6C1D33DBCBC6",
+                                                "returnedbits": "E009790B752E251D8E01EEBAD1F44852DE530672A0CEDD0F7532CA05C1DFE6E2",
+                                                "tcId": 46,
+                                                "persoString": "8CCE52",
+                                                "nonce": "2B29BA7EC1B8E19E4712ED5C609F914B"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "BE508E612315D5E4E03C9C8D7DBFE420EB497BA6A6F8315B02362C5B50F3F691",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "CCA11217866C12B9F43E31FA9664D48200868BAE6EB11BDE2E7D07804B5674C9",
+                                                "returnedbits": "81E1E4D22262B08C08DB18E11F08F80514DF487A3543FC298196FCDD91462869",
+                                                "tcId": 47,
+                                                "persoString": "A0154F",
+                                                "nonce": "5831CEEA719F9067186BFE2532DD39E1"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "D9023BCEC3840D7AD5A13AC0F5A09892290D4E7A9AF611865F38473EDE9C09E2",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "4A9074C33164C667A893004FA1B1523160A3935EACC7F6DA8F41E14AA1D996E6",
+                                                "returnedbits": "92233EFB1D24BA855D19203167A3495532AA4CA3FD812A09D05BE9908988C517",
+                                                "tcId": 48,
+                                                "persoString": "922469",
+                                                "nonce": "E676F572CA1B1056B0DF6C75E4B31D0E"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "8274675BCF56461C787CA45B0F38F8A000967D9C2174B375F547F6E7AD9147BB",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "0D99789FA19118CA1750333BEC2A7D8E4177C53520D79542EA58627ECA3A0AE5",
+                                                "returnedbits": "4BD775C53973099128CA7970A2281030CBE31E0AA8062DE991B4712E08BD3265",
+                                                "tcId": 49,
+                                                "persoString": "4114CE",
+                                                "nonce": "56425CCCC5CC4E9F3D82CB42923CF23F"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "EA8436AF1D22AD5321B7A406A256477BD10A26A0AA44190F642D4DFF63C84FA2",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "D8B4102A5110A798FD884AADB6C26D07CD0FF9CFB093BCC2B5AD332E245AFEBF",
+                                                "returnedbits": "41D7E21C3103D21CE2F9FF0A19DE2B321ECC6E6F342C4145846DB38412CC410C",
+                                                "tcId": 50,
+                                                "persoString": "15559E",
+                                                "nonce": "5A5106114AE0A19948A2E6CBA1EB5A95"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "B3B55691EC3E690C1D7ACA20016D0D751BBA07B28A5C23878B5D76753CCD7342",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "31F970370B30AFF977F453304CDCEA57422E163D251B5A6E2B751DC76572FAD5",
+                                                "returnedbits": "708588215B5D4A3109D6652B0B95D646BB6CCF33C65A5DF8D6DFE1F12BC2255A",
+                                                "tcId": 51,
+                                                "persoString": "94FC3B",
+                                                "nonce": "F5E055AEC692429757535595B7B4A86D"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "851149FE862325049DB8CD8830C5E27819DA4C5C5734051A7C5421CD095D95F4",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "D17DCEFEA804C0DC26F698621BA0DDE639DE486C950841D6F03167A2EA7FA7F6",
+                                                "returnedbits": "515616937D54E219B8DE17B7D23B138EDCAFF6BDA3F9D118A6277544164993E1",
+                                                "tcId": 52,
+                                                "persoString": "9FEA46",
+                                                "nonce": "BC3122C5475AD5B11076F0CDB461AEF3"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "8ADD38273892BC87A04C0F69C0F974A356374166AFE0FF89584850C6E0DA64C6",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "51310FBE0A593918B71B01F06ADE0DB03272956CAEC3BB17A8C1FF1BF76B7784",
+                                                "returnedbits": "D79BC787BF7E3A0EE67BBE6D0A4E83F112C126ED9C094BB2410F77F0BDFDE962",
+                                                "tcId": 53,
+                                                "persoString": "885F4A",
+                                                "nonce": "F2349D4BAEA950B2A43B3FD6EE2B5522"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "AAB4272693AAD783A28C56ACD92F6EA55067516103C2A57227B04D6B8190A8DA",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "4A001DA394FEEE1C839B25042536B0CAE65B4315B13F6016945430E141D0A029",
+                                                "returnedbits": "4E7A8DAAF2CAE086093B23159A75C16A2179B29E0DDCC69F6310CF9B848736FA",
+                                                "tcId": 54,
+                                                "persoString": "C9C37B",
+                                                "nonce": "408CDB174BC39B1A746E2681C0D917F1"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "F082C758348824DCE8383F565540988A469AC80B87543C76676C3452281F293C",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "AF0E38AC2E4C37F0FD372CDBAC22CF168BCDFC5AB781A5450BA4AF45CB708C98",
+                                                "returnedbits": "47218C8BBA2D6573B47F290E94E810A2C4E27903FB1A5E63DB73B17466602CC9",
+                                                "tcId": 55,
+                                                "persoString": "1EFC56",
+                                                "nonce": "DF8D80BDB01034F3DA00CF587EEF63B9"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "72F85DC34436A93A7C4B60BA731315533977D047450BA9CB072845F9ADBB7649",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "6D44E40E4F723E2BE866AC38FED595F0290B8748D99408442AEF73D5B62D8058",
+                                                "returnedbits": "A4CFDACFC03EA29384412CC5AFC55DA78FE1F8F7BAEFAF630C6BB6B45053C5C5",
+                                                "tcId": 56,
+                                                "persoString": "530C9E",
+                                                "nonce": "B23371CBB22EE825E064C0A3C6EC98B1"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "BCD9C0584D118376A13ED8056C4452A3F8848FFD688A6B2551C90D58EB00F1D6",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "64F87BFCD5745FB2FD31F129ABAD51C62E1D8761DA1D150730DDC8525A6B34FF",
+                                                "returnedbits": "FC27D1B4D4B53A8527D04965B7C73A10EA22A5362053E047FE69E0692800F619",
+                                                "tcId": 57,
+                                                "persoString": "86E265",
+                                                "nonce": "EF4064BAEF641475DBA62A24C968CD92"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "B230F7A41AAEE4049FD1FEB313819AC3D519B282AAD14F6A170EE2CF91C80D4E",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "7373F334EB8D283C50136A0EC8062CFB770C52C4CB9801B2D0139D06FE18C732",
+                                                "returnedbits": "C8785B5433A70EA3CAE6B56DF75BCAD8956510E4A3D89B43356AE8189FD0D0E9",
+                                                "tcId": 58,
+                                                "persoString": "1F37D8",
+                                                "nonce": "B2DB0566B260B18626CE1A99BA771E1F"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "13DB4D36EA60095D42E05DE0DD51DAA5AB258DBE9C280FDEC2C8B4C8A467F078",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "908CDD53BE4625101A3F5986D735594124A1145E16F058D106AF7AB782FBD4FD",
+                                                "returnedbits": "82408541388BCA13590C47634BB5D3255EB390ED1039275E864BF10B4F922AF0",
+                                                "tcId": 59,
+                                                "persoString": "A93C67",
+                                                "nonce": "48E3C96D880B4A2B2BF4A292EA9F1534"
+                                        },
+                                        {
+                                                "otherInput": [
+                                                        {
+                                                                "entropyInput": "0E36105CB10BCBB724AA621D205B30B6CF84A39CAD5B520950BA2A681226D003",
+                                                                "intendedUse": "reSeed",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        },
+                                                        {
+                                                                "entropyInput": "",
+                                                                "intendedUse": "generate",
+                                                                "additionalInput": ""
+                                                        }
+                                                ],
+                                                "entropyInput": "F9F4081E9D5A0126A09C32436B073A3F595D451F9B3423F3186D170AF742061F",
+                                                "returnedbits": "0BD101CA00B834851D99A754BEEEB66B9AD6AD6903E654DFBE08855FC1492531",
+                                                "tcId": 60,
+                                                "persoString": "71B26D",
+                                                "nonce": "71050E2EFA2C43C29EC48D61968E4C1C"
+                                        }
+                                ],
+                                "derFunc": false,
+                                "tgId": 4,
+                                "entropyInputLen": 256,
+                                "persoStringLen": 24,
+                                "testType": "AFT",
+                                "reSeed": true,
+                                "nonceLen": 128,
+                                "predResistance": false,
+                                "additionalInputLen": 0
+                        }
+                ],
+                "vsId": 2016993,
+                "algorithm": "hashDRBG",
+                "revision": "1.0"
+        }
+]
