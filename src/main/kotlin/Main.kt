@@ -102,7 +102,11 @@ fun App() {
                                 for (cavpTestFile in cavpTestFiles) {
                                     for (i in 0 until cavpTestFile.numberOfAlgorithm) {
                                         val numberOfTestGroup = cavpTestFile.numberOfTestGroups(i)
-                                        val algorithm_name = cavpTestFile.algorithmJsonLists[i].getString("algorithm")
+                                        var algorithm_name = cavpTestFile.algorithmJsonLists[i].getString("algorithm")
+                                        if(algorithm_name.lowercase().contains("ecdsa")){
+                                            val ecdsaOperationMode = cavpTestFile.algorithmJsonLists[i].getString("mode")
+                                            algorithm_name += "-$ecdsaOperationMode"
+                                        }
                                         val testCasesCount = cavpTestFile.getNumberOfAllTestCasesOfAlgorithm(i)
                                         testAlgorithmList.add("$algorithm_name ($numberOfTestGroup test groups, $testCasesCount test cases)")
                                     }

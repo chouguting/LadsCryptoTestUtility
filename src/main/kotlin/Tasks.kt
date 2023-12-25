@@ -1,5 +1,6 @@
 import cavp.CavpTestFile
 import ciphers.DRBGEngine
+import ciphers.ECDSAEngine
 import ciphers.SHAKEEngine
 import tw.edu.ntu.lads.chouguting.java.cipers.AESEngine
 import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
@@ -13,9 +14,18 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
         for (algorithmIndex in 0 until numberOfAlgorithm) {
             val algorithmName = cavpTestFile.algorithmJsonLists[algorithmIndex].getString("algorithm")
             val numberOfTestGroup = cavpTestFile.numberOfTestGroups(algorithmIndex)
+
+            val ecdsaOperationMode = if (algorithmName.lowercase().contains("ecdsa")) {
+                cavpTestFile.algorithmJsonLists[algorithmIndex].getString("mode")
+            } else {
+                ""
+            }
+
+
             for (testGroupIndex in 0 until numberOfTestGroup) {
                 val numberOfTestCases = cavpTestFile.numberOfTestCases(algorithmIndex, testGroupIndex)
                 val testType = cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getString("testType")
+                val currentTestGroup = cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex)
                 val aesDirection =
                     if (algorithmName.lowercase().contains("aes")) {
                         cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getString("direction")
@@ -54,6 +64,12 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
                     0
                 }
 
+                val ecdsaCurve = if (algorithmName.lowercase().contains("ecdsa")) {
+                    cavpTestFile.getTestGroup(algorithmIndex, testGroupIndex).getString("curve")
+                } else {
+                    ""
+                }
+
 
 
                 for (testCaseIndex in 0 until numberOfTestCases) {
@@ -80,6 +96,8 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
                         SHAEngine.runSHAWithTestCase(testCaseJson, algorithmName, testType, mctEnabled)
                     } else if (algorithmName.lowercase().contains("drbg")) {
                         DRBGEngine.runDrbgWithTestCase(testCaseJson, drbgReturnedBitsLen)
+                    }else if (algorithmName.lowercase().contains("ecdsa")) {
+                        ECDSAEngine.runEcdsaWithTestCase(currentTestGroup,testCaseJson, ecdsaCurve, ecdsaOperationMode)
                     }
 
                 }
