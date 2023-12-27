@@ -4,19 +4,20 @@ import org.bouncycastle.asn1.ASN1Integer
 import org.bouncycastle.asn1.ASN1Sequence
 import org.bouncycastle.asn1.DERSequence
 import org.bouncycastle.jce.ECNamedCurveTable
+import org.bouncycastle.jce.interfaces.ECPrivateKey
+import org.bouncycastle.jce.interfaces.ECPublicKey
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec
 import org.bouncycastle.jce.spec.ECNamedCurveSpec
+import org.bouncycastle.jce.spec.ECPrivateKeySpec
 import org.bouncycastle.util.encoders.Hex
-
 import org.json.JSONObject
 import tw.edu.ntu.lads.chouguting.java.cipers.CipherUtils
 import java.math.BigInteger
 import java.security.*
-import java.security.spec.ECParameterSpec
 import java.security.spec.ECPoint
-
 import java.security.spec.ECPublicKeySpec
+
 
 class ECDSAEngine(curveString: String) {
 
@@ -44,14 +45,20 @@ class ECDSAEngine(curveString: String) {
     fun generateKeyPair(): Pair<Pair<String, String>, String> {
 
         val keyPair = generator.generateKeyPair()
-        val privateKey = keyPair.private.encoded
-        val publicKey = keyPair.public as java.security.interfaces.ECPublicKey
 
-        val x = CipherUtils.bytesToHexString(publicKey.w.affineX.toByteArray())
-        val y = CipherUtils.bytesToHexString(publicKey.w.affineY.toByteArray())
-        return Pair(Pair(x, y), CipherUtils.bytesToHexString(privateKey))
+        //java.security.interfaces.ECPublicKey
+        //        val x = CipherUtils.bytesToHexString(publicKey.w.affineX.toByteArray())
+        //        val y = CipherUtils.bytesToHexString(publicKey.w.affineY.toByteArray())
+        val publicKey = keyPair.public as ECPublicKey
+        val x = CipherUtils.bytesToHexString(publicKey.q.affineXCoord.toBigInteger().toByteArray())
+        val y = CipherUtils.bytesToHexString(publicKey.q.affineYCoord.toBigInteger().toByteArray())
 
 
+        val private = keyPair.private
+        val privateKeyValue = (private as ECPrivateKey).d
+        val privateKeyHexString = CipherUtils.bytesToHexString(privateKeyValue.toByteArray())
+
+        return Pair(Pair(x, y), privateKeyHexString)
     }
 
 
@@ -65,6 +72,70 @@ class ECDSAEngine(curveString: String) {
         } catch (e: Exception) {
             false
         }
+    }
+
+    fun fixHashAlgorithmString(hashAlgorithm: String): String{
+        var hashAlgorithmString = hashAlgorithm
+
+        //fix the hash algorithm string to match the one in BC
+        if(hashAlgorithmString.contains("SHAKE-")){
+            hashAlgorithmString =hashAlgorithmString.replace("SHAKE-", "SHAKE")
+        }else if(hashAlgorithmString.contains("SHA2-")){
+            hashAlgorithmString =hashAlgorithmString.replace("SHA2-", "SHA-")
+        }
+        return hashAlgorithmString
+    }
+
+
+    fun generateSignature(hashAlgorithm: String, messageHexString: String, privateKeyHexString: String): Pair<String, String> {
+
+
+        //fix the hash algorithm string to match the one in BC
+        val hashAlgorithmString = fixHashAlgorithmString(hashAlgorithm)
+
+
+        //convert hex string to private key
+//        val ecSpec: ECNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec(curve.curveName)
+        val privateKeySpec = ECPrivateKeySpec(BigInteger(privateKeyHexString, 16), ecSpec)
+        val keyFactory = KeyFactory.getInstance("ECDSA", "BC")
+        val privateKey = keyFactory.generatePrivate(privateKeySpec)
+
+        //hash the message
+        val digest = MessageDigest.getInstance(hashAlgorithmString, "BC") //SHA256, SHA3-512, SHAKE128, SHAKE256...
+        val hashedMessageByteArray = digest.digest(CipherUtils.hexStringToBytes(messageHexString)) //hashed message
+
+        //sign the hashed message
+        val ecdsaSign = Signature.getInstance("NONEwithECDSA", "BC")
+        ecdsaSign.initSign(privateKey)
+        ecdsaSign.update(hashedMessageByteArray)
+        val signature = ecdsaSign.sign()
+
+        val asn1Sequence = ASN1Sequence.getInstance(signature)
+        val r = CipherUtils.bytesToHexString((asn1Sequence.getObjectAt(0) as ASN1Integer).value.toByteArray())
+        val s = CipherUtils.bytesToHexString((asn1Sequence.getObjectAt(1) as ASN1Integer).value.toByteArray())
+        return Pair(r, s)
+    }
+
+
+    fun verifySignature(message: String, hashAlgorithm: String, qx: String, qy: String, r: String, s: String): Boolean {
+        val hashAlgorithmString = fixHashAlgorithmString(hashAlgorithm)
+
+        val curveSpec = ECNamedCurveSpec(ecSpec.name, ecSpec.curve, ecSpec.g, ecSpec.n, ecSpec.h, ecSpec.seed)
+        val pointSpec = ECPoint(BigInteger(qx, 16), BigInteger(qy, 16))
+        val pubKeySpec = ECPublicKeySpec(pointSpec, curveSpec)
+
+        val kf = KeyFactory.getInstance("ECDSA", "BC")
+        val publicKey = kf.generatePublic(pubKeySpec)
+
+        val ecdsaVerify = Signature.getInstance("NONEwithECDSA", "BC")
+        ecdsaVerify.initVerify(publicKey)
+        val digest = MessageDigest.getInstance(hashAlgorithmString, "BC")
+        val hashedMessage = digest.digest(message.toByteArray())
+        ecdsaVerify.update(hashedMessage)
+
+        val signatureBytes = DERSequence(arrayOf(ASN1Integer(BigInteger(r, 16)), ASN1Integer(BigInteger(s, 16)))).encoded
+
+        return ecdsaVerify.verify(signatureBytes)
     }
 
 
@@ -94,21 +165,37 @@ class ECDSAEngine(curveString: String) {
                 }
 
                 "sigGen" -> {
-                    if(!currentTestGroupJsonObject.has("d")){
+                    if(!currentTestGroupJsonObject.has("d")){ //if no key, generate one
                         val keyPair = ecdsaEngine.generateKeyPair()
                         val publicKeyCurvePointXHexString = keyPair.first.first
                         val publicKeyCurvePointYHexString = keyPair.first.second
                         val privateKeyHexString = keyPair.second
-                        currentTestGroupJsonObject.put("qx", publicKeyCurvePointXHexString)
+                        currentTestGroupJsonObject.put("qx", publicKeyCurvePointXHexString) //have to add public key to test group
                         currentTestGroupJsonObject.put("qy", publicKeyCurvePointYHexString)
-                        currentTestGroupJsonObject.put("d", privateKeyHexString)
+                        currentTestGroupJsonObject.put("d", privateKeyHexString) //have to add private key to test group too
 //                        println("Generated key pair for sigGen")
                     }
-
+                    val privateKeyHexString = currentTestGroupJsonObject.getString("d")
+                    val messageHexString = testCaseJsonObject.getString("message")
+                    val hashAlgorithm = currentTestGroupJsonObject.getString("hashAlg")
+                    val signatureComponents = ecdsaEngine.generateSignature(hashAlgorithm, messageHexString, privateKeyHexString)
+                    val r = signatureComponents.first
+                    val s = signatureComponents.second
+                    testCaseJsonObject.put("r", r)
+                    testCaseJsonObject.put("s", s)
 
                 }
 
                 "sigVer" -> {
+                    val messageHexString = testCaseJsonObject.getString("message")
+                    val qx = testCaseJsonObject.getString("qx")
+                    val qy = testCaseJsonObject.getString("qy")
+                    val hashAlgorithm = currentTestGroupJsonObject.getString("hashAlg")
+                    val r = testCaseJsonObject.getString("r")
+                    val s = testCaseJsonObject.getString("s")
+                    val result = ecdsaEngine.verifySignature(messageHexString, hashAlgorithm, qx, qy, r, s)
+                    val resultString = if(result) "true" else "false"
+                    testCaseJsonObject.put("testPassed", resultString)
 
                 }
             }
@@ -141,16 +228,6 @@ fun generateECDSAKeyPair() {
     println("Public Key: ${CipherUtils.bytesToHexString(publicKey.encoded)}")
     println("publicKey length: ${publicKey.encoded.size}")
 
-//    for (i in 1..3) {
-//        val keyPair = generator.generateKeyPair()
-//        val publicKey = keyPair.public.encoded
-//        val privateKey = keyPair.private.encoded
-//
-//        println("KeyPair $i")
-//        println("Public Key: ${CipherUtils.bytesToHexString(publicKey)}")
-//        println("Private Key: ${CipherUtils.bytesToHexString(privateKey)}")
-//        println("-------------------------")
-//    }
 }
 
 fun generateSignatureComponents(message: String, privateKey: java.security.PrivateKey): Pair<String, String> {
@@ -165,7 +242,6 @@ fun generateSignatureComponents(message: String, privateKey: java.security.Priva
     val asn1Sequence = ASN1Sequence.getInstance(signature)
     val r = Hex.toHexString((asn1Sequence.getObjectAt(0) as ASN1Integer).value.toByteArray())
     val s = Hex.toHexString((asn1Sequence.getObjectAt(1) as ASN1Integer).value.toByteArray())
-    val ecdsaVerify = Signature.getInstance("SHA3-256withECDSA", "BC")
 
     return Pair(r, s)
 }
@@ -188,37 +264,39 @@ fun generateSignatureComponents(message: String, privateKey: java.security.Priva
 //    println("Signature Component S: $s")
 //}
 
-fun verifySignature(message: String, qx: String, qy: String, r: String, s: String): Boolean {
-    Security.addProvider(BouncyCastleProvider())
+//fun verifySignature(message: String, qx: String, qy: String, r: String, s: String): Boolean {
+//    Security.addProvider(BouncyCastleProvider())
+//
+//    val ecSpec: ECNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("P-521")
+//    val curveSpec = ECNamedCurveSpec(ecSpec.name, ecSpec.curve, ecSpec.g, ecSpec.n, ecSpec.h, ecSpec.seed)
+//    val pointSpec = ECPoint(BigInteger(qx, 16), BigInteger(qy, 16))
+//    val pubKeySpec = ECPublicKeySpec(pointSpec, curveSpec)
+//
+//
+//    val kf = KeyFactory.getInstance("ECDSA", "BC")
+//    val publicKey = kf.generatePublic(pubKeySpec)
+//
+//    val ecdsaVerify = Signature.getInstance("NONEwithECDSA", "BC")
+//    ecdsaVerify.initVerify(publicKey)
+//    val digest = MessageDigest.getInstance("SHAKE128", "BC")
+//    val hashedMessage = digest.digest(message.toByteArray())
+//    ecdsaVerify.update(hashedMessage)
+//
+//    val signatureBytes = DERSequence(arrayOf(ASN1Integer(BigInteger(r, 16)), ASN1Integer(BigInteger(s, 16)))).encoded
+//
+//    return ecdsaVerify.verify(signatureBytes)
+//}
 
-    val ecSpec: ECNamedCurveParameterSpec = ECNamedCurveTable.getParameterSpec("P-521")
-    val curveSpec = ECNamedCurveSpec(ecSpec.name, ecSpec.curve, ecSpec.g, ecSpec.n, ecSpec.h, ecSpec.seed)
-    val pointSpec = ECPoint(BigInteger(qx, 16), BigInteger(qy, 16))
-    val pubKeySpec = ECPublicKeySpec(pointSpec, curveSpec)
+//fun main() {
+//    val message = "B5E82AD0F2108DB990B868375935534934F53E4DC2A8995FF32BCAB1A4F250FEEEC6ABDA8C775CD3A86E2823043BCE8FDAC8F6DE6BCA2A60C3B6484FE33628B8DC6D7327C42D122AD3A918ED085C153B7BADE8CCAB2C6C61EE6F089EA2307DC05B31801A77493DC295A10AD72C18D0CB55EA7F60F683EA5D88EA7101EFA7CCDD"
+//    val qx = "008247B7595003994274C760C418BCFCE62743B5D52D59C03EDB4D9B0FCFCF8E01DDAD254B75B55AE92A73B09272BB317AF868F5C1D370D227F245097F8FB36C22F3"
+//    val qy = "01ED6AECEEF9558D1EA4AF2B9386B32464FB3FE11F1B96AE10F40F38E0910DB10992E4160DBEBF98F0575F429F7D6B122BDFB7EEBD098427FC23DF9BE56B8B8603B6"
+//    val r = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+//    val s = "01E84C23CD1307ADE0A1A2A111AF3B19D1504A082BA349039E85EA63C41CBBCA5E7EC9F61D5D63D0E2195CE9761885F2FA9BBA37FE89D5A848BE41A033A3A28A50DA"
+//
+//    val isVerified = verifySignature(message, qx, qy, r, s)
+//
+//    println("Signature Verified: $isVerified")
+//}
 
 
-    val kf = KeyFactory.getInstance("ECDSA", "BC")
-    val publicKey = kf.generatePublic(pubKeySpec)
-
-    val ecdsaVerify = Signature.getInstance("NONEwithECDSA", "BC")
-    ecdsaVerify.initVerify(publicKey)
-    val digest = MessageDigest.getInstance("SHAKE128", "BC")
-    val hashedMessage = digest.digest(message.toByteArray())
-    ecdsaVerify.update(hashedMessage)
-
-    val signatureBytes = DERSequence(arrayOf(ASN1Integer(BigInteger(r, 16)), ASN1Integer(BigInteger(s, 16)))).encoded
-
-    return ecdsaVerify.verify(signatureBytes)
-}
-
-fun main() {
-    val message = "B5E82AD0F2108DB990B868375935534934F53E4DC2A8995FF32BCAB1A4F250FEEEC6ABDA8C775CD3A86E2823043BCE8FDAC8F6DE6BCA2A60C3B6484FE33628B8DC6D7327C42D122AD3A918ED085C153B7BADE8CCAB2C6C61EE6F089EA2307DC05B31801A77493DC295A10AD72C18D0CB55EA7F60F683EA5D88EA7101EFA7CCDD"
-    val qx = "008247B7595003994274C760C418BCFCE62743B5D52D59C03EDB4D9B0FCFCF8E01DDAD254B75B55AE92A73B09272BB317AF868F5C1D370D227F245097F8FB36C22F3"
-    val qy = "01ED6AECEEF9558D1EA4AF2B9386B32464FB3FE11F1B96AE10F40F38E0910DB10992E4160DBEBF98F0575F429F7D6B122BDFB7EEBD098427FC23DF9BE56B8B8603B6"
-    val r = "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-    val s = "01E84C23CD1307ADE0A1A2A111AF3B19D1504A082BA349039E85EA63C41CBBCA5E7EC9F61D5D63D0E2195CE9761885F2FA9BBA37FE89D5A848BE41A033A3A28A50DA"
-
-    val isVerified = verifySignature(message, qx, qy, r, s)
-
-    println("Signature Verified: $isVerified")
-}
