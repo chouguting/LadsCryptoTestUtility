@@ -99,7 +99,7 @@ fun CavpResultGeneratorScreen() {
                                 for (i in 0 until cavpTestFile.numberOfAlgorithm) {
                                     val numberOfTestGroup = cavpTestFile.numberOfTestGroups(i)
                                     var algorithm_name = cavpTestFile.algorithmJsonLists[i].getString("algorithm")
-                                    if (algorithm_name.lowercase().contains("ecdsa")) {
+                                    if (algorithm_name.lowercase().contains("ecdsa") || algorithm_name.lowercase().contains("rsa")) {
                                         val ecdsaOperationMode = cavpTestFile.algorithmJsonLists[i].getString("mode")
                                         algorithm_name += "-$ecdsaOperationMode"
                                     }

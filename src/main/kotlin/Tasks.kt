@@ -1,6 +1,7 @@
 import cavp.CavpTestFile
 import ciphers.DRBGEngine
 import ciphers.ECDSAEngine
+import ciphers.RSAEngine
 import ciphers.SHAKEEngine
 import tw.edu.ntu.lads.chouguting.java.cipers.AESEngine
 import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
@@ -16,6 +17,12 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
             val numberOfTestGroup = cavpTestFile.numberOfTestGroups(algorithmIndex)
 
             val ecdsaOperationMode = if (algorithmName.lowercase().contains("ecdsa")) {
+                cavpTestFile.algorithmJsonLists[algorithmIndex].getString("mode")
+            } else {
+                ""
+            }
+
+            val rsaOperationMode = if (algorithmName.lowercase().contains("rsa")) {
                 cavpTestFile.algorithmJsonLists[algorithmIndex].getString("mode")
             } else {
                 ""
@@ -98,6 +105,8 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
                         DRBGEngine.runDrbgWithTestCase(testCaseJson, drbgReturnedBitsLen)
                     }else if (algorithmName.lowercase().contains("ecdsa")) {
                         ECDSAEngine.runEcdsaWithTestCase(currentTestGroup,testCaseJson, ecdsaCurve, ecdsaOperationMode)
+                    }else if(algorithmName.lowercase().contains("rsa")){
+                        RSAEngine.runRsaWithTestCase(currentTestGroup, testCaseJson, rsaOperationMode)
                     }
 
                 }

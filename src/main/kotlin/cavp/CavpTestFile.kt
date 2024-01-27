@@ -82,7 +82,7 @@ class CavpTestFile() {
     fun removeAlgorithmWithNameOf(name:String){
         for(i in 0 until numberOfAlgorithm){
             var algorithmName = algorithmJsonLists[i].getString("algorithm")
-            if(algorithmName.lowercase().contains("ecdsa")){ //ecdsa has mode
+            if(algorithmName.lowercase().contains("ecdsa") || algorithmName.lowercase().contains("rsa")){ //ecdsa has mode
                 val ecdsaOperationMode = algorithmJsonLists[i].getString("mode")
                 algorithmName += "-$ecdsaOperationMode"
             }
