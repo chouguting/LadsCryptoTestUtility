@@ -46,18 +46,15 @@ fun SerialToolScreen() {
     val receivedScrollState = rememberScrollState()
 
 
-    LaunchedEffect(coroutineScope) {
-
+    LaunchedEffect(true) {
         val serialPorts = SerialPort.getCommPorts();
         for (port in serialPorts) {
             commList.add(port)
         }
-
-
     }
 
+    //serial port coroutine
     LaunchedEffect(serialCoroutineScope){
-
         serialCoroutineScope.launch(Dispatchers.IO) {
             val console = Scanner(System.`in`)
             println("List COM ports")
@@ -109,10 +106,6 @@ fun SerialToolScreen() {
                             receivedText.value += Char(readBuffer[i].toUShort())
                             receivedText.value = receivedText.value.takeLast(1000)
                         }
-                        receivedScrollState.scrollTo(receivedScrollState.maxValue)
-
-
-                        //System.out.println();
                     }
                 }
             } catch (e: Exception) {
@@ -120,13 +113,12 @@ fun SerialToolScreen() {
             }
             commPorts[port].closePort()
         }
-
-
-
     }
 
-
-
+    //when receivedText changed, scroll to bottom
+    LaunchedEffect(receivedText.value){
+        receivedScrollState.scrollTo(receivedScrollState.maxValue)
+    }
 
 
     Column(
