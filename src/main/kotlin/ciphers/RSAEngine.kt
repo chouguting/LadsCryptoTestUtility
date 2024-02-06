@@ -20,6 +20,94 @@ import kotlin.collections.HashMap
 
 class RSAEngine(val keyLength: Int) {
 
+    fun String.startsWithTwoZero(): Boolean {
+        return this.startsWith("00")
+    }
+
+    fun String.trimTwoChar(): String {
+        return this.substring(2)
+    }
+
+    fun String.trimHexString(): String {
+        var hexString = this
+        while (hexString.startsWithTwoZero()) {
+            hexString = hexString.trimTwoChar()
+        }
+        return hexString
+    }
+
+
+
+
+    fun computeAProbablePrimeFactorBasedOnAuxiliaryPrimes(
+        r1:BigInteger,r2:BigInteger,
+        x:BigInteger, e:BigInteger
+    ):BigInteger{
+        //r =  ((r2^(-1) mod (2*r1)) * r2) – (((2*r1)^(–1) mod r2) * (2*r1))
+        //calculate the modular inverse of 2*r1(mod r2) and r2(mod 2*r1) first
+        val twoR1 = r1.multiply(BigInteger.TWO)
+        val inverseOfR2Mod2R1 = r2.modInverse(twoR1)
+        val inverseOf2R1ModR2 = twoR1.modInverse(r2)
+        val r = (inverseOfR2Mod2R1.multiply(r2)).subtract(inverseOf2R1ModR2.multiply(twoR1))
+
+        //y = x + ((r – x) mod (2*r1*r2))
+        var y = x.add(r.subtract(x).mod(r1.multiply(r2).multiply(BigInteger.TWO)))
+
+        //regenerate y until (GCD(Y–1, e) = 1) and y is a probable prime
+        //if (GCD(Y–1, e) = 1) and y is a probable prime, then return y
+        while (y.subtract(BigInteger.ONE).gcd(e) != BigInteger.ONE || !y.isProbablePrime(100)){
+            //Y = Y + (2*r1*r2)
+            y = y.add(r1.multiply(r2).multiply(BigInteger.TWO))
+        }
+        return y
+    }
+    fun generateKeyPairBasedOnAuxiliaryProbablePrimes(
+        xP1Hex:String,xP2Hex:String,xPHex:String,
+        xQ1Hex:String,xQ2Hex:String,xQHex:String, eHex: String): HashMap<String, String>{
+
+        val resultMap = HashMap<String,String>()
+        resultMap["e"] = eHex.trimHexString()
+        //Based on FIPS 186-4,
+        // Appendix B.3.6 Generation of Probable Primes with Conditions Based on Auxiliary Probable Primes
+        val xP = BigInteger(xPHex,16)
+        val xP1 = BigInteger(xP1Hex,16)
+        val xP2 = BigInteger(xP2Hex,16)
+        val xQ = BigInteger(xQHex,16)
+        val xQ1 = BigInteger(xQ1Hex,16)
+        val xQ2 = BigInteger(xQ2Hex,16)
+
+        val e = BigInteger(eHex,16)
+
+        val p1 = xP1.nextProbablePrime()
+        val p2 = xP2.nextProbablePrime()
+        val p = computeAProbablePrimeFactorBasedOnAuxiliaryPrimes(p1,p2,xP,e)
+        var pHex = CipherUtils.bytesToHexString(p.toByteArray()).trimHexString()
+
+
+        val q1 = xQ1.nextProbablePrime()
+        val q2 = xQ2.nextProbablePrime()
+        val q = computeAProbablePrimeFactorBasedOnAuxiliaryPrimes(q1,q2,xQ,e)
+        var qHex = CipherUtils.bytesToHexString(q.toByteArray()).trimHexString()
+
+        resultMap["p"] = pHex
+        resultMap["q"] = qHex
+
+        //calculate n = p * q
+        val n = p.multiply(q)
+        val nHex = CipherUtils.bytesToHexString(n.toByteArray())
+        resultMap["n"] = nHex.trimHexString()
+
+        //calculate lcm((p-1),(q-1))
+        val lcmPQ = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE)).divide(p.subtract(BigInteger.ONE).gcd(q.subtract(BigInteger.ONE)))
+
+        //calculate d = e^(-1) mod phi
+        val d = e.modInverse(lcmPQ)
+        val dHex = CipherUtils.bytesToHexString(d.toByteArray())
+        resultMap["d"] = dHex
+
+        return resultMap
+    }
+
     fun generateKeyPairWithE(eHexString: String): HashMap<String, String> {
         val keyPairMap = HashMap<String, String>()
         val publicExponent = BigInteger(eHexString, 16) // 預先設定的公鑰指數 e
@@ -169,15 +257,20 @@ class RSAEngine(val keyLength: Int) {
             val rsaEngine = RSAEngine(keyLength)
             when (rsaMode) {
                 "keyGen" -> {
-                    val publicEHexString = testCaseJsonObject.getString("e")
-                    val resultMap = rsaEngine.generateKeyPairWithE(publicEHexString)
+                    val eHex = testCaseJsonObject.getString("e")
+                    val xPHex = testCaseJsonObject.getString("xP")
+                    val xQHex = testCaseJsonObject.getString("xQ")
+                    val xP1Hex = testCaseJsonObject.getString("xP1")
+                    val xP2Hex = testCaseJsonObject.getString("xP2")
+                    val xQ1Hex = testCaseJsonObject.getString("xQ1")
+                    val xQ2Hex = testCaseJsonObject.getString("xQ2")
+                    val resultMap = rsaEngine.generateKeyPairBasedOnAuxiliaryProbablePrimes(
+                        xP1Hex, xP2Hex, xPHex, xQ1Hex, xQ2Hex, xQHex, eHex
+                    )
                     testCaseJsonObject.put("p", resultMap["p"])
                     testCaseJsonObject.put("q", resultMap["q"])
                     testCaseJsonObject.put("n", resultMap["n"])
                     testCaseJsonObject.put("d", resultMap["d"])
-                    if (BigInteger(publicEHexString, 16) != BigInteger(resultMap["e"], 16)) {
-                        throw ArithmeticException("KeyGen Error: numbers are not right!!")
-                    }
                 }
 
                 "sigGen" -> {
@@ -192,8 +285,9 @@ class RSAEngine(val keyLength: Int) {
                     val nHex = currentTestGroupJsonObject.getString("n")
                     val dHex = currentTestGroupJsonObject.getString("d")
                     val messageHex = testCaseJsonObject.getString("message")
+                    val isPSSmode = currentTestGroupJsonObject.getString("sigType") == "pss"
                     val hashAlgorithm = currentTestGroupJsonObject.getString("hashAlg").fixHashAlgorithmString()
-                    val signatureHex = rsaEngine.sign(messageHex, hashAlgorithm, nHex, dHex)
+                    val signatureHex = rsaEngine.sign(messageHex, hashAlgorithm, nHex, dHex,isPSSmode)
                     testCaseJsonObject.put("signature", signatureHex)
                 }
 
@@ -248,27 +342,27 @@ fun String.fixHashAlgorithmString(): String {
 }
 
 
-fun main() {
-    val rsaEngine = RSAEngine(2048)
-    val keyPair = rsaEngine.generateKeyPair()
-    val keyHashMap = keyPair.toHexHashMap()
-    val n = keyHashMap["n"]!!
-    val e = keyHashMap["e"]!!
-    val d = keyHashMap["d"]!!
-    val messageHex =
-        "924F36A50B41DB1BD15B3AEEB1E7496239379DDF8C757084BFF1F380DDF918C6288B4FA02390F3FC91272E19089577A71CDA87ACFC90A1E2EF5A35FE3D6D43FF744384298E653DC1E3996F2E585FDEF4EF31ED21F98D09ADB4DE066151D69601558679E78A67D80AFC8039053D55C1F5BC86D5D36E9986EE2A0F90677039411C"
-
-    val signature = rsaEngine.sign(messageHex, "SHA-256", n, d)
-    println("n: $n")
-    println("e: $e")
-    println("d: $d")
-    println("signature: $signature")
-
-    val verifyResult2 = rsaEngine.verify(messageHex, signature, "SHA-256", n, e)
-    println("verify result: $verifyResult2")
-
-
-}
+//fun main() {
+//    val rsaEngine = RSAEngine(2048)
+//    val keyPair = rsaEngine.generateKeyPair()
+//    val keyHashMap = keyPair.toHexHashMap()
+//    val n = keyHashMap["n"]!!
+//    val e = keyHashMap["e"]!!
+//    val d = keyHashMap["d"]!!
+//    val messageHex =
+//        "924F36A50B41DB1BD15B3AEEB1E7496239379DDF8C757084BFF1F380DDF918C6288B4FA02390F3FC91272E19089577A71CDA87ACFC90A1E2EF5A35FE3D6D43FF744384298E653DC1E3996F2E585FDEF4EF31ED21F98D09ADB4DE066151D69601558679E78A67D80AFC8039053D55C1F5BC86D5D36E9986EE2A0F90677039411C"
+//
+//    val signature = rsaEngine.sign(messageHex, "SHA-256", n, d)
+//    println("n: $n")
+//    println("e: $e")
+//    println("d: $d")
+//    println("signature: $signature")
+//
+//    val verifyResult2 = rsaEngine.verify(messageHex, signature, "SHA-256", n, e)
+//    println("verify result: $verifyResult2")
+//
+//
+//}
 
 
 //fun main() {
@@ -309,3 +403,21 @@ fun main() {
 //
 //    println("Signature verification: $isVerified")
 //}
+
+fun main() {
+    val xPHex = "C8FCAEC219F575BC0C747886A0AB68434A456E0B4E1E4B44F5A498F924FD113830700BAA1B8D9F0CAF00925203A78C8A4453B0612C5F4B6714A0EA529E11ADAEAA362564F48CA2832CFAAEF510FBC8E773FF46B925D97D6697453FD639518D4CAA68CA601A13889AD341B662D0161F6DF69C03AFB3D93128BC29D9DA2CCD1676"
+    val xQHex = "EA110FCD35A5E40B36121E964ACF66CF1D4FBA23267CD5EF4E3E09DB5F85191D2D11C2BCC674891683EFDB19C5E62B286C607887D52F0BC03DABDB585854EC22109D73ACB6B43B1D5CF1968DC8AF7D3213296C312146CAB180BF7B18BB6C8D09326945D5A55050E958054A5AEBBEF1D2430E2568B39DA50A9B035F64A1E9753B"
+    val xP1Hex = "1C01F6F900B9B5AAA0C5E107051C0C6D409A0B640425FE585F442E17D6F8C90B81878F46AFE57CE84609"
+    val xP2Hex = "18032A7A82723942A5E1DCE205DA817FB02242AB6F86C8863BDB"
+    val xQ1Hex = "06A0C1A61B7902AAAC204118DB11A4BB6A0C7D1B52CF58FDF377BFC3545135114E90FA95"
+    val xQ2Hex = "05DD700993BF18CD0BA77719B83C4C5B46C1A9A415D035B5E9EF445CDA45A7356B55573B6A0711FB513F7173DB"
+    val eHex = "1CAEAE631B"
+    val rsaEngine = RSAEngine(2048)
+    val result = rsaEngine.generateKeyPairBasedOnAuxiliaryProbablePrimes(xP1Hex, xP2Hex, xPHex, xQ1Hex, xQ2Hex, xQHex, eHex)
+    println("p:${result["p"]}")
+    println("q:${result["q"]}")
+    println("n:${result["n"]}")
+    println("d:${result["d"]}")
+    println("e:${result["e"]}")
+
+}
