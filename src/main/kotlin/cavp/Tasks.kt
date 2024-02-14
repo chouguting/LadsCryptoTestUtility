@@ -1,4 +1,5 @@
-import cavp.CavpTestFile
+package cavp
+
 import ciphers.DRBGEngine
 import ciphers.ECDSAEngine
 import ciphers.RSAEngine

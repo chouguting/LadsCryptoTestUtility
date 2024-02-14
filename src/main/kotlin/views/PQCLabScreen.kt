@@ -1,7 +1,9 @@
+package views
+
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -10,11 +12,13 @@ import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -22,12 +26,17 @@ import com.fazecast.jSerialComm.SerialPort
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.Year
 import java.util.*
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+
+@OptIn(
+    ExperimentalFoundationApi::class, ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalComposeUiApi::class
+)
 @Composable
 @Preview
-fun SerialToolScreen() {
+fun PQCLabScreen() {
 
     val commList = remember { mutableStateListOf<SerialPort>() }
     val selectedCommPortIndex = remember { mutableStateOf(0) }
@@ -46,110 +55,28 @@ fun SerialToolScreen() {
     val receivedScrollState = rememberScrollState()
 
 
-    LaunchedEffect(true) {
-        val serialPorts = SerialPort.getCommPorts();
-        for (port in serialPorts) {
-            commList.add(port)
-        }
-    }
 
-    //serial port coroutine
-    LaunchedEffect(serialCoroutineScope){
-        serialCoroutineScope.launch(Dispatchers.IO) {
-            val console = Scanner(System.`in`)
-            println("List COM ports")
-            delay(200)
-            var commPorts = SerialPort.getCommPorts()
-            while (commPorts.size == 0) {
-                delay(1000)
-                commPorts = SerialPort.getCommPorts()
-            }
-            for (i in commPorts.indices) println("comPorts[" + i + "] = " + commPorts[i].descriptivePortName)
-            val port = 0 // array index to select COM port
-            var currentCommPort = commPorts[port]
-            currentCommPort.openPort()
-            println("open port comPorts[" + port + "]  " + commPorts[port].descriptivePortName)
-            currentCommPort.setBaudRate(115200)
-            try {
-                while (true) {
-                    // if keyboard token entered read it
-                    if (System.`in`.available() > 0) {
-                        //System.out.println("enter chars ");
-                        val s = console.nextLine() + "\n" // read token
-                        val writeBuffer = s.toByteArray()
-                        currentCommPort.writeBytes(writeBuffer, writeBuffer.size)
-                        //System.out.println("write " + writeBuffer.length);
-                    }
-                    if(sendStart.value){
-                        val sendString = sendText.value
-                        val sendByte = sendString.toByteArray()
-                        println("send: ${String(sendByte)}")
-                        currentCommPort.writeBytes(sendByte, sendByte.size)
-                        sendText.value = ""
-                        sendStart.value = false
-                    }
-
-                    // read serial port  and display data
-                    while (currentCommPort.bytesAvailable() > 0) {
-                        val readBuffer = ByteArray(currentCommPort.bytesAvailable())
-                        val numRead = currentCommPort.readBytes(readBuffer, readBuffer.size)
-                        //System.out.print("Read " + numRead + " bytes from COM port: ");
-                        for (i in readBuffer.indices) print(Char(readBuffer[i].toUShort()))
-
-                        for (i in readBuffer.indices){
-                            if(readBuffer[i].toUShort() == 0x0A.toUShort()) {
-                                receivedText.value += "\n"
-                                continue
-                            }else if(readBuffer[i].toUShort() == 0x0D.toUShort()){
-                                continue
-                            }
-                            receivedText.value += Char(readBuffer[i].toUShort())
-                            receivedText.value = receivedText.value.takeLast(1000)
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            commPorts[port].closePort()
-        }
-    }
-
-    //when receivedText changed, scroll to bottom
-    LaunchedEffect(receivedText.value){
-        receivedScrollState.scrollTo(receivedScrollState.maxValue)
-    }
-
+    //for hiding keyboard and clear focus when click outside of text field
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    val interactionSource = remember { MutableInteractionSource() } // create an instance of interaction source
 
     Column(
         modifier = Modifier
             .background(Color.White)
             .fillMaxSize()
+            .clickable(
+                interactionSource = interactionSource, // pass the interaction source to the clickable
+                indication = null // disable the highlight(ripple) on click
+            ) {
+                focusManager.clearFocus() // clear focus on click
+                keyboardController?.hide() // hide the keyboard on click
+            }
             .padding(16.dp)
     ) {
 
         //Top bar
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End,
-            //.background(Color.Cyan)
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                "Serial Tool",
-                fontFamily = FontFamily.SansSerif,
-                style = MaterialTheme.typography.headlineLarge
-            )
-
-
-            Spacer(Modifier.weight(1f))
-            Image(
-                painter = painterResource("images/LaDS_logo.png"),
-                contentDescription = "LaDS Logo",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.size(width = 200.dp, height = 100.dp)
-            )
-        }
+        LadsTobBar("PQC Lab")
 
         //input file selection
         Row(modifier = Modifier.fillMaxSize()) {
@@ -192,7 +119,7 @@ fun SerialToolScreen() {
                                         dropDownMenuExpanded.value = false
                                         selectedCommPortIndex.value = index
                                     }
-                                   )
+                                )
                                 if(index != commList.size - 1) Divider()
                             }
                         }
@@ -237,11 +164,7 @@ fun SerialToolScreen() {
 
 
                 //bottom part
-                Text(
-                    "developed by Gordon Chou @ NTU LaDS 2023",
-                    fontFamily = FontFamily.SansSerif,
-                    style = MaterialTheme.typography.labelSmall
-                )
+                GordonFooter()
             }
 
             Column(
@@ -258,12 +181,4 @@ fun SerialToolScreen() {
     }
 
 
-}
-
-fun main() {
-    //test serial port
-    val serialPorts = SerialPort.getCommPorts();
-    for (port in serialPorts) {
-        println(port.systemPortName)
-    }
 }

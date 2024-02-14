@@ -1,3 +1,5 @@
+package views
+
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -20,6 +22,10 @@ import androidx.compose.ui.unit.dp
 import cavp.CavpTestFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import utils.pickInputFile
+import utils.pickOutputFolder
+import cavp.runAndSave
+import java.time.Year
 import java.util.ArrayList
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
@@ -57,25 +63,7 @@ fun CavpResultGeneratorScreen() {
     ) {
 
         //Top bar
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End,
-            //.background(Color.Cyan)
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                "CAVP Tool",
-                fontFamily = FontFamily.SansSerif,
-                style = MaterialTheme.typography.headlineLarge
-            )
-            Spacer(Modifier.weight(1f))
-            Image(
-                painter = painterResource("images/LaDS_logo.png"),
-                contentDescription = "LaDS Logo",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.size(width = 200.dp, height = 100.dp)
-            )
-        }
+        LadsTobBar("CAVP Tool")
 
         //input file selection
         Row(modifier = Modifier.fillMaxSize()) {
@@ -222,11 +210,7 @@ fun CavpResultGeneratorScreen() {
                 Spacer(modifier = Modifier.fillMaxSize().weight(1f))
 
                 //bottom part
-                Text(
-                    "developed by Gordon Chou @ NTU LaDS 2023",
-                    fontFamily = FontFamily.SansSerif,
-                    style = MaterialTheme.typography.labelSmall
-                )
+                GordonFooter()
             }
 
             //display file list

@@ -23,12 +23,15 @@ dependencies {
 
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
+    implementation(compose.material3)
     implementation(files("libraries/json-20231013.jar"))
     implementation(files("libraries/jSerialComm-2.10.4.jar"))
     implementation(platform("org.kotlincrypto.hash:bom:0.4.0"))
     implementation("org.kotlincrypto.hash:sha3")
     implementation("org.bouncycastle:bcprov-jdk15on:1.68")
     implementation ("org.bouncycastle:bcpkix-jdk15on:1.68")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+
 }
 
 tasks.compileJava {
