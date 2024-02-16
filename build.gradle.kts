@@ -54,6 +54,7 @@ compose.desktop {
                 //add dlls to the distribution
                 appResourcesRootDir.set(project.layout.projectDirectory.dir("resources")) //把外面那層的resources資料夾的內容放到exe裡面
 
+
             }
         }
         jvmArgs += "-splash:app/resources/loading.gif"

@@ -43,4 +43,10 @@ public class CipherUtils {
         result[0] = array[location];
         return result;
     }
+
+    public static void copyByteArray(byte[] to, byte[] from){
+        for(int i = 0; (i < from.length && i < to.length); i++){
+            to[i] = from[i];
+        }
+    }
 }

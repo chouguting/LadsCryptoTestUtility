@@ -16,18 +16,12 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.fazecast.jSerialComm.SerialPort
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.time.Year
-import java.util.*
 
 
 @OptIn(
@@ -38,21 +32,6 @@ import java.util.*
 @Preview
 fun PQCLabScreen() {
 
-    val commList = remember { mutableStateListOf<SerialPort>() }
-    val selectedCommPortIndex = remember { mutableStateOf(0) }
-
-
-    val coroutineScope = rememberCoroutineScope() //coroutine scope
-    val serialCoroutineScope = rememberCoroutineScope() //coroutine scope
-
-    val dropDownMenuExpanded = remember { mutableStateOf(false) }
-
-    val sendText = remember { mutableStateOf("") }
-    val sendStart = remember { mutableStateOf(false) }
-
-    val receivedText = remember { mutableStateOf("") }
-
-    val receivedScrollState = rememberScrollState()
 
 
 
@@ -60,6 +39,10 @@ fun PQCLabScreen() {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() } // create an instance of interaction source
+
+    var selectedPQCAlgorithm by remember { mutableStateOf(PQCAlgorithmsLabScreen.KyberLab) }
+
+    val dropDownMenuExpanded = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -78,105 +61,46 @@ fun PQCLabScreen() {
         //Top bar
         LadsTobBar("PQC Lab")
 
-        //input file selection
-        Row(modifier = Modifier.fillMaxSize()) {
-            Column(modifier = Modifier.weight(2f).fillMaxSize()) {
-
-                //select comm port
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(20.dp)
-                ) {
-                    Text("Selected Port: ", style = MaterialTheme.typography.bodyLarge)
-                    Text(if (commList.size > 0) commList[selectedCommPortIndex.value].systemPortName else "No port connected",style = MaterialTheme.typography.bodyLarge)
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Box(
-                        modifier = Modifier
-                            .wrapContentSize()
-                    ) {
-                        IconButton(onClick = {
-                            dropDownMenuExpanded.value = true
-                            coroutineScope.launch(Dispatchers.IO) {
-                                val serialPorts = SerialPort.getCommPorts()
-                                commList.clear()
-                                for (port in serialPorts) {
-                                    commList.add(port)
-                                }
-                            }
-                        }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
-                        }
-
-                        DropdownMenu(
-                            expanded = dropDownMenuExpanded.value,
-                            onDismissRequest = { dropDownMenuExpanded.value = false }
-                        ) {
-                            commList.forEachIndexed { index, comm ->
-                                DropdownMenuItem(
-                                    text = { Text(comm.systemPortName) },
-                                    onClick = {
-
-                                        dropDownMenuExpanded.value = false
-                                        selectedCommPortIndex.value = index
-                                    }
-                                )
-                                if(index != commList.size - 1) Divider()
-                            }
-                        }
-                    }
-
-
-                }
-
-                TextField(
-                    value = sendText.value,
-
-                    onValueChange = { sendText.value = it },
-                    textStyle = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(20.dp).height(300.dp).weight(1f).fillMaxWidth().clip(RoundedCornerShape(20.dp))
-
-                )
-
-
-                //send button
-                Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()){
-                    Button(onClick = {
-                        if(commList.size == 0) return@Button
-                        if(sendText.value.isBlank()) return@Button
-//                        val sendByte = sendText.value.toByteArray()
-//                        coroutineScope.launch(Dispatchers.IO) {
-//                            commList[selectedCommPortIndex.value].openPort()
-//                            commList[selectedCommPortIndex.value].setBaudRate(115200)
-//                            commList[selectedCommPortIndex.value].writeBytes(sendByte, sendByte.size)
-//                            println("send: ${String(sendByte)}")
-//                            commList[selectedCommPortIndex.value].closePort()
-//                            sendText.value = ""
-//                        }
-                        sendStart.value = true
-
-
-                    }, modifier = Modifier.padding(20.dp,0.dp)){
-                        Text("Send", style = MaterialTheme.typography.bodyLarge)
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Icon(Icons.Outlined.Send, contentDescription = "Localized description")
-                    }
-                }
-
-
-                //bottom part
-                GordonFooter()
-            }
-
-            Column(
-                modifier = Modifier.weight(1.8f).clip(RoundedCornerShape(20.dp)).background(Color.LightGray)
-                    .padding(10.dp).fillMaxSize().verticalScroll(receivedScrollState)
+        //select PQC algorithm
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            Text("Selected algorithm: ", style = MaterialTheme.typography.bodyLarge)
+            Text(selectedPQCAlgorithm.title,style = MaterialTheme.typography.bodyLarge)
+            Spacer(modifier = Modifier.width(20.dp))
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
             ) {
-                Text(receivedText.value, style = MaterialTheme.typography.bodyLarge)
+                IconButton(onClick = {
+                    dropDownMenuExpanded.value = true
+                }) {
+                    Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
+                }
+
+                DropdownMenu(
+                    expanded = dropDownMenuExpanded.value,
+                    onDismissRequest = { dropDownMenuExpanded.value = false }
+                ) {
+                    PQCAlgorithmsLabScreen.values().forEach { pqcAlgorithm ->
+                        DropdownMenuItem(
+                            text = { Text(pqcAlgorithm.title) },
+                            onClick = {
+                                dropDownMenuExpanded.value = false
+                                selectedPQCAlgorithm = pqcAlgorithm
+                            }
+                        )
+                    }
+                }
             }
-
-
         }
 
+        //input file selection
+        Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            selectedPQCAlgorithm.screen()
+        }
+        GordonFooter()
 
     }
 
