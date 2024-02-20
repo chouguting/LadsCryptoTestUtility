@@ -100,7 +100,7 @@ class RSAEngine(val keyLength: Int) {
         //calculate lcm((p-1),(q-1))
         val lcmPQ = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE)).divide(p.subtract(BigInteger.ONE).gcd(q.subtract(BigInteger.ONE)))
 
-        //calculate d = e^(-1) mod phi
+        //calculate d = e^(-1) mod lcmPQ
         val d = e.modInverse(lcmPQ)
         val dHex = CipherUtils.bytesToHexString(d.toByteArray())
         resultMap["d"] = dHex

@@ -22,8 +22,8 @@ public class KyberEngine {
 
     private final int KYBER_N = 256;
     private final int KYBER_Q = 3329;
-    public final int KYBER_SYMBYTES = 32; /* size in bytes of hashes, and seeds */
-    public final int KYBER_SSBYTES = 32; /* size in bytes of shared key */
+    private final int KYBER_SYMBYTES = 32; /* size in bytes of hashes, and seeds */
+    private final int KYBER_SSBYTES = 32; /* size in bytes of shared key */
     private final int KYBER_POLYBYTES = 384;
     final int KYBER_POLYVECBYTES = this.kyberAlg.getK() * KYBER_POLYBYTES;
 
@@ -33,11 +33,21 @@ public class KyberEngine {
 
 
 
-    public final int KYBER_PUBLICKEYBYTES = KYBER_POLYVECBYTES + KYBER_SYMBYTES;
-    public final int KYBER_PRIVATEKEYBYTES = KYBER_POLYVECBYTES+KYBER_PUBLICKEYBYTES+ 2*KYBER_SYMBYTES;
-    public final int KYBER_CIPHERTEXTBYTES;
+    public final int KYBER_KEM_PUBLICKEYBYTES = KYBER_POLYVECBYTES + KYBER_SYMBYTES;
+    public final int KYBER_KEM_PRIVATEKEYBYTES = KYBER_POLYVECBYTES+ KYBER_KEM_PUBLICKEYBYTES + 2*KYBER_SYMBYTES;
+    public final int KYBER_KEM_CIPHERTEXTBYTES;
 
-    public final int KYBER_SEEDBYTES = KYBER_SYMBYTES*2;
+    public final int KYBER_KEM_SHAREDSECRETBYTES = KYBER_SSBYTES;
+
+    public final int KYBER_KEM_SEEDBYTES = KYBER_SYMBYTES*2;
+
+    public final int KYBER_PKE_PLAINTEXTBYTES = KYBER_SYMBYTES;
+    public final int KYBER_PKE_PUBLICKEYBYTES = KYBER_POLYVECBYTES + KYBER_SYMBYTES;
+    public final int KYBER_PKE_PRIVATEKEYBYTES = KYBER_POLYVECBYTES;
+
+    public final int KYBER_PKE_CIPHERTEXTBYTES;
+
+    public final int KYBER_PKE_SEEDBYTES = KYBER_SYMBYTES;
 
 
     public KyberEngine() {
@@ -51,45 +61,92 @@ public class KyberEngine {
             KYBER_POLYVECCOMPRESSEDBYTES = 160;
             KYBER_POLYCOMPRESSEDBYTES = this.kyberAlg.getK() * 352;
         }
-        KYBER_CIPHERTEXTBYTES = KYBER_POLYVECCOMPRESSEDBYTES+ KYBER_POLYCOMPRESSEDBYTES;
+        KYBER_KEM_CIPHERTEXTBYTES = KYBER_POLYVECCOMPRESSEDBYTES+ KYBER_POLYCOMPRESSEDBYTES;
+        KYBER_PKE_CIPHERTEXTBYTES = KYBER_POLYVECCOMPRESSEDBYTES + KYBER_POLYCOMPRESSEDBYTES;
+    }
+
+
+    //Array generator
+    public byte[] getNewKemPublicKeyByteArray() {
+        return new byte[KYBER_KEM_PUBLICKEYBYTES];
+    }
+
+    public byte[] getNewKemPrivateKeyByteArray() {
+        return new byte[KYBER_KEM_PRIVATEKEYBYTES];
+    }
+
+    public byte[] getNewKemCipherTextByteArray() {
+        return new byte[KYBER_KEM_CIPHERTEXTBYTES];
+    }
+
+    public byte[] getNewKemSharedSecretByteArray() {
+        return new byte[KYBER_KEM_SHAREDSECRETBYTES];
+    }
+
+    public byte[] getNewKemSeedByteArray() {
+        return new byte[KYBER_KEM_SEEDBYTES];
+    }
+
+    public byte[] getNewPkePublicKeyByteArray() {
+        return new byte[KYBER_PKE_PUBLICKEYBYTES];
+    }
+
+    public byte[] getNewPkePrivateKeyByteArray() {
+        return new byte[KYBER_PKE_PRIVATEKEYBYTES];
+    }
+
+    public byte[] getNewPkeCipherTextByteArray() {
+        return new byte[KYBER_PKE_CIPHERTEXTBYTES];
+    }
+
+    public byte[] getNewPkeSeedByteArray() {
+        return new byte[KYBER_PKE_SEEDBYTES];
+    }
+
+    public byte[] getNewPkePlainTextByteArray() {
+        return new byte[KYBER_PKE_PLAINTEXTBYTES];
     }
 
 
     static {
         System.loadLibrary("app/resources/kyber");
     }
-    public native void keypair(byte[] publicKey, byte[] privateKey);
+    public native void kemKeypair(byte[] publicKey, byte[] privateKey);
 
-    public native void encapsulate(byte[] cipherText, byte[] sharedSecret, byte[] seed ,byte[] publicKey);
+    public native void kemEncapsulate(byte[] cipherText, byte[] sharedSecret, byte[] seed ,byte[] publicKey);
 
-    public native void decapsulate( byte[] sharedSecret, byte[] cipherText, byte[] privateKey);
+    public native void kemDecapsulate( byte[] sharedSecret, byte[] cipherText, byte[] privateKey);
+
+    public native void pkeKeypair( byte[] publicKey, byte[] privateKey);
+    public native void pkeEncrypt( byte[] cipherText, byte[] plainText, byte[] seed ,byte[] publicKey);
+    public native void pkeDecrypt( byte[] plainText, byte[] cipherText, byte[] privateKey);
 
     public static void main(String[] args) {
         KyberEngine kyberEngine = new KyberEngine();
-        byte[] publicKey = new byte[kyberEngine.KYBER_PUBLICKEYBYTES];
-        byte[] privateKey = new byte[kyberEngine.KYBER_PRIVATEKEYBYTES];
-        byte[] cipherText = new byte[kyberEngine.KYBER_CIPHERTEXTBYTES];
-        byte[] seed = new byte[kyberEngine.KYBER_SYMBYTES];
-        byte[] sharedSecretA = new byte[kyberEngine.KYBER_SSBYTES];
-        byte[] sharedSecretB = new byte[kyberEngine.KYBER_SSBYTES];
+        byte[] publicKey = new byte[kyberEngine.KYBER_KEM_PUBLICKEYBYTES];
+        byte[] privateKey = new byte[kyberEngine.KYBER_KEM_PRIVATEKEYBYTES];
+        byte[] cipherText = new byte[kyberEngine.KYBER_KEM_CIPHERTEXTBYTES];
+        byte[] seed = new byte[kyberEngine.KYBER_KEM_SEEDBYTES];
+        byte[] sharedSecretA = new byte[kyberEngine.KYBER_KEM_SHAREDSECRETBYTES];
+        byte[] sharedSecretB = new byte[kyberEngine.KYBER_KEM_SHAREDSECRETBYTES];
 
         System.out.println("====================\ninit\n====================");
-        System.out.println("public key length: "+kyberEngine.KYBER_PUBLICKEYBYTES);
-        System.out.println("private key length: "+kyberEngine.KYBER_PRIVATEKEYBYTES);
-        System.out.println("cipher text length: "+kyberEngine.KYBER_CIPHERTEXTBYTES);
+        System.out.println("public key length: "+kyberEngine.KYBER_KEM_PUBLICKEYBYTES);
+        System.out.println("private key length: "+kyberEngine.KYBER_KEM_PRIVATEKEYBYTES);
+        System.out.println("cipher text length: "+kyberEngine.KYBER_KEM_CIPHERTEXTBYTES);
         System.out.println("public key: "+CipherUtils.bytesToHexString(publicKey));
         System.out.println("private key: "+CipherUtils.bytesToHexString(privateKey));
         System.out.println();
 
-        kyberEngine.keypair(publicKey, privateKey);
+        kyberEngine.kemKeypair(publicKey, privateKey);
         System.out.println("====================\nkey pair generated\n====================");
         System.out.println("public key: "+CipherUtils.bytesToHexString(publicKey));
         System.out.println("private key: "+CipherUtils.bytesToHexString(privateKey));
         System.out.println();
 
-        for(int h=0;h<2;h++){
+        for(int h=0;h<200;h++){
             CipherUtils.copyByteArray(seed, CipherUtils.hexStringToBytes("1E"));
-            kyberEngine.encapsulate(cipherText, sharedSecretA, seed, publicKey);
+            kyberEngine.kemEncapsulate(cipherText, sharedSecretA, seed, publicKey);
             System.out.println("====================\nencapsulated\n====================");
             System.out.println("cipher text: "+CipherUtils.bytesToHexString(cipherText));
             System.out.println("shared secretA: "+CipherUtils.bytesToHexString(sharedSecretA));
@@ -99,7 +156,7 @@ public class KyberEngine {
         }
 
 
-        kyberEngine.decapsulate(sharedSecretB, cipherText, privateKey);
+        kyberEngine.kemDecapsulate(sharedSecretB, cipherText, privateKey);
         System.out.println("====================\ndecapsulated\n====================");
         System.out.println("shared secretB: "+CipherUtils.bytesToHexString(sharedSecretB));
         System.out.println("shared secretA: "+CipherUtils.bytesToHexString(sharedSecretA));

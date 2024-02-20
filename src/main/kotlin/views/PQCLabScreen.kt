@@ -40,7 +40,7 @@ fun PQCLabScreen() {
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() } // create an instance of interaction source
 
-    var selectedPQCAlgorithm by remember { mutableStateOf(PQCAlgorithmsLabScreen.KyberLab) }
+    var selectedPQCAlgorithm by remember { mutableStateOf(PQCAlgorithmsLabScreen.KyberKEMLab) }
 
     val dropDownMenuExpanded = remember { mutableStateOf(false) }
 
