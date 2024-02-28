@@ -46,13 +46,18 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Exe, TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "LadsCryptoTestUtility"
-            packageVersion = "1.0.0"
+            copyright = "© 2024 Ku-Ting, Chou. All rights reserved."
+            packageVersion = "1.0.1"
 
             windows {
                 iconFile.set(project.file("icons/LaDS_icon.ico"))
                 //add dlls to the distribution
                 appResourcesRootDir.set(project.layout.projectDirectory.dir("resources")) //把外面那層的resources資料夾的內容放到exe裡面
-
+                shortcut = true //在桌面上建立捷徑
+                upgradeUuid = "5f8dcd2d-810b-405c-ad62-ccb90cdcdfff" //安裝時的uuid
+                dirChooser = true  //在安裝時是否要選擇安裝路徑
+//                console = true  打開時會有cmd視窗
+                menuGroup = "LaDS"  //在開始選單裡面的資料夾名稱
 
             }
         }
