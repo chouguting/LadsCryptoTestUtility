@@ -23,11 +23,12 @@ fun sumValidationScreen() {
 
 suspend fun sumValidation(
     currentCommPort: SerialPort,
-    displayLog: MutableState<String>
+    displayLog: MutableState<String>,
+//    stopTest: MutableState<Boolean>
 ) {
     currentCommPort.openPort()
     currentCommPort.setBaudRate(115200)
-    for (i in 0..100) {
+    for (i in 0..2) {
         printlnTestLog("=====================================", displayLog)
         printlnTestLog("Test ${i + 1}", displayLog)
         //two random number

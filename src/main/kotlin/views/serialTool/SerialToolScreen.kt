@@ -29,7 +29,8 @@ import views.headerFooter.GordonFooter
 import views.headerFooter.LadsTobBar
 import java.util.*
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+@OptIn(
+    ExperimentalFoundationApi::class, ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
     ExperimentalComposeUiApi::class
 )
 @Composable
@@ -47,75 +48,90 @@ fun SerialToolScreen() {
 
     val sendText = remember { mutableStateOf("") }
     val sendStart = remember { mutableStateOf(false) }
+    val changePort = remember { mutableStateOf(false) }
 
     val receivedText = remember { mutableStateOf("") }
 
     val receivedScrollState = rememberScrollState()
 
 
-    LaunchedEffect(Unit) {
-        val serialPorts = SerialPort.getCommPorts();
-        for (port in serialPorts) {
-            commList.add(port)
-        }
-    }
-
     //serial port coroutine
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         serialCoroutineScope.launch(Dispatchers.IO) {
-            println("List COM ports")
+
+            println("coroutine started")
             delay(200)
+
             var commPorts = SerialPort.getCommPorts()
-            while (commPorts.size == 0) {
+            while (commPorts.size == 0 || dropDownMenuExpanded.value) {
+                println("getting port")
                 delay(1000)
                 commPorts = SerialPort.getCommPorts()
+
+            }
+
+            for (port in commPorts) {
+                commList.add(port)
             }
             for (i in commPorts.indices) println("comPorts[" + i + "] = " + commPorts[i].descriptivePortName)
-            val port = 0 // array index to select COM port
-            var currentCommPort = commPorts[port]
-            currentCommPort.openPort()
-            println("open port comPorts[" + port + "]  " + commPorts[port].descriptivePortName)
-            currentCommPort.setBaudRate(115200)
-            try {
-                while (isActive) {
 
-                    if(sendStart.value){
-                        println("send: ${sendText.value}")
-                        val sendString = sendText.value + "\n"
-                        val sendByte = sendString.toByteArray()
-                        currentCommPort.writeBytes(sendByte, sendByte.size)
-                        sendText.value = ""
-                        sendStart.value = false
-                    }
+            while (isActive) {
+                var currentCommPort = commList[selectedCommPortIndex.value]
+                currentCommPort.openPort()
+                println("open port comPorts[" + selectedCommPortIndex.value + "]  " + currentCommPort.descriptivePortName)
+                currentCommPort.setBaudRate(115200)
+                try {
+                    serialService@ while (isActive) {
 
-                    // read serial port and display data
-                    while (currentCommPort.bytesAvailable() > 0) {
-                        val readBuffer = ByteArray(currentCommPort.bytesAvailable())
-                        val numRead = currentCommPort.readBytes(readBuffer, readBuffer.size)
-                        //System.out.print("Read " + numRead + " bytes from COM port: ");
-                        for (i in readBuffer.indices) print(Char(readBuffer[i].toUShort()))
+                        if (sendStart.value) {
+                            sendStart.value = false
+                            println("send: ${sendText.value}")
+                            val sendString = sendText.value + "\n"
+                            val sendByte = sendString.toByteArray()
+                            currentCommPort.writeBytes(sendByte, sendByte.size)
+                            sendText.value = ""
+                            sendStart.value = false
+                            println("send start false")
+                        }
 
-                        for (i in readBuffer.indices){
-                            if(readBuffer[i].toUShort() == 0x0A.toUShort()) {
-                                receivedText.value += "\n"
-                                continue
-                            }else if(readBuffer[i].toUShort() == 0x0D.toUShort()){
-                                continue
+                        // read serial port and display data
+                        while (currentCommPort.bytesAvailable() > 0) {
+                            val readBuffer = ByteArray(currentCommPort.bytesAvailable())
+                            val numRead = currentCommPort.readBytes(readBuffer, readBuffer.size)
+                            //System.out.print("Read " + numRead + " bytes from COM port: ");
+                            for (i in readBuffer.indices) print(Char(readBuffer[i].toUShort()))
+
+                            for (i in readBuffer.indices) {
+                                if (readBuffer[i].toUShort() == 0x0A.toUShort()) {
+                                    receivedText.value += "\n"
+                                    continue
+                                } else if (readBuffer[i].toUShort() == 0x0D.toUShort()) {
+                                    continue
+                                }
+                                receivedText.value += Char(readBuffer[i].toUShort())
+                                receivedText.value = receivedText.value.takeLast(1000)
                             }
-                            receivedText.value += Char(readBuffer[i].toUShort())
-                            receivedText.value = receivedText.value.takeLast(1000)
+                        }
+                        if (changePort.value) {
+                            println("change port")
+                            changePort.value = false
+                            break@serialService
                         }
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
+                println("port closed")
+                currentCommPort.closePort()
             }
-            commPorts[port].closePort()
+
+
+            println("coroutine ended")
         }
     }
 
     //when receivedText changed, scroll to bottom
-    LaunchedEffect(receivedText.value){
+    LaunchedEffect(receivedText.value) {
         receivedScrollState.scrollTo(receivedScrollState.maxValue)
     }
 
@@ -141,7 +157,7 @@ fun SerialToolScreen() {
         //Top bar
         LadsTobBar("Serial Tool")
 
-        //input file selection
+        //comm port select and send text
         Row(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.weight(2f).fillMaxSize()) {
 
@@ -151,7 +167,10 @@ fun SerialToolScreen() {
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     Text("Selected Port: ", style = MaterialTheme.typography.bodyLarge)
-                    Text(if (commList.size > 0) commList[selectedCommPortIndex.value].systemPortName else "No port connected",style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        if (commList.size > 0) commList[selectedCommPortIndex.value].systemPortName else "No port connected",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                     Spacer(modifier = Modifier.width(20.dp))
                     Box(
                         modifier = Modifier
@@ -178,12 +197,12 @@ fun SerialToolScreen() {
                                 DropdownMenuItem(
                                     text = { Text(comm.systemPortName) },
                                     onClick = {
-
                                         dropDownMenuExpanded.value = false
                                         selectedCommPortIndex.value = index
+                                        changePort.value = true
                                     }
-                                   )
-                                if(index != commList.size - 1) Divider()
+                                )
+                                if (index != commList.size - 1) Divider()
                             }
                         }
                     }
@@ -196,9 +215,13 @@ fun SerialToolScreen() {
 
                     onValueChange = { sendText.value = it },
                     textStyle = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(20.dp).height(300.dp).weight(1f).fillMaxWidth().clip(RoundedCornerShape(20.dp)).onKeyEvent { keyEvent ->
+                    modifier = Modifier.padding(20.dp).height(300.dp).weight(1f).fillMaxWidth()
+                        .clip(RoundedCornerShape(20.dp)).onKeyEvent { keyEvent ->
                         if (keyEvent.key != Key.Enter && keyEvent.key != Key.NumPadEnter) return@onKeyEvent false //如果不是Enter鍵就不處理，回傳false代表事件傳遞給下一個處理者
+                        if (commList.size == 0) return@onKeyEvent true
+                        if (sendText.value.isBlank()) return@onKeyEvent true
                         sendStart.value = true //按下Enter鍵時，觸發sendStart
+
                         true //回傳true表示事件已經被處理
                         //因為預設按下enter時，focus會被清除，所以這裡要回傳true，表示事件已經被處理，不要再傳遞給下一個處理者
                     }
@@ -207,12 +230,12 @@ fun SerialToolScreen() {
 
 
                 //send button
-                Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()){
+                Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                     Button(onClick = {
-                        if(commList.size == 0) return@Button
-                        if(sendText.value.isBlank()) return@Button
+                        if (commList.size == 0) return@Button
+                        if (sendText.value.isBlank()) return@Button
                         sendStart.value = true
-                    }, modifier = Modifier.padding(20.dp,0.dp)){
+                    }, modifier = Modifier.padding(20.dp, 0.dp)) {
                         Text("Send", style = MaterialTheme.typography.bodyLarge)
                         Spacer(modifier = Modifier.width(10.dp))
                         Icon(Icons.Outlined.Send, contentDescription = "Localized description")

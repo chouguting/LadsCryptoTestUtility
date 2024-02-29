@@ -21,10 +21,12 @@ import androidx.compose.ui.unit.dp
 import com.fazecast.jSerialComm.SerialPort
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import views.PQCLabs.AlertMessageDialog
 import views.headerFooter.GordonFooter
 import views.headerFooter.LadsTobBar
+import kotlin.coroutines.cancellation.CancellationException
 
 
 enum class SerialTestItem(val testName: String, val testFunction: suspend (SerialPort, MutableState<String>) -> Unit) {
@@ -51,7 +53,8 @@ fun SerialValidationSystemScreen() {
 
 
     val coroutineScope = rememberCoroutineScope() //coroutine scope
-    val serialCoroutineScope = rememberCoroutineScope() //coroutine scope
+//    val serialCoroutineScope = rememberCoroutineScope() //coroutine scope
+
 
     val portDropDownMenuExpanded = remember { mutableStateOf(false) }
     val testDropDownMenuExpanded = remember { mutableStateOf(false) }
@@ -61,7 +64,7 @@ fun SerialValidationSystemScreen() {
 
     val receivedScrollState = rememberScrollState()
 
-    var currentCommPort: SerialPort = remember { SerialPort.getCommPorts()[0] }
+//    var currentCommPort: SerialPort = commList[selectedCommPortIndex.value]
 
     var showAlert = remember { mutableStateOf(false) }
     var alertMessage by remember { mutableStateOf("") }
@@ -91,6 +94,21 @@ fun SerialValidationSystemScreen() {
         receivedScrollState.scrollTo(receivedScrollState.maxValue)
     }
 
+    LaunchedEffect(Unit) {
+        val job = coroutineScope.coroutineContext.job // this fails if there is no job
+        job.invokeOnCompletion { cause ->
+            if (cause is CancellationException) {
+                // that's a normal cancellation
+                if (validationRunning) {
+                    println("Job cancelled")
+                    println("close port")
+                    commList[selectedCommPortIndex.value].closePort() //close the port if the job is cancelled
+                }
+            }
+        }
+    }
+
+
     //for hiding keyboard and clear focus when click outside of text field
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -112,8 +130,6 @@ fun SerialValidationSystemScreen() {
 
         //Top bar
         LadsTobBar("Serial Validation Platform")
-
-
 
         Row(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.weight(2f).fillMaxSize()) {
@@ -157,7 +173,6 @@ fun SerialValidationSystemScreen() {
                                 DropdownMenuItem(
                                     text = { Text(comm.systemPortName) },
                                     onClick = {
-
                                         portDropDownMenuExpanded.value = false
                                         selectedCommPortIndex.value = index
                                     }
@@ -217,9 +232,15 @@ fun SerialValidationSystemScreen() {
                     enabled = !validationRunning,
                     onClick = {
                         if (validationRunning) return@Button
-                        serialCoroutineScope.launch(Dispatchers.IO) {
+                        if (commList.size == 0) {
+                            alertMessage = "No port connected"
+                            showAlert.value = true
+                            return@Button
+                        }
+                        coroutineScope.launch(Dispatchers.IO) {
+
                             validationRunning = true
-                            selectedTestItem.value.testFunction(currentCommPort, displayLog)
+                            selectedTestItem.value.testFunction(commList[selectedCommPortIndex.value], displayLog)
                             validationRunning = false
                         }
                     }
