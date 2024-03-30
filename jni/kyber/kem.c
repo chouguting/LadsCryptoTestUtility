@@ -76,7 +76,7 @@ int crypto_kem_enc(uint8_t *ct,
   //hash_h(buf, buf, KYBER_SYMBYTES);   // fips202.c --> sha3_256
 
   /* Multitarget countermeasure for coins + contributory KEM */
-  hash_h(buf+KYBER_SYMBYTES, pk, KYBER_PUBLICKEYBYTES);   // fips202.c --> sha3_256
+  hash_h((uint8_t *)buf+KYBER_SYMBYTES, pk, KYBER_PUBLICKEYBYTES);   // fips202.c --> sha3_256
   hash_g(kr, buf, 2*KYBER_SYMBYTES);   // fips202.c --> sha3_512
 
   /* coins are in kr+KYBER_SYMBYTES */

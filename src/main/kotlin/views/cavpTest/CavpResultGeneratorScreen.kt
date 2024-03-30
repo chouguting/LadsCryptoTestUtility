@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import utils.pickInputFile
 import utils.pickOutputFolder
-import cavp.runAndSave
+import cavp.runCavp
 import views.headerFooter.GordonFooter
 import views.headerFooter.LadsTobBar
 import java.util.ArrayList
@@ -66,7 +66,7 @@ fun CavpResultGeneratorScreen() {
         //input file selection
         Row(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.weight(2f).fillMaxSize()) {
-                //choose input folder
+                //choose input file
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
@@ -176,7 +176,7 @@ fun CavpResultGeneratorScreen() {
                                     outputResult.value = "Running... Please wait"
 //                                        delay(2000)
                                     try {
-                                        runAndSave(cavpTestFiles, saveFolderPath, mctTestEnable.value)
+                                        runCavp(cavpTestFiles, saveFolderPath, mctTestEnable.value)
                                         outputResult.value =
                                             "Execution success! \nOutput files are saved to $saveFolderPath"
                                     } catch (e: Exception) {

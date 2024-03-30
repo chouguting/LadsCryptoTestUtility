@@ -28,8 +28,10 @@ class SHAKEEngine() {
             val shakeEngine = SHAKEEngine(shakeMode)
             val messageHexString = testCaseJsonObject.getString("msg")
 
-            if (testType == "MCT" && mctEnabled) { //Monte Carlo Test
+            if (testType.lowercase().contains("mct") && mctEnabled) { //Monte Carlo Test
                 shakeEngine.doMCTHash(testCaseJsonObject,messageHexString, shakeMaxOutLen, shakeMinOutLen)
+                return
+            }else if(testType.lowercase().contains("mct")){
                 return
             }
             val shakeOutLength = testCaseJsonObject.getInt("outLen")   //想要幾個bit

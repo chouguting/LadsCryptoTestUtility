@@ -2,6 +2,7 @@ package tw.edu.ntu.lads.chouguting.java.cipers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import views.validationSystem.ValidationTestCase;
 
 
 import javax.crypto.Cipher;
@@ -51,6 +52,8 @@ public class AESEngine {
         }
 
     }
+
+
 
     public String encrypt(String textHexString, String ivHexString, String keyHexString) {
         try {
@@ -371,6 +374,71 @@ public class AESEngine {
             String plainText = aesEngine.decrypt(textHexString, ivHexString, keyHexString);
             testCaseJsonObject.put("pt", plainText);
         }
+    }
+
+    public static int getCipherModeCode(String cipherMode, int keyLength) {
+        if (cipherMode.toUpperCase().contains(MODE_ECB)) {
+            if(keyLength == 128) return 10;
+            if(keyLength == 192) return 11;
+            if(keyLength == 256) return 12;
+        } else if (cipherMode.toUpperCase().contains(MODE_CBC)) {
+            if(keyLength == 128) return 1;
+            if(keyLength == 192) return 2;
+            if(keyLength == 256) return 3;
+        } else if (cipherMode.toUpperCase().contains(MODE_CFB8)) {
+            if(keyLength == 128) return 4;
+            if(keyLength == 192) return 5;
+            if(keyLength == 256) return 6;
+        } else if (cipherMode.toUpperCase().contains(MODE_CFB128)) {
+            if(keyLength == 128) return 7;
+            if(keyLength == 192) return 8;
+            if(keyLength == 256) return 9;
+        } else if (cipherMode.toUpperCase().contains(MODE_CTR)) {
+            if(keyLength == 128) return 13;
+            if(keyLength == 192) return 14;
+            if(keyLength == 256) return 15;
+        } else {
+            throw new IllegalArgumentException("Unsupported cipher mode: " + cipherMode);
+        }
+        return -1;
+    }
+
+    public static void extractValidationTestCase(ValidationTestCase validationTestCase, JSONObject testCaseJsonObject, String direction, String aesMode, int keyLength, String testType){
+
+        String textHexString = (direction.equalsIgnoreCase("encrypt")) ?
+                testCaseJsonObject.getString("pt") : testCaseJsonObject.getString("ct");
+        String keyHexString = testCaseJsonObject.getString("key");
+        String ivHexString = (testCaseJsonObject.has("iv")) ?
+                testCaseJsonObject.getString("iv") : "";
+
+        String resultHexString = (direction.equalsIgnoreCase("encrypt")) ?
+                testCaseJsonObject.getString("ct") : testCaseJsonObject.getString("pt");
+
+        //aes algorithm code = 1
+        validationTestCase.getInputs().add("1");
+
+        //cipher mode code
+        int cipherModeCode = getCipherModeCode(aesMode, keyLength);
+        validationTestCase.getInputs().add(String.valueOf(cipherModeCode));
+
+        //key length in bytes
+        validationTestCase.getInputs().add(String.valueOf((keyLength*2)/8));
+
+        //actual message
+        validationTestCase.getInputs().add(keyHexString+textHexString);
+        validationTestCase.getExpectedOutput().add( resultHexString);
+
+//        if(direction.equalsIgnoreCase("encrypt")){
+//            validationTestCase.getInputs().add(textHexString+keyHexString);
+////            validationTestCase.getInputs().add(keyHexString);
+////            validationTestCase.getInputs().add(ivHexString);
+//            validationTestCase.getExpectedOutput().add( resultHexString);
+//        }else{
+//            validationTestCase.getInputs().add(textHexString+keyHexString);
+////            validationTestCase.getInputs().add();
+////            validationTestCase.getInputs().add(ivHexString);
+//            validationTestCase.getExpectedOutput().add( resultHexString);
+//        }
     }
 
 

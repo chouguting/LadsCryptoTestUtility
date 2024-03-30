@@ -9,26 +9,50 @@ extern "C" {
 #endif
 /*
  * Class:     tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine
- * Method:    keypair
+ * Method:    kemKeypair
  * Signature: ([B[B)V
  */
-JNIEXPORT void JNICALL Java_tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine_keypair
+JNIEXPORT void JNICALL Java_tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine_kemKeypair
   (JNIEnv *, jobject, jbyteArray, jbyteArray);
 
 /*
  * Class:     tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine
- * Method:    encapsulate
+ * Method:    kemEncapsulate
  * Signature: ([B[B[B[B)V
  */
-JNIEXPORT void JNICALL Java_tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine_encapsulate
+JNIEXPORT void JNICALL Java_tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine_kemEncapsulate
   (JNIEnv *, jobject, jbyteArray, jbyteArray, jbyteArray, jbyteArray);
 
 /*
  * Class:     tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine
- * Method:    decapsulate
+ * Method:    kemDecapsulate
  * Signature: ([B[B[B)V
  */
-JNIEXPORT void JNICALL Java_tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine_decapsulate
+JNIEXPORT void JNICALL Java_tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine_kemDecapsulate
+  (JNIEnv *, jobject, jbyteArray, jbyteArray, jbyteArray);
+
+/*
+ * Class:     tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine
+ * Method:    pkeKeypair
+ * Signature: ([B[B)V
+ */
+JNIEXPORT void JNICALL Java_tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine_pkeKeypair
+  (JNIEnv *, jobject, jbyteArray, jbyteArray);
+
+/*
+ * Class:     tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine
+ * Method:    pkeEncrypt
+ * Signature: ([B[B[B[B)V
+ */
+JNIEXPORT void JNICALL Java_tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine_pkeEncrypt
+  (JNIEnv *, jobject, jbyteArray, jbyteArray, jbyteArray, jbyteArray);
+
+/*
+ * Class:     tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine
+ * Method:    pkeDecrypt
+ * Signature: ([B[B[B)V
+ */
+JNIEXPORT void JNICALL Java_tw_edu_ntu_lads_chouguting_java_cipers_KyberEngine_pkeDecrypt
   (JNIEnv *, jobject, jbyteArray, jbyteArray, jbyteArray);
 
 #ifdef __cplusplus

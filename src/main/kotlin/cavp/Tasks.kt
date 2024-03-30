@@ -8,7 +8,9 @@ import tw.edu.ntu.lads.chouguting.java.cipers.AESEngine
 import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
 
 
-fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mctEnabled: Boolean) {
+
+
+fun runCavp(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mctEnabled: Boolean, save :Boolean = true) {
 //    delay(1000)
     println("runAndSave on ${Thread.currentThread().name}")
     for (cavpTestFile in cavpTestFiles) {
@@ -92,6 +94,7 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
                             mctEnabled
                         )
                     } else if (algorithmName.lowercase().contains("shake")) {  //"shake"裡面有"sha"，所以要先判斷"shake"
+
                         SHAKEEngine.runSHAKEWithTestCase(
                             testCaseJson,
                             algorithmName,
@@ -100,6 +103,8 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
                             shakeMaxOutLen,
                             shakeMinOutLen
                         )
+
+
                     } else if (algorithmName.lowercase().contains("sha")) {
                         SHAEngine.runSHAWithTestCase(testCaseJson, algorithmName, testType, mctEnabled)
                     } else if (algorithmName.lowercase().contains("drbg")) {
@@ -114,7 +119,10 @@ fun runAndSave(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mct
 
             }
         }
-        cavpTestFile.saveRspToFolder(saveToFolder)
+        if(save){
+            cavpTestFile.saveRspToFolder(saveToFolder)
+        }
+
     }
 }
 
