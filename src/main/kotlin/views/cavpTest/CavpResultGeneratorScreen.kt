@@ -16,12 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import cavp.CavpTestFile
+import cavpTestUtils.CavpTestFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import utils.pickInputFile
 import utils.pickOutputFolder
-import cavp.runCavp
+import cavpTestUtils.runCavp
 import views.headerFooter.GordonFooter
 import views.headerFooter.LadsTobBar
 import java.util.ArrayList

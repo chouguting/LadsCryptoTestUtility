@@ -9,6 +9,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.fazecast.jSerialComm.SerialPort
 import kotlinx.coroutines.delay
+import views.validationSystem.TestControlBundle
 import views.validationSystem.printlnTestLog
 
 @OptIn(
@@ -23,12 +24,15 @@ fun sumValidationScreen() {
 
 
 suspend fun sumValidation(
-
-    displayLog: MutableState<String>,
-    sendText: MutableState<String>,
-    sendStart: MutableState<Boolean>,
+//    displayLog: MutableState<String>,
+//    sendText: MutableState<String>,
+    testControlBundle: TestControlBundle,
+//    sendStart: MutableState<Boolean>,
 //    stopTest: MutableState<Boolean>
 ) {
+    val displayLog = testControlBundle.displayLog
+    val sendText = testControlBundle.sendText
+    val sendStart = testControlBundle.sendStart
 
     for (i in 0..20) {
         printlnTestLog("=====================================", displayLog)

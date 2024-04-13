@@ -1,7 +1,7 @@
 package utils
 
 import androidx.compose.runtime.MutableState
-import cavp.CavpTestFile
+import cavpTestUtils.CavpTestFile
 import java.io.File
 import javax.swing.JFileChooser
 import javax.swing.JFrame

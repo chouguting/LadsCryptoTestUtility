@@ -411,22 +411,56 @@ public class AESEngine {
         String ivHexString = (testCaseJsonObject.has("iv")) ?
                 testCaseJsonObject.getString("iv") : "";
 
+        if(direction.equalsIgnoreCase("encrypt")) {
+            validationTestCase.getInputMap().put("pt", textHexString);
+        }else{
+            validationTestCase.getInputMap().put("ct", textHexString);
+        }
+        validationTestCase.getInputMap().put("key", keyHexString);
+
+        if(testCaseJsonObject.has("iv")) validationTestCase.getInputMap().put("iv", ivHexString);
+
+        int textByteLength = (textHexString.length()/2); //兩個字元代表一個byte，所以要除以2
+        int keyByteLength = (keyHexString.length()/2);
+        int ivByteLength = (ivHexString.length()/2);
+
+
         String resultHexString = (direction.equalsIgnoreCase("encrypt")) ?
                 testCaseJsonObject.getString("ct") : testCaseJsonObject.getString("pt");
 
         //aes algorithm code = 1
-        validationTestCase.getInputs().add("1");
+        validationTestCase.getInputList().add("1");
 
         //cipher mode code
         int cipherModeCode = getCipherModeCode(aesMode, keyLength);
-        validationTestCase.getInputs().add(String.valueOf(cipherModeCode));
+        validationTestCase.getInputList().add(String.valueOf(cipherModeCode));
+
 
         //key length in bytes
-        validationTestCase.getInputs().add(String.valueOf((keyLength*2)/8));
+        if(aesMode.toUpperCase().contains(MODE_ECB)){
+            validationTestCase.getInputList().add(String.valueOf(textByteLength+keyByteLength));
+            validationTestCase.getInputList().add(keyHexString+textHexString);
+        }else if(aesMode.toUpperCase().contains(MODE_CBC)){
+            //如果不是ECB 要有IV
+            validationTestCase.getInputList().add(String.valueOf(keyByteLength+textByteLength+ivByteLength));
+            validationTestCase.getInputList().add(keyHexString+textHexString+ivHexString);
+        }else if(aesMode.toUpperCase().contains(MODE_CTR)){
+            validationTestCase.getInputList().add(String.valueOf(keyByteLength+textByteLength+ivByteLength));
+            validationTestCase.getInputList().add(keyHexString+ivHexString+textHexString);
+        }else{
+            validationTestCase.getInputList().add(String.valueOf(keyByteLength+textByteLength+ivByteLength));
+            validationTestCase.getInputList().add(keyHexString+ivHexString+textHexString);
+        }
 
         //actual message
-        validationTestCase.getInputs().add(keyHexString+textHexString);
-        validationTestCase.getExpectedOutput().add( resultHexString);
+        validationTestCase.getExpectedOutputList().add( resultHexString);
+
+
+        if(direction.equalsIgnoreCase("encrypt")) {
+            validationTestCase.getExpectedOutputMap().put("ct", resultHexString);
+        }else{
+            validationTestCase.getExpectedOutputMap().put("pt", resultHexString);
+        }
 
 //        if(direction.equalsIgnoreCase("encrypt")){
 //            validationTestCase.getInputs().add(textHexString+keyHexString);
