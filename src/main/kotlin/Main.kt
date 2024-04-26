@@ -68,6 +68,7 @@ fun main() = application {
 //    Window(onCloseRequest = ::exitApplication) {
 //        App()
 //    }
+
     val state = rememberWindowState(
         placement = WindowPlacement.Floating,
         position = WindowPosition(Alignment.Center),
