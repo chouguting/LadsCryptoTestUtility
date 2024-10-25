@@ -6,7 +6,10 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.*
@@ -109,7 +112,7 @@ fun SerialToolScreen() {
                                     continue
                                 }
                                 receivedText.value += Char(readBuffer[i].toUShort())
-                                receivedText.value = receivedText.value.takeLast(1000)
+                                receivedText.value = receivedText.value.takeLast(10000)
                             }
                         }
                         if (changePort.value) {
@@ -247,11 +250,29 @@ fun SerialToolScreen() {
                 GordonFooter()
             }
 
-            Column(
+
+            Row(
                 modifier = Modifier.weight(1.8f).clip(RoundedCornerShape(20.dp)).background(Color.LightGray)
-                    .padding(10.dp).fillMaxSize().verticalScroll(receivedScrollState)
+                    .padding(10.dp).fillMaxSize(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(receivedText.value, style = MaterialTheme.typography.bodyLarge)
+                Column(
+                    modifier = Modifier.weight(1f).fillMaxSize().verticalScroll(receivedScrollState),
+                ) {
+                    SelectionContainer() {
+                        Text(receivedText.value, style = MaterialTheme.typography.bodyLarge)
+                    }
+                }
+                IconButton(onClick = {
+                    receivedText.value = ""
+                }) {
+                    Icon(Icons.Default.Delete, contentDescription = "clear received text")
+                }
+                VerticalScrollbar(
+                    rememberScrollbarAdapter(receivedScrollState),
+                    Modifier.fillMaxHeight()
+                )
+
             }
 
 
