@@ -1,6 +1,7 @@
 package utils
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import cavpTestUtils.CavpTestFile
 import java.io.File
 import javax.swing.JFileChooser
@@ -15,7 +16,8 @@ fun pickInputFile(
     cavpTestFiles: ArrayList<CavpTestFile>,
     loadedFilesInfo: MutableState<String>,
     fileLoaded: MutableState<Boolean>,
-    outputResult: MutableState<String>
+    outputResult: MutableState<String>,
+    loadingIndicator: MutableState<Boolean> = mutableStateOf(false)
 ) {
 
 //            fileChooser.setFileFilter(new FileNameExtensionFilter("request file (*.req)", "req"));
@@ -31,6 +33,7 @@ fun pickInputFile(
     fileChooser.setDialogTitle("Choose files")
     val userSelection = fileChooser.showOpenDialog(JFrame())
     if (userSelection == JFileChooser.APPROVE_OPTION) {
+        loadingIndicator.value = true
         val selectedFiles = fileChooser.selectedFiles
 //        val selectedFilePath = ArrayList<String>()
         var testCaseCount = 0;
@@ -54,6 +57,7 @@ fun pickInputFile(
             cavpTestFiles.add(CavpTestFile(file.absolutePath))
             testCaseCount += cavpTestFiles.last().getNumberOfAllTestCases()
         }
+        loadingIndicator.value = false
         loadedFilesInfo.value = "${cavpTestFiles.size} files loaded, found $testCaseCount test cases"
         if (cavpTestFiles.size > 0) {
             fileLoaded.value = true

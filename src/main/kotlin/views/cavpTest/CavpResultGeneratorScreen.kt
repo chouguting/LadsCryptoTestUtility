@@ -61,7 +61,7 @@ fun CavpResultGeneratorScreen() {
     ) {
 
         //Top bar
-        LadsTobBar("CAVP Tool")
+        LadsTobBar("CAVP Result Generator")
 
         //input file selection
         Row(modifier = Modifier.fillMaxSize()) {

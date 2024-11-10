@@ -59,33 +59,105 @@ fun SerialToolScreen() {
 
 
     //serial port coroutine
-    LaunchedEffect(Unit) {
-        serialCoroutineScope.launch(Dispatchers.IO) {
+//    LaunchedEffect(Unit) {
+//        serialCoroutineScope.launch(Dispatchers.IO) {
+//
+//            println("coroutine started")
+//            delay(200)
+//
+//            var commPorts = SerialPort.getCommPorts()
+//            while (commPorts.size == 0 || dropDownMenuExpanded.value) {
+//                println("getting port")
+//                delay(1000)
+//                commPorts = SerialPort.getCommPorts()
+//
+//            }
+//
+//            for (port in commPorts) {
+//                commList.add(port)
+//            }
+//            for (i in commPorts.indices) println("comPorts[" + i + "] = " + commPorts[i].descriptivePortName)
+//
+//            while (isActive) {
+//                var currentCommPort = commList[selectedCommPortIndex.value]
+//                currentCommPort.openPort()
+//                println("open port comPorts[" + selectedCommPortIndex.value + "]  " + currentCommPort.descriptivePortName)
+//                currentCommPort.setBaudRate(115200)
+//                try {
+//                    serialService@ while (isActive) {
+//
+//                        if (sendStart.value) {
+//                            sendStart.value = false
+//                            println("send: ${sendText.value}")
+//                            val sendString = sendText.value + "\n"
+//                            val sendByte = sendString.toByteArray()
+//                            currentCommPort.writeBytes(sendByte, sendByte.size)
+//                            sendText.value = ""
+//                            sendStart.value = false
+//                            println("send start false")
+//                        }
+//
+//                        // read serial port and display data
+//                        while (currentCommPort.bytesAvailable() > 0) {
+//                            val readBuffer = ByteArray(currentCommPort.bytesAvailable())
+//                            val numRead = currentCommPort.readBytes(readBuffer, readBuffer.size)
+//                            //System.out.print("Read " + numRead + " bytes from COM port: ");
+//                            for (i in readBuffer.indices) print(Char(readBuffer[i].toUShort()))
+//
+//                            for (i in readBuffer.indices) {
+//                                if (readBuffer[i].toUShort() == 0x0A.toUShort()) {
+//                                    receivedText.value += "\n"
+//                                    continue
+//                                } else if (readBuffer[i].toUShort() == 0x0D.toUShort()) {
+//                                    continue
+//                                }
+//                                receivedText.value += Char(readBuffer[i].toUShort())
+//                                receivedText.value = receivedText.value.takeLast(10000)
+//                            }
+//                        }
+//                        if (changePort.value) {
+//                            println("change port")
+//                            changePort.value = false
+//                            break@serialService
+//                        }
+//                    }
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//                println("port closed")
+//                currentCommPort.closePort()
+//            }
+//
+//
+//            println("coroutine ended")
+//        }
+//    }
 
+    //use DisposableEffect instead of LaunchedEffect can cancel the coroutine when the composable is disposed
+    //whenever the composable is disposed or the key changes, onDispose will be called
+    DisposableEffect(Unit) {
+        val job = serialCoroutineScope.launch(Dispatchers.IO) {
             println("coroutine started")
             delay(200)
 
             var commPorts = SerialPort.getCommPorts()
-            while (commPorts.size == 0 || dropDownMenuExpanded.value) {
+            while (commPorts.isEmpty() || dropDownMenuExpanded.value) {
                 println("getting port")
                 delay(1000)
                 commPorts = SerialPort.getCommPorts()
-
             }
 
-            for (port in commPorts) {
-                commList.add(port)
-            }
-            for (i in commPorts.indices) println("comPorts[" + i + "] = " + commPorts[i].descriptivePortName)
+            commList.clear()
+            commList.addAll(commPorts)
+            commPorts.forEachIndexed { i, port -> println("comPorts[$i] = ${port.descriptivePortName}") }
 
             while (isActive) {
-                var currentCommPort = commList[selectedCommPortIndex.value]
+                val currentCommPort = commList[selectedCommPortIndex.value]
                 currentCommPort.openPort()
-                println("open port comPorts[" + selectedCommPortIndex.value + "]  " + currentCommPort.descriptivePortName)
+                println("open port comPorts[${selectedCommPortIndex.value}]  ${currentCommPort.descriptivePortName}")
                 currentCommPort.setBaudRate(115200)
                 try {
                     serialService@ while (isActive) {
-
                         if (sendStart.value) {
                             sendStart.value = false
                             println("send: ${sendText.value}")
@@ -101,7 +173,6 @@ fun SerialToolScreen() {
                         while (currentCommPort.bytesAvailable() > 0) {
                             val readBuffer = ByteArray(currentCommPort.bytesAvailable())
                             val numRead = currentCommPort.readBytes(readBuffer, readBuffer.size)
-                            //System.out.print("Read " + numRead + " bytes from COM port: ");
                             for (i in readBuffer.indices) print(Char(readBuffer[i].toUShort()))
 
                             for (i in readBuffer.indices) {
@@ -127,10 +198,14 @@ fun SerialToolScreen() {
                 println("port closed")
                 currentCommPort.closePort()
             }
-
-
             println("coroutine ended")
         }
+
+        onDispose( {
+            job.cancel() //although coroutineScope is cancelled when the composable is disposed, it is a good practice to cancel the job explicitly
+            commList.forEach { it.closePort() } // close all ports
+            println("DisposableEffect disposed") // print a message when the DisposableEffect is disposed
+        })
     }
 
     //when receivedText changed, scroll to bottom

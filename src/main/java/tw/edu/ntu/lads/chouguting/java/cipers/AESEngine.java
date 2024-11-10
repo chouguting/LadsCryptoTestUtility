@@ -376,6 +376,67 @@ public class AESEngine {
         }
     }
 
+    public static String getHardwareTestInput(JSONObject testCaseJsonObject, String direction, String aesMode, int keyLength, String testType){
+        AESEngine aesEngine = new AESEngine(aesMode);
+        String result = "";
+        result += "1 "; //AES algorithm code
+        switch (aesEngine.cipherMode){
+            case AESEngine.MODE_ECB:
+                result += "1 "; //ECB mode code
+                break;
+            case AESEngine.MODE_CBC:
+                result += "2 "; //CBC mode code
+                break;
+            case AESEngine.MODE_CFB8:
+                result += "3 "; //CFB8 mode code
+                break;
+            case AESEngine.MODE_CFB128:
+                result += "4 "; //CFB128 mode code
+                break;
+            case AESEngine.MODE_CTR:
+                result += "5 "; //CTR mode code
+                break;
+        }
+
+        if(direction.equalsIgnoreCase("encrypt")){
+            result += "1 "; //encrypt
+        }else{
+            result += "2 "; //decrypt
+        }
+
+        if (testType.toUpperCase().equals("MCT")){
+            result += "2 "; //MCT
+        }else {
+            result += "1 "; //normal test
+        }
+
+        result += (keyLength + " "); //key length
+
+        switch (aesEngine.cipherMode){
+            case AESEngine.MODE_ECB:
+                if(direction.equalsIgnoreCase("encrypt")){
+                    result += (testCaseJsonObject.getString("pt") + " ");
+                }else{
+                    result += (testCaseJsonObject.getString("ct") + " ");
+                }
+                result += testCaseJsonObject.getString("key");
+                break;
+            case AESEngine.MODE_CBC:
+            case AESEngine.MODE_CFB8:
+            case AESEngine.MODE_CFB128:
+            case AESEngine.MODE_CTR:
+                if(direction.equalsIgnoreCase("encrypt")){
+                    result += (testCaseJsonObject.getString("pt") + " ");
+                }else{
+                    result += (testCaseJsonObject.getString("ct") + " ");
+                }
+                result += (testCaseJsonObject.getString("key") + " ");
+                result += testCaseJsonObject.getString("iv");
+                break;
+        }
+        return result;
+    }
+
     public static int getCipherModeCode(String cipherMode, int keyLength) {
         if (cipherMode.toUpperCase().contains(MODE_ECB)) {
             if(keyLength == 128) return 10;
