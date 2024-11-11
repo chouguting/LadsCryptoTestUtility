@@ -29,6 +29,7 @@ dependencies {
     implementation("org.kotlincrypto.hash:sha3")
     implementation("org.bouncycastle:bcprov-jdk15on:1.68")
     implementation ("org.bouncycastle:bcpkix-jdk15on:1.68")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing")
 //    implementation("org.jetbrains.kotlin:kotlin-reflect")
 
 }

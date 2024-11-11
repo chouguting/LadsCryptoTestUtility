@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import utils.pickInputFile
 import utils.pickOutputFolder
 import cavpTestUtils.runCavp
+import kotlinx.coroutines.swing.Swing
 import views.headerFooter.GordonFooter
 import views.headerFooter.LadsTobBar
 import java.util.ArrayList
@@ -72,7 +73,7 @@ fun CavpResultGeneratorScreen() {
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     Button(enabled = !runningTask.value, onClick = {
-                        coroutineScope.launch(Dispatchers.Default) {
+                        coroutineScope.launch(Dispatchers.Swing) {
                             pickInputFile(
                                 cavpTestFiles,
                                 loadedFilesInfo,
@@ -111,7 +112,7 @@ fun CavpResultGeneratorScreen() {
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
                         Button(enabled = !runningTask.value, onClick = {
-                            coroutineScope.launch(Dispatchers.Default) {
+                            coroutineScope.launch(Dispatchers.Swing) {
                                 pickOutputFolder(saveToFolderInfo, saveToThisFolder, saveToFolderSelected, outputResult)
                             }
                         }) {

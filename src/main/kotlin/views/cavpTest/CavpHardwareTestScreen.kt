@@ -22,6 +22,7 @@ import cavpTestUtils.runCavp
 import cavpTestUtils.runHardwareCavp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.swing.Swing
 import kotlinx.coroutines.withContext
 import utils.SerialCommunicator
 import utils.pickInputFile
@@ -91,14 +92,14 @@ fun CavpHardwareTestScreen() {
         //input file selection
         Row(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.weight(1.2f).fillMaxSize()) {
-                serialCommunicator.commPortSelector()
+                serialCommunicator.commPortSelector(dropDownMenuEnable = !runningTask.value)
                 serialCommunicator.connectingToCommPortIndicator()
 
                 AnimatedVisibility(visible = serialCommunicator.commPortSelected.value) {
                     //choose input file
                     Column {
                         Button(enabled = !runningTask.value && !loadingInputFile.value, onClick = {
-                            coroutineScope.launch(Dispatchers.IO) {
+                            coroutineScope.launch(Dispatchers.Swing) {
 
                                 pickInputFile(
                                     cavpTestFiles,
@@ -150,7 +151,7 @@ fun CavpHardwareTestScreen() {
                 AnimatedVisibility(visible = inputFileLoaded.value) {
                     Column {
                         Button(enabled = !runningTask.value, onClick = {
-                            coroutineScope.launch(Dispatchers.Default) {
+                            coroutineScope.launch(Dispatchers.Swing) {
                                 pickOutputFolder(saveToFolderInfo, saveToThisFolder, saveToFolderSelected, outputResult)
                             }
                         }) {

@@ -58,7 +58,7 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
         coroutineScope.launch(Dispatchers.Default) {
             fifoMutex.withLock {
                 //critical section，代表只有一個coroutine可以進入
-                sentText.value += text
+                sentText.value += (text + "\n")
                 sentText.value = sentText.value.takeLast(1000)
                 sendDataFIFO.add(text)
             }
@@ -154,6 +154,7 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
     fun commPortSelector(
         verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
         horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(20.dp),
+        dropDownMenuEnable: Boolean = true,
         modifier: Modifier = Modifier,
     ) {
 
@@ -173,7 +174,9 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
                 modifier = Modifier
                     .wrapContentSize()
             ) {
-                IconButton(onClick = {
+                IconButton(
+                    enabled = dropDownMenuEnable,
+                    onClick = {
                     dropDownMenuExpanded.value = true
                     coroutineScope.launch(Dispatchers.IO) {
                         val serialPorts = SerialPort.getCommPorts()
