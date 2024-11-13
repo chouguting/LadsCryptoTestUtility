@@ -5,25 +5,25 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cavpTestUtils.CavpTestFile
-import cavpTestUtils.runCavp
 import cavpTestUtils.runHardwareCavp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.swing.Swing
-import kotlinx.coroutines.withContext
 import utils.SerialCommunicator
 import utils.pickInputFile
 import utils.pickOutputFolder
@@ -60,18 +60,27 @@ fun CavpHardwareTestScreen() {
 
     val runningTask = remember { mutableStateOf(false) } //whether is running tasks
 
+    val validateResult = remember { mutableStateOf(false) } //whether validate result
+
 
     //scroll state
     val testListScrollState = rememberScrollState()
     val sentToDeviceScrollState = rememberScrollState()
     val receivedFromDeviceScrollState = rememberScrollState()
+    val userIsScrollingSentText = remember { mutableStateOf(false) }
+    val userIsScrollingReceivedText = remember { mutableStateOf(false) }
+
 
     LaunchedEffect(serialCommunicator.sentText.value) {
-        sentToDeviceScrollState.animateScrollTo(sentToDeviceScrollState.maxValue)
+        if (!userIsScrollingSentText.value) {
+            sentToDeviceScrollState.animateScrollTo(sentToDeviceScrollState.maxValue)
+        }
     }
 
     LaunchedEffect(serialCommunicator.receivedText.value) {
-        receivedFromDeviceScrollState.animateScrollTo(receivedFromDeviceScrollState.maxValue)
+        if (!userIsScrollingReceivedText.value) {
+            receivedFromDeviceScrollState.animateScrollTo(receivedFromDeviceScrollState.maxValue)
+        }
     }
 
     //progress
@@ -170,7 +179,23 @@ fun CavpHardwareTestScreen() {
 
                 //do tasks part: run button
                 AnimatedVisibility(visible = saveToFolderSelected.value && inputFileLoaded.value) {
+
+
+
                     Column(modifier = Modifier.fillMaxWidth()) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Checkbox(
+                                checked = validateResult.value,
+                                onCheckedChange = {
+                                    validateResult.value = it
+                                },
+                                enabled = !runningTask.value
+                            )
+                            Text("Validate result with Golden Reference")
+                        }
+
                         Text("Click the run button to start: ")
                         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             Button(enabled = !(runningTask.value), onClick = {
@@ -186,8 +211,9 @@ fun CavpHardwareTestScreen() {
                                             serialCommunicator,
                                             cavpTestFiles,
                                             saveFolderPath,
-                                            true,
-                                            testProgress
+                                            save = true,
+                                            progress = testProgress,
+                                            validateResult = validateResult.value
                                         )
                                         outputResult.value =
                                             "Execution success! \nOutput files are saved to $saveFolderPath"
@@ -301,13 +327,31 @@ fun CavpHardwareTestScreen() {
                     ) {
                         Column(
                             modifier = Modifier.fillMaxSize().verticalScroll(sentToDeviceScrollState)
+                                .pointerInput(Unit) {
+                                    awaitPointerEventScope {
+                                        while (true) {
+                                            val event = awaitPointerEvent()
+                                            event.changes.forEach { change ->
+                                                if (change.scrollDelta.y != 0f) {
+                                                    coroutineScope.launch {
+                                                        userIsScrollingSentText.value = true
+                                                        sentToDeviceScrollState.scrollBy(change.scrollDelta.y * 30)
+                                                        userIsScrollingSentText.value = false
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                         ) {
                             Text(serialCommunicator.sentText.value)
                         }
-                        VerticalScrollbar(
-                            rememberScrollbarAdapter(sentToDeviceScrollState),
-                            Modifier.fillMaxHeight()
-                        )
+                        if (!runningTask.value) {
+                            VerticalScrollbar(
+                                rememberScrollbarAdapter(sentToDeviceScrollState),
+                                Modifier.fillMaxHeight()
+                            )
+                        }
                     }
 
                 }
@@ -324,13 +368,32 @@ fun CavpHardwareTestScreen() {
                     ) {
                         Column(
                             modifier = Modifier.fillMaxSize().verticalScroll(receivedFromDeviceScrollState)
+                                .pointerInput(Unit) {
+                                    awaitPointerEventScope {
+                                        while (true) {
+                                            val event = awaitPointerEvent()
+                                            event.changes.forEach { change ->
+                                                if (change.scrollDelta.y != 0f) {
+                                                    coroutineScope.launch {
+                                                        userIsScrollingReceivedText.value = true
+                                                        receivedFromDeviceScrollState.scrollBy(change.scrollDelta.y * 30)
+                                                        userIsScrollingReceivedText.value = false
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                         ) {
                             Text(serialCommunicator.receivedText.value)
                         }
-                        VerticalScrollbar(
-                            rememberScrollbarAdapter(receivedFromDeviceScrollState),
-                            Modifier.fillMaxHeight()
-                        )
+                        if (!runningTask.value) {
+                            VerticalScrollbar(
+                                rememberScrollbarAdapter(receivedFromDeviceScrollState),
+                                Modifier.fillMaxHeight()
+                            )
+                        }
+
                     }
 
                 }

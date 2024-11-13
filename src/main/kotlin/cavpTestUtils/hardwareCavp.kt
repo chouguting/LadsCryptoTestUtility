@@ -7,11 +7,19 @@ import ciphers.ECDSAEngine
 import ciphers.RSAEngine
 import ciphers.SHAKEEngine
 import kotlinx.coroutines.delay
+import org.json.JSONObject
 import tw.edu.ntu.lads.chouguting.java.cipers.AESEngine
 import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
 import utils.SerialCommunicator
 
-suspend fun runHardwareCavp(serialCommunicator: SerialCommunicator, cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String , save :Boolean = true, progress:MutableState<Float> = mutableStateOf(0f)) {
+suspend fun runHardwareCavp(
+    serialCommunicator: SerialCommunicator,
+    cavpTestFiles: ArrayList<CavpTestFile>,
+    saveToFolder: String,
+    save: Boolean = true,
+    progress: MutableState<Float> = mutableStateOf(0f),
+    validateResult: Boolean = false
+) {
 
     println("run And Test Hardware on ${Thread.currentThread().name}")
     val totalTestCount = cavpTestFiles.sumOf { it.getNumberOfAllTestCases() }
@@ -87,18 +95,38 @@ suspend fun runHardwareCavp(serialCommunicator: SerialCommunicator, cavpTestFile
                     val testCaseJson = cavpTestFile.getTestCase(algorithmIndex, testGroupIndex, testCaseIndex)
                     currentTestCount++
                     progress.value = currentTestCount.toFloat() / totalTestCount.toFloat()
+                    val testId = "test$currentTestCount"
                     if (algorithmName.lowercase().contains("aes")) {
                         //TODO: run hardware AES
                         val stringToDevice = AESEngine.getHardwareTestInput(
+                            testId,
                             testCaseJson,
                             aesDirection,
                             algorithmName,
                             aesKeyLength,
                             testType
                         )
-                        val result = serialCommunicator.sendTextToDevice(stringToDevice)
-                        delay(500)
+                        serialCommunicator.sendTextToDevice(stringToDevice)
+                        val resultXml = serialCommunicator.waitForResponse(testId, 10000) //wait for 10 seconds
+                        println("[result] $resultXml")
 
+                        val duplicatedTestCaseJson = JSONObject(testCaseJson.toString())
+                        AESEngine.fillInHardwareTestOutput(testId, testCaseJson, resultXml, testType)
+
+                        if(validateResult){
+                            AESEngine.runAESWithTestCase(
+                                duplicatedTestCaseJson,
+                                aesDirection,
+                                algorithmName,
+                                aesKeyLength,
+                                testType,
+                                true
+                            )
+                            //compare result
+                            if (!testCaseJson.similar(duplicatedTestCaseJson)) {
+                                throw Exception("AES hardware test failed")
+                            }
+                        }
 
                     } else if (algorithmName.lowercase().contains("shake")) {  //"shake"裡面有"sha"，所以要先判斷"shake"
                         //TODO: run hardware SHAKE
@@ -106,9 +134,9 @@ suspend fun runHardwareCavp(serialCommunicator: SerialCommunicator, cavpTestFile
                         //TODO: run hardware SHA
                     } else if (algorithmName.lowercase().contains("drbg")) {
                         //TODO: run hardware DRBG
-                    }else if (algorithmName.lowercase().contains("ecdsa")) {
+                    } else if (algorithmName.lowercase().contains("ecdsa")) {
                         //TODO: run hardware ECDSA
-                    }else if(algorithmName.lowercase().contains("rsa")){
+                    } else if (algorithmName.lowercase().contains("rsa")) {
                         //TODO: run hardware RSA
                     }
 
@@ -116,9 +144,9 @@ suspend fun runHardwareCavp(serialCommunicator: SerialCommunicator, cavpTestFile
 
             }
         }
-//        if(save){
-//            cavpTestFile.saveRspToFolder(saveToFolder)
-//        }
+        if (save) {
+            cavpTestFile.saveRspToFolder(saveToFolder)
+        }
 
     }
 

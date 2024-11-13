@@ -376,9 +376,9 @@ public class AESEngine {
         }
     }
 
-    public static String getHardwareTestInput(JSONObject testCaseJsonObject, String direction, String aesMode, int keyLength, String testType){
+    public static String getHardwareTestInput(String testId, JSONObject testCaseJsonObject, String direction, String aesMode, int keyLength, String testType){
         AESEngine aesEngine = new AESEngine(aesMode);
-        String result = "";
+        String result = (testId+" ");
         result += "1 "; //AES algorithm code
         switch (aesEngine.cipherMode){
             case AESEngine.MODE_ECB:
@@ -435,6 +435,43 @@ public class AESEngine {
                 break;
         }
         return result;
+    }
+
+
+    public static void fillInHardwareTestOutput(String testId, JSONObject testCaseJsonObject, String outputtedXml,String testType){
+        String contentXml = XmlUtils.getLabelValue(outputtedXml, testId);
+        if (testType.toUpperCase().equals("MCT")){
+            //parse MCT result
+            JSONArray resultsArray = new JSONArray();
+            for(int i=0;i<100;i++){
+                if(XmlUtils.labelExists(contentXml,"round"+i)){
+                    String roundXml = XmlUtils.getLabelValue(contentXml, "round"+i);
+                    JSONObject roundResult = new JSONObject();
+                    if(XmlUtils.labelExists(roundXml, "key")){
+                        roundResult.put("key", XmlUtils.getLabelValue(roundXml, "key"));
+                    }
+                    if(XmlUtils.labelExists(roundXml, "iv")){
+                        roundResult.put("iv", XmlUtils.getLabelValue(roundXml, "iv"));
+                    }
+                    if(XmlUtils.labelExists(roundXml, "pt")){
+                        roundResult.put("pt", XmlUtils.getLabelValue(roundXml, "pt"));
+                    }
+                    if(XmlUtils.labelExists(roundXml, "ct")){
+                        roundResult.put("ct", XmlUtils.getLabelValue(roundXml, "ct"));
+                    }
+                    resultsArray.put(roundResult);
+                }
+            }
+            testCaseJsonObject.put("resultsArray", resultsArray);
+        }else {
+            //parse normal test result
+            if(XmlUtils.labelExists(contentXml, "ct")){
+                testCaseJsonObject.put("ct", XmlUtils.getLabelValue(contentXml, "ct"));
+            }
+            if(XmlUtils.labelExists(contentXml, "pt")){
+                testCaseJsonObject.put("pt", XmlUtils.getLabelValue(contentXml, "pt"));
+            }
+        }
     }
 
     public static int getCipherModeCode(String cipherMode, int keyLength) {

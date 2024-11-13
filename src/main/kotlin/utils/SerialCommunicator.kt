@@ -15,19 +15,27 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-class SerialCommunicator(val coroutineScope: CoroutineScope) {
-    val commList = mutableStateListOf<SerialPort>()
-    val commListNames = mutableStateListOf<String>()
+class SerialCommunicator(
+    private val coroutineScope: CoroutineScope,
+    private val baudRate: Int = 115200,
+    private val sendTextWindowSize: Int = 1000,
+    private val receivedTextWindowSize: Int = 1000,
+    private val receivedTextMaxPoolSize: Int = 1000000
+) {
+    private val commList = mutableStateListOf<SerialPort>()
+    private val commListNames = mutableStateListOf<String>()
 
-    val selectedCommPortIndex = mutableStateOf(0)
-    val dropDownMenuExpanded = mutableStateOf(false)
+    private val selectedCommPortIndex = mutableStateOf(0)
+    private val dropDownMenuExpanded = mutableStateOf(false)
     val commPortSelected = mutableStateOf(false)
-    var currentCommPort: SerialPort? = null
-    val sendDataFIFO = mutableStateListOf<String>()
+    private var currentCommPort: SerialPort? = null
+    private val sendDataFIFO = mutableStateListOf<String>()
     val sentText = mutableStateOf("")
-    val fifoMutex = Mutex()
-    val portMutex = Mutex()
+    private val sendDataFifoMutex = Mutex()
+    private val portMutex = Mutex()
+    private val receivedTextPoolMutex = Mutex()
     val receivedText = mutableStateOf("")
+    private var receivedTextPool = ""
 
 
     fun getCommList() {
@@ -47,7 +55,7 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
         if (commList.size == 0) return
         currentCommPort = commList[selectedCommPortIndex.value]
         currentCommPort?.openPort().also {
-            currentCommPort?.setBaudRate(115200)
+            currentCommPort?.setBaudRate(baudRate)
         }.also {
             println("port opened")
         }
@@ -56,12 +64,44 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
 
     fun sendTextToDevice(text: String) {
         coroutineScope.launch(Dispatchers.Default) {
-            fifoMutex.withLock {
+            sendDataFifoMutex.withLock {
                 //critical section，代表只有一個coroutine可以進入
                 sentText.value += (text + "\n")
-                sentText.value = sentText.value.takeLast(1000)
+                sentText.value = sentText.value.takeLast(sendTextWindowSize)
                 sendDataFIFO.add(text)
             }
+        }
+    }
+
+
+    suspend fun waitForResponse(testId: String, timeOut: Int): String {
+        var response = ""
+        receivedTextPool = ""
+        val startString = "<$testId>"
+        val endString = "</$testId>"
+        val startTime = System.currentTimeMillis()
+        var foundResult = false
+        while (System.currentTimeMillis() - startTime < timeOut) {
+            receivedTextPoolMutex.withLock {
+                if (receivedTextPool.contains(endString) && receivedTextPool.contains(startString)) {
+                    response = receivedTextPool
+                    foundResult = true
+                }
+            }
+            if (foundResult) {
+                break
+            }
+            delay(100)
+        }
+
+        if (!foundResult) {
+            throw Exception("Time out")
+        } else {
+            //return the string
+            val startIndex = response.indexOf(startString)
+            val endIndex = response.indexOf(endString) + endString.length
+            println("$startIndex $endIndex")
+            return response.substring(startIndex, endIndex)
         }
     }
 
@@ -77,7 +117,7 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
                 }
                 currentCommPort = commList[selectedCommPortIndex.value]
                 currentCommPort?.openPort().also {
-                    currentCommPort?.setBaudRate(115200)
+                    currentCommPort?.setBaudRate(baudRate)
                 }.also {
                     commPortSelected.value = true
                     println("port opened")
@@ -105,7 +145,7 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
                 while (isActive) {
                     if (sendDataFIFO.size > 0) {
                         var sendString = ""
-                        fifoMutex.withLock {
+                        sendDataFifoMutex.withLock {
                             val data = sendDataFIFO.removeAt(0)
                             sendString = data + "\n"
                         }
@@ -130,7 +170,7 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
                         portMutex.withLock {
                             val numRead = currentCommPort!!.readBytes(readBuffer, readBuffer.size)
                         }
-                        for (i in readBuffer.indices) print(Char(readBuffer[i].toUShort()))
+//                        for (i in readBuffer.indices) print(Char(readBuffer[i].toUShort()))
                         var currentReceivedText = ""
                         for (i in readBuffer.indices) {
                             if (readBuffer[i].toUShort() == 0x0A.toUShort()) {
@@ -142,7 +182,13 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
                             currentReceivedText += Char(readBuffer[i].toUShort())
                         }
                         receivedText.value += currentReceivedText
-                        receivedText.value = receivedText.value.takeLast(10000)
+                        receivedText.value = receivedText.value.takeLast(receivedTextWindowSize)
+                        receivedTextPoolMutex.withLock {
+                            receivedTextPool += currentReceivedText
+                            if (receivedTextPool.length > receivedTextMaxPoolSize) {
+                                receivedTextPool = receivedTextPool.takeLast(receivedTextMaxPoolSize)
+                            }
+                        }
                     }
                 }
             }
@@ -177,15 +223,15 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
                 IconButton(
                     enabled = dropDownMenuEnable,
                     onClick = {
-                    dropDownMenuExpanded.value = true
-                    coroutineScope.launch(Dispatchers.IO) {
-                        val serialPorts = SerialPort.getCommPorts()
-                        commList.clear()
-                        for (port in serialPorts) {
-                            commList.add(port)
+                        dropDownMenuExpanded.value = true
+                        coroutineScope.launch(Dispatchers.IO) {
+                            val serialPorts = SerialPort.getCommPorts()
+                            commList.clear()
+                            for (port in serialPorts) {
+                                commList.add(port)
+                            }
                         }
-                    }
-                }) {
+                    }) {
                     Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
                 }
 
@@ -213,7 +259,7 @@ class SerialCommunicator(val coroutineScope: CoroutineScope) {
 
     @Composable
     fun connectingToCommPortIndicator() {
-        AnimatedVisibility(visible = !commPortSelected.value){
+        AnimatedVisibility(visible = !commPortSelected.value) {
             Column(modifier = Modifier, horizontalAlignment = Alignment.CenterHorizontally) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(30.dp),
