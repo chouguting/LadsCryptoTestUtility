@@ -2,15 +2,13 @@ package cavpTestUtils
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import ciphers.DRBGEngine
-import ciphers.ECDSAEngine
-import ciphers.RSAEngine
-import ciphers.SHAKEEngine
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import tw.edu.ntu.lads.chouguting.java.cipers.AESEngine
-import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
 import utils.SerialCommunicator
+import java.io.FileWriter
 
 suspend fun runHardwareCavp(
     serialCommunicator: SerialCommunicator,
@@ -110,12 +108,13 @@ suspend fun runHardwareCavp(
                         val resultXml = serialCommunicator.waitForResponse(testId, 10000) //wait for 10 seconds
                         println("[result] $resultXml")
 
-                        val duplicatedTestCaseJson = JSONObject(testCaseJson.toString())
+                        val questionTestCase = JSONObject(testCaseJson.toString())
+                        val referenceTestCaseJson = JSONObject(testCaseJson.toString())
                         AESEngine.fillInHardwareTestOutput(testId, testCaseJson, resultXml, testType)
 
                         if(validateResult){
                             AESEngine.runAESWithTestCase(
-                                duplicatedTestCaseJson,
+                                referenceTestCaseJson,
                                 aesDirection,
                                 algorithmName,
                                 aesKeyLength,
@@ -123,8 +122,9 @@ suspend fun runHardwareCavp(
                                 true
                             )
                             //compare result
-                            if (!testCaseJson.similar(duplicatedTestCaseJson)) {
-                                throw Exception("AES hardware test failed")
+                            if (!testCaseJson.similar(referenceTestCaseJson)) {
+                                saveErrorTestCaseToFolder(saveToFolder, questionTestCase,referenceTestCaseJson, testCaseJson)
+                                throw Exception("AES hardware test failed,\nerror.txt saved to folder: $saveToFolder")
                             }
                         }
 
@@ -150,4 +150,23 @@ suspend fun runHardwareCavp(
 
     }
 
+}
+
+fun saveErrorTestCaseToFolder(
+    saveToThisFolder: String,
+    questionTestCase: JSONObject,
+    goldenReferenceTestCase: JSONObject,
+    hardwareResultTestCase: JSONObject
+) {
+    val errorFileName = "error.txt"
+    val fileWriter = FileWriter("$saveToThisFolder\\$errorFileName")
+    fileWriter.write("question test case:\n")
+    fileWriter.write(questionTestCase.toString(8))
+    fileWriter.write("\n\n==================================================\n\n")
+    fileWriter.write("golden reference test case:\n")
+    fileWriter.write(goldenReferenceTestCase.toString(8))
+    fileWriter.write("\n\n==================================================\n\n")
+    fileWriter.write("hardware result test case:\n")
+    fileWriter.write(hardwareResultTestCase.toString(8))
+    fileWriter.close()
 }
