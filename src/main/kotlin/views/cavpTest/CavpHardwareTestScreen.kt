@@ -62,6 +62,8 @@ fun CavpHardwareTestScreen() {
 
     val validateResult = remember { mutableStateOf(false) } //whether validate result
 
+    val startFromTestCase = remember { mutableStateOf(0) } //start from test case index
+
 
     //scroll state
     val testListScrollState = rememberScrollState()
@@ -195,6 +197,18 @@ fun CavpHardwareTestScreen() {
                             )
                             Text("Validate result with Golden Reference")
                         }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text("Start From Test Case Index:")
+                            TextField(
+                                value = startFromTestCase.value.toString(),
+                                onValueChange = {
+                                    startFromTestCase.value = it.toIntOrNull() ?: 0
+                                },
+                                enabled = !runningTask.value
+                            )
+                        }
 
                         Text("Click the run button to start: ")
                         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -213,7 +227,8 @@ fun CavpHardwareTestScreen() {
                                             saveFolderPath,
                                             save = true,
                                             progress = testProgress,
-                                            validateResult = validateResult.value
+                                            validateResult = validateResult.value,
+                                            startFromTestCase = startFromTestCase.value
                                         )
                                         outputResult.value =
                                             "Execution success! \nOutput files are saved to $saveFolderPath"

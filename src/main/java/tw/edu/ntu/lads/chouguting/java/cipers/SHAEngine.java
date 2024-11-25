@@ -151,4 +151,64 @@ public class SHAEngine {
         SHAEngine shaEngine = new SHAEngine(SHAEngine.MODE_SHA256);
         System.out.println(shaEngine.hash("1234567890ABCDEF").toLowerCase());
     }
+
+    public static ArrayList<String> getHardwareTestInput(String testId, JSONObject testCaseJsonObject, String shaMode, String testType){
+       ArrayList<String> result = new ArrayList<String>();
+
+        String resultLine = "";
+        SHAEngine shaEngine = new SHAEngine(shaMode);
+        resultLine += (testId + " "); //test id
+
+        if(shaEngine.shaMode.equals(SHAEngine.MODE_SHA256) || shaEngine.shaMode.equals(SHAEngine.MODE_SHA384) || shaEngine.shaMode.equals(SHAEngine.MODE_SHA512)){
+            resultLine += ("2 "); //SHA2
+        }else if(shaEngine.shaMode.equals(SHAEngine.MODE_SHA3_256) || shaEngine.shaMode.equals(SHAEngine.MODE_SHA3_384) || shaEngine.shaMode.equals(SHAEngine.MODE_SHA3_512)){
+            resultLine += ("3 "); //SHA3
+        }
+
+
+        if(testType.toUpperCase().equals("MCT")){
+            resultLine += ("2 "); //MCT
+        }else{
+            resultLine += ("1 "); //Single
+        }
+
+        if(shaEngine.shaMode.equals(SHAEngine.MODE_SHA256) || shaEngine.shaMode.equals(SHAEngine.MODE_SHA3_256)){
+            resultLine += ("256 "); //SHA-256
+        }else if(shaEngine.shaMode.equals(SHAEngine.MODE_SHA384) || shaEngine.shaMode.equals(SHAEngine.MODE_SHA3_384)){
+            resultLine += ("384 "); //SHA-384
+        }else if(shaEngine.shaMode.equals(SHAEngine.MODE_SHA512) || shaEngine.shaMode.equals(SHAEngine.MODE_SHA3_512)){
+            resultLine += ("512 "); //SHA-512
+        }
+        result.add(resultLine);
+
+        result.add((testCaseJsonObject.getString("msg")));
+
+        return result;
+
+    }
+
+
+    public static void fillInHardwareTestOutput(String testId, JSONObject testCaseJsonObject, String outputtedXml,String testType){
+        String contentXml = XmlUtils.getLabelValue(outputtedXml, testId);
+        if (testType.toUpperCase().equals("MCT")){
+            //parse MCT result
+            JSONArray resultsArray = new JSONArray();
+            for(int i=0;i<100;i++){
+                if(XmlUtils.labelExists(contentXml,"round"+i)){
+                    String roundXml = XmlUtils.getLabelValue(contentXml, "round"+i);
+                    JSONObject roundResult = new JSONObject();
+                    if(XmlUtils.labelExists(roundXml, "md")){
+                        roundResult.put("md", XmlUtils.getLabelValue(roundXml, "md"));
+                    }
+                    resultsArray.put(roundResult);
+                }
+            }
+            testCaseJsonObject.put("resultsArray", resultsArray);
+        }else {
+            //parse normal test result
+            if(XmlUtils.labelExists(contentXml, "md")){
+                testCaseJsonObject.put("md", XmlUtils.getLabelValue(contentXml, "md"));
+            }
+        }
+    }
 }

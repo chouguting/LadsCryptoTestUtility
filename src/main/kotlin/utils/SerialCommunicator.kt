@@ -73,10 +73,25 @@ class SerialCommunicator(
         }
     }
 
+    fun sendTextToDevice(text: ArrayList<String>) {
+        coroutineScope.launch(Dispatchers.Default) {
+            for (t in text) {
+                sendDataFifoMutex.withLock {
+                    //critical section，代表只有一個coroutine可以進入
+                    sentText.value += (t + "\n")
+                    sentText.value = sentText.value.takeLast(sendTextWindowSize)
+                    sendDataFIFO.add(t)
+                }
+                delay(10)
+            }
+
+        }
+    }
+
 
     suspend fun waitForResponse(testId: String, timeOut: Int): String {
         var response = ""
-        receivedTextPool = ""
+
         val startString = "<$testId>"
         val endString = "</$testId>"
         val startTime = System.currentTimeMillis()
@@ -93,7 +108,7 @@ class SerialCommunicator(
             }
             delay(100)
         }
-
+        receivedTextPool = ""
         if (!foundResult) {
             throw Exception("Time out")
         } else {
@@ -103,6 +118,7 @@ class SerialCommunicator(
             println("$startIndex $endIndex")
             return response.substring(startIndex, endIndex)
         }
+
     }
 
 

@@ -4,9 +4,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import tw.edu.ntu.lads.chouguting.java.cipers.AESEngine
+import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
 import utils.SerialCommunicator
 import java.io.FileWriter
 
@@ -16,7 +18,8 @@ suspend fun runHardwareCavp(
     saveToFolder: String,
     save: Boolean = true,
     progress: MutableState<Float> = mutableStateOf(0f),
-    validateResult: Boolean = false
+    validateResult: Boolean = false,
+    startFromTestCase:Int = 0
 ) {
 
     println("run And Test Hardware on ${Thread.currentThread().name}")
@@ -90,12 +93,16 @@ suspend fun runHardwareCavp(
                 }
 
                 for (testCaseIndex in 0 until numberOfTestCases) {
+                    if(currentTestCount < startFromTestCase){
+                        currentTestCount++
+                        continue
+                    }
+
                     val testCaseJson = cavpTestFile.getTestCase(algorithmIndex, testGroupIndex, testCaseIndex)
-                    currentTestCount++
+
                     progress.value = currentTestCount.toFloat() / totalTestCount.toFloat()
                     val testId = "test$currentTestCount"
                     if (algorithmName.lowercase().contains("aes")) {
-                        //TODO: run hardware AES
                         val stringToDevice = AESEngine.getHardwareTestInput(
                             testId,
                             testCaseJson,
@@ -124,14 +131,39 @@ suspend fun runHardwareCavp(
                             //compare result
                             if (!testCaseJson.similar(referenceTestCaseJson)) {
                                 saveErrorTestCaseToFolder(saveToFolder, questionTestCase,referenceTestCaseJson, testCaseJson)
-                                throw Exception("AES hardware test failed,\nerror.txt saved to folder: $saveToFolder")
+                                throw Exception("AES hardware test failed on test case $currentTestCount,\nerror.txt saved to folder: $saveToFolder")
                             }
                         }
 
                     } else if (algorithmName.lowercase().contains("shake")) {  //"shake"裡面有"sha"，所以要先判斷"shake"
                         //TODO: run hardware SHAKE
+
+
                     } else if (algorithmName.lowercase().contains("sha")) {
-                        //TODO: run hardware SHA
+                        val stringsToDevice = SHAEngine.getHardwareTestInput(
+                            testId,
+                            testCaseJson,
+                            algorithmName,
+                            testType
+                        )
+                        //println("[send] $stringsToDevice")
+                        serialCommunicator.sendTextToDevice(stringsToDevice)
+                        val resultXml = serialCommunicator.waitForResponse(testId, 50000) //wait for 50 seconds
+                        println("[result] $resultXml")
+
+                        val questionTestCase = JSONObject(testCaseJson.toString())
+                        val referenceTestCaseJson = JSONObject(testCaseJson.toString())
+                        SHAEngine.fillInHardwareTestOutput(testId, testCaseJson, resultXml, testType)
+                        if(validateResult){
+                            SHAEngine.runSHAWithTestCase(referenceTestCaseJson, algorithmName, testType, true)
+                            //compare result
+                            if (!testCaseJson.similar(referenceTestCaseJson)) {
+                                saveErrorTestCaseToFolder(saveToFolder, questionTestCase,referenceTestCaseJson, testCaseJson)
+                                throw Exception("SHA hardware test failed on test case $currentTestCount,\nerror.txt saved to folder: $saveToFolder")
+                            }
+                        }
+
+
                     } else if (algorithmName.lowercase().contains("drbg")) {
                         //TODO: run hardware DRBG
                     } else if (algorithmName.lowercase().contains("ecdsa")) {
@@ -139,6 +171,7 @@ suspend fun runHardwareCavp(
                     } else if (algorithmName.lowercase().contains("rsa")) {
                         //TODO: run hardware RSA
                     }
+                    currentTestCount++
 
                 }
 
