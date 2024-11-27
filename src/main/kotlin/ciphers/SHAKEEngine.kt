@@ -5,6 +5,8 @@ import org.json.JSONObject
 import org.kotlincrypto.hash.sha3.SHAKE128
 import org.kotlincrypto.hash.sha3.SHAKE256
 import tw.edu.ntu.lads.chouguting.java.cipers.CipherUtils
+import tw.edu.ntu.lads.chouguting.java.cipers.XmlUtils
+import java.util.*
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -38,6 +40,70 @@ class SHAKEEngine() {
             val shakeOutByteLength = shakeOutLength / 8        //1個byte = 8個bit
             val digestHexString: String = shakeEngine.hash(messageHexString, shakeOutByteLength)
             testCaseJsonObject.put("md", digestHexString)
+        }
+
+        fun getHardwareTestInput(testId:String, testCaseJsonObject:JSONObject, algorithmName:String, testType:String, shakeMaxOutLen:Int, shakeMinOutLen:Int):ArrayList<String>{
+            val shakeEngine = SHAKEEngine(algorithmName)
+            val result = ArrayList<String>()
+            var currentLine = "$testId "
+            currentLine += "4 "  //SHAKE
+            if(testType.lowercase().contains("mct")){
+                currentLine += "3 " //mct test
+            }else if(testType.lowercase().contains("vot")){
+                currentLine += "2 " //vot test
+            }else{
+                currentLine += "1 " //aft test
+            }
+
+            if(shakeEngine.shakeMode == MODE_SHAKE_128){
+                currentLine += "128 "
+            }else{
+                currentLine += "256 "
+            }
+
+            result.add(currentLine)
+            result.add(testCaseJsonObject.getString("msg"))
+
+            if(testType.lowercase().contains("vot")) {
+                result.add(testCaseJsonObject.getInt("outLen").toString())
+            }else if(testType.lowercase().contains("mct")) {
+                result.add("$shakeMinOutLen $shakeMaxOutLen")
+            }
+            return  result
+
+        }
+
+        fun fillInHardwareTestOutput(
+            testId: String,
+            testCaseJsonObject: JSONObject,
+            outputtedXml: String,
+            testType: String
+        ) {
+            val contentXml = XmlUtils.getLabelValue(outputtedXml, testId)
+            if (testType.uppercase(Locale.getDefault()) == "MCT") { //Monte Carlo Test
+                //parse MCT result
+                val resultsArray = JSONArray()
+                for (i in 0..99) {
+                    if (XmlUtils.labelExists(contentXml, "round$i")) {
+                        val roundXml = XmlUtils.getLabelValue(
+                            contentXml,
+                            "round$i"
+                        )
+                        val roundResult = JSONObject()
+                        if (XmlUtils.labelExists(roundXml, "md")) {
+                            roundResult.put("md", XmlUtils.getLabelValue(roundXml, "md"))
+                            roundResult.put("outLen", XmlUtils.getLabelValue(roundXml, "outLen").toInt())
+                        }
+                        resultsArray.put(roundResult)
+                    }
+                }
+                testCaseJsonObject.put("resultsArray", resultsArray)
+            } else {  //VOT or AFT test
+                //parse normal test result
+                if (XmlUtils.labelExists(contentXml, "md")) {
+                    testCaseJsonObject.put("md", XmlUtils.getLabelValue(contentXml, "md"))
+                }
+            }
         }
     }
 
