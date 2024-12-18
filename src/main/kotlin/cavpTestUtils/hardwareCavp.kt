@@ -2,7 +2,9 @@ package cavpTestUtils
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import ciphers.ECDSAEngine
 import ciphers.SHAKEEngine
+import kotlinx.coroutines.delay
 import org.json.JSONObject
 import tw.edu.ntu.lads.chouguting.java.cipers.AESEngine
 import tw.edu.ntu.lads.chouguting.java.cipers.SHAEngine
@@ -127,7 +129,13 @@ suspend fun runHardwareCavp(
                             )
                             //compare result
                             if (!testCaseJson.similar(referenceTestCaseJson)) {
-                                checkMctResult(testCaseJson, referenceTestCaseJson, "AES", currentTestCount, saveToFolder)
+                                checkMctResult(
+                                    testCaseJson,
+                                    referenceTestCaseJson,
+                                    "AES",
+                                    currentTestCount,
+                                    saveToFolder
+                                )
                                 saveErrorTestCaseToFolder(
                                     saveToFolder,
                                     questionTestCase,
@@ -170,7 +178,13 @@ suspend fun runHardwareCavp(
                             )
                             //compare result
                             if (!testCaseJson.similar(referenceTestCaseJson)) {
-                                checkMctResult(testCaseJson, referenceTestCaseJson, "SHAKE", currentTestCount, saveToFolder)
+                                checkMctResult(
+                                    testCaseJson,
+                                    referenceTestCaseJson,
+                                    "SHAKE",
+                                    currentTestCount,
+                                    saveToFolder
+                                )
 
                                 saveErrorTestCaseToFolder(
                                     saveToFolder,
@@ -204,7 +218,13 @@ suspend fun runHardwareCavp(
                             SHAEngine.runSHAWithTestCase(referenceTestCaseJson, algorithmName, testType, true)
                             //compare result
                             if (!testCaseJson.similar(referenceTestCaseJson)) {
-                                checkMctResult(testCaseJson, referenceTestCaseJson, "SHA", currentTestCount, saveToFolder)
+                                checkMctResult(
+                                    testCaseJson,
+                                    referenceTestCaseJson,
+                                    "SHA",
+                                    currentTestCount,
+                                    saveToFolder
+                                )
                                 saveErrorTestCaseToFolder(
                                     saveToFolder,
                                     questionTestCase,
@@ -219,7 +239,28 @@ suspend fun runHardwareCavp(
                     } else if (algorithmName.lowercase().contains("drbg")) {
                         //TODO: run hardware DRBG
                     } else if (algorithmName.lowercase().contains("ecdsa")) {
-                        //TODO: run hardware ECDSA
+                        val stringsToDevice = ECDSAEngine.getHardwareTestInput(
+                            testId, currentTestGroup, testCaseJson, ecdsaCurve, ecdsaOperationMode
+                        )
+                        serialCommunicator.sendTextToDevice(stringsToDevice, delayInterval = 100)
+                        val questionTestCase = JSONObject(testCaseJson.toString())
+                        val questionTestGroup = JSONObject(currentTestGroup.toString())
+                        val resultXml = serialCommunicator.waitForResponse(testId, 20000) //wait for 10 seconds
+                        ECDSAEngine.fillInHardwareTestOutput(testId, testCaseJson, resultXml, ecdsaOperationMode)
+                        if(validateResult){
+                            ECDSAEngine.validateHardwareResult(
+                                saveToFolder,
+                                currentTestCount,
+                                questionTestGroup,
+                                questionTestCase,
+                                currentTestGroup,
+                                testCaseJson,
+                                ecdsaCurve,
+                                ecdsaOperationMode
+                            )
+                            println("validate ECDSA hardware test passed on test case $currentTestCount")
+                        }
+
                     } else if (algorithmName.lowercase().contains("rsa")) {
                         //TODO: run hardware RSA
                     }
@@ -264,14 +305,14 @@ fun checkMctResult(
     cryptoAlgorithm: String,
     currentTestCount: Int,
     saveToFolder: String
-){
-    if(testCaseJson.hasResultsArray() && referenceTestCaseJson.hasResultsArray()){
+) {
+    if (testCaseJson.hasResultsArray() && referenceTestCaseJson.hasResultsArray()) {
         val testResultsArray = testCaseJson.getJSONArray("resultsArray")
         val referenceResultsArray = referenceTestCaseJson.getJSONArray("resultsArray")
-        for(i in 0 until testResultsArray.length()){
+        for (i in 0 until testResultsArray.length()) {
             val testResult = testResultsArray.getJSONObject(i)
             val referenceResult = referenceResultsArray.getJSONObject(i)
-            if(!testResult.similar(referenceResult)){
+            if (!testResult.similar(referenceResult)) {
                 throw Exception("$cryptoAlgorithm hardware test failed on test case $currentTestCount, MCT failed on round $i,\nerror.txt saved to folder: $saveToFolder")
             }
         }

@@ -73,7 +73,7 @@ class SerialCommunicator(
         }
     }
 
-    fun sendTextToDevice(text: ArrayList<String>) {
+    fun sendTextToDevice(text: ArrayList<String>, delayInterval:Long = 10) {
         coroutineScope.launch(Dispatchers.Default) {
             for (t in text) {
                 sendDataFifoMutex.withLock {
@@ -82,7 +82,7 @@ class SerialCommunicator(
                     sentText.value = sentText.value.takeLast(sendTextWindowSize)
                     sendDataFIFO.add(t)
                 }
-                delay(10)
+                delay(delayInterval)
             }
 
         }
@@ -115,7 +115,7 @@ class SerialCommunicator(
             //return the string
             val startIndex = response.indexOf(startString)
             val endIndex = response.indexOf(endString) + endString.length
-            println("$startIndex $endIndex")
+//            println("$startIndex $endIndex")
             return response.substring(startIndex, endIndex)
         }
 

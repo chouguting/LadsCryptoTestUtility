@@ -110,7 +110,7 @@ fun runCavp(cavpTestFiles: ArrayList<CavpTestFile>, saveToFolder: String, mctEna
                     } else if (algorithmName.lowercase().contains("drbg")) {
                         DRBGEngine.runDrbgWithTestCase(testCaseJson, drbgReturnedBitsLen)
                     }else if (algorithmName.lowercase().contains("ecdsa")) {
-                        ECDSAEngine.runEcdsaWithTestCase(currentTestGroup,testCaseJson, ecdsaCurve, ecdsaOperationMode)
+                        ECDSAEngine.runEcdsaWithTestCase(currentTestGroup, testCaseJson, ecdsaCurve, ecdsaOperationMode)
                     }else if(algorithmName.lowercase().contains("rsa")){
                         RSAEngine.runRsaWithTestCase(currentTestGroup, testCaseJson, rsaOperationMode)
                     }

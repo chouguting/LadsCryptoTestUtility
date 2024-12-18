@@ -1,32 +1,25 @@
 package ciphers
 
-import androidx.compose.ui.text.toUpperCase
+import cavpTestUtils.saveErrorTestCaseToFolder
 import org.bouncycastle.asn1.ASN1Integer
 import org.bouncycastle.asn1.ASN1Sequence
-import org.bouncycastle.asn1.DERSequence
-import org.bouncycastle.asn1.sec.SECNamedCurves
 import org.bouncycastle.crypto.params.ECDomainParameters
 import org.bouncycastle.crypto.params.ECPublicKeyParameters
 import org.bouncycastle.crypto.signers.ECDSASigner
 import org.bouncycastle.jce.ECNamedCurveTable
-import org.bouncycastle.jce.ECPointUtil
 import org.bouncycastle.jce.interfaces.ECPrivateKey
 import org.bouncycastle.jce.interfaces.ECPublicKey
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec
-import org.bouncycastle.jce.spec.ECNamedCurveSpec
 import org.bouncycastle.jce.spec.ECPrivateKeySpec
-import org.bouncycastle.math.ec.ECAlgorithms
-import org.bouncycastle.math.ec.ECCurve
-import org.bouncycastle.math.ec.FixedPointCombMultiplier
-import org.bouncycastle.util.encoders.Hex
 import org.json.JSONObject
 import org.kotlincrypto.hash.sha3.SHAKE128
 import org.kotlincrypto.hash.sha3.SHAKE256
 import tw.edu.ntu.lads.chouguting.java.cipers.CipherUtils
+import tw.edu.ntu.lads.chouguting.java.cipers.XmlUtils
 import java.math.BigInteger
 import java.security.*
-import java.security.spec.*
+import java.util.ArrayList
 
 
 class ECDSAEngine(curveString: String) {
@@ -252,6 +245,177 @@ class ECDSAEngine(curveString: String) {
                 }
             }
 
+
+        }
+
+        fun getHardwareTestInput(
+            testId: String,
+            currentTestGroupJsonObject: JSONObject,
+            testCaseJsonObject: JSONObject,
+            curve: String,
+            ecdsaOperationMode: String
+        ): ArrayList<String> {
+            var currentLine = "$testId "
+            val result = ArrayList<String>()
+            val ecdsaEngine = ECDSAEngine(curve)
+
+            currentLine += "5 "
+
+            when (ecdsaOperationMode){
+                "keyGen" -> currentLine += "1 "
+                "keyVer" -> currentLine += "2 "
+                "sigGen" -> currentLine += "3 "
+                "sigVer" -> currentLine += "4 "
+            }
+
+            when(ecdsaEngine.curve){
+                EcdsaCurve.P_256 -> currentLine += "1 "
+                EcdsaCurve.P_384 -> currentLine += "2 "
+                EcdsaCurve.P_521 -> currentLine += "3 "
+            }
+
+            result.add(currentLine)
+
+            when(ecdsaOperationMode){
+                "keyVer" -> {
+                    val qx = testCaseJsonObject.getString("qx")
+                    val qy = testCaseJsonObject.getString("qy")
+                    result.add("$qx $qy")
+                }
+                "sigGen" -> {
+                    if (!currentTestGroupJsonObject.has("d")) { //if no key, generate one
+                        val keyPair = ecdsaEngine.generateKeyPair()
+                        val publicKeyCurvePointXHexString = keyPair.first.first
+                        val publicKeyCurvePointYHexString = keyPair.first.second
+                        val privateKeyHexString = keyPair.second
+                        currentTestGroupJsonObject.put(
+                            "qx", publicKeyCurvePointXHexString
+                        ) //have to add public key to test group
+                        currentTestGroupJsonObject.put("qy", publicKeyCurvePointYHexString)
+                        currentTestGroupJsonObject.put(
+                            "d", privateKeyHexString
+                        ) //have to add private key to test group too
+                    }
+//                    val qx = currentTestGroupJsonObject.getString("qx")
+//                    val qy = currentTestGroupJsonObject.getString("qy") here we won't need to add the public key to the test case
+                    val d = currentTestGroupJsonObject.getString("d")
+                    val message = testCaseJsonObject.getString("message")
+                    val hashAlgorithm = currentTestGroupJsonObject.getString("hashAlg")
+                    when (hashAlgorithm.uppercase()){
+                        "SHA2-256" -> result.add("1")
+                        "SHA2-384" -> result.add("2")
+                        "SHA2-512" -> result.add("3")
+                        "SHA3-256" -> result.add("4")
+                        "SHA3-384" -> result.add("5")
+                        "SHA3-512" -> result.add("6")
+                        "SHAKE-128" -> result.add("7")
+                        "SHAKE-256" -> result.add("8")
+                    }
+                    result.add(d)
+                    result.add(message)
+                }
+                "sigVer" -> {
+                    val messageHexString = testCaseJsonObject.getString("message")
+                    val qx = testCaseJsonObject.getString("qx")
+                    val qy = testCaseJsonObject.getString("qy")
+                    val hashAlgorithm = currentTestGroupJsonObject.getString("hashAlg")
+                    val r = testCaseJsonObject.getString("r")
+                    val s = testCaseJsonObject.getString("s")
+                    when (hashAlgorithm.uppercase()){
+                        "SHA2-256" -> result.add("1")
+                        "SHA2-384" -> result.add("2")
+                        "SHA2-512" -> result.add("3")
+                        "SHA3-256" -> result.add("4")
+                        "SHA3-384" -> result.add("5")
+                        "SHA3-512" -> result.add("6")
+                        "SHAKE-128" -> result.add("7")
+                        "SHAKE-256" -> result.add("8")
+                    }
+                    result.add("$qx $qy")
+                    result.add("$r $s")
+                    result.add(messageHexString)
+                }
+            }
+            return result
+        }
+
+        fun fillInHardwareTestOutput(testId: String, testCaseJson: JSONObject, outputtedXml: String, ecdsaOperationMode: String) {
+            val contentXml = XmlUtils.getLabelValue(outputtedXml, testId)
+            when(ecdsaOperationMode){
+                "keyGen" -> {
+                    if(XmlUtils.labelExists(contentXml, "qx")){
+                        testCaseJson.put("qx", XmlUtils.getLabelValue(contentXml, "qx"))
+                    }
+                    if(XmlUtils.labelExists(contentXml, "qy")){
+                        testCaseJson.put("qy", XmlUtils.getLabelValue(contentXml, "qy"))
+                    }
+                    if(XmlUtils.labelExists(contentXml, "d")){
+                        testCaseJson.put("d", XmlUtils.getLabelValue(contentXml, "d"))
+                    }
+                }
+                "keyVer" -> {
+                    if(XmlUtils.labelExists(contentXml, "testPassed")){
+                        testCaseJson.put("testPassed", XmlUtils.getLabelValue(contentXml, "testPassed"))
+                    }
+                }
+                "sigGen" -> {
+                    if(XmlUtils.labelExists(contentXml, "r")){
+                        testCaseJson.put("r", XmlUtils.getLabelValue(contentXml, "r"))
+                    }
+                    if(XmlUtils.labelExists(contentXml, "s")){
+                        testCaseJson.put("s", XmlUtils.getLabelValue(contentXml, "s"))
+                    }
+                }
+                "sigVer" -> {
+                    if(XmlUtils.labelExists(contentXml, "testPassed")){
+                        testCaseJson.put("testPassed", XmlUtils.getLabelValue(contentXml, "testPassed"))
+                    }
+                }
+            }
+        }
+
+
+        fun validateHardwareResult(errorOutputFolder:String, currentTestCount: Int, questionTestGroupJSON:JSONObject, questionTestCaseJSON:JSONObject,  hardwareTestGroupResultJson:JSONObject, hardwareTestCaseResultJson: JSONObject, curve: String, ecdsaOperationMode: String){
+            when(ecdsaOperationMode){
+                "keyGen" -> {
+                    val ecdsaEngine = ECDSAEngine(curve)
+                    val qx = hardwareTestCaseResultJson.getString("qx")
+                    val qy = hardwareTestCaseResultJson.getString("qy")
+                    val keyResult = ecdsaEngine.validateECDSAKey(qx, qy)
+                    if(!keyResult){
+                        val goldenJson = JSONObject()
+                        goldenJson.put("key invalid", "this key is invalid")
+                        throw Exception("ECDSA hardware test failed on test case $currentTestCount,\nerror.txt saved to folder: $errorOutputFolder")
+                    }
+
+
+                }
+                "sigGen"-> {
+                    val ecdsaEngine = ECDSAEngine(curve)
+                    val qx = hardwareTestGroupResultJson.getString("qx")
+                    val qy = hardwareTestGroupResultJson.getString("qy")
+                    val hashAlgorithm = hardwareTestGroupResultJson.getString("hashAlg")
+                    val r = hardwareTestCaseResultJson.getString("r")
+                    val s = hardwareTestCaseResultJson.getString("s")
+                    val message = hardwareTestCaseResultJson.getString("message")
+                    val signResult = ecdsaEngine.verifySignature(message, hashAlgorithm, qx, qy, r, s)
+                    if(!signResult){
+                        val goldenJson = JSONObject()
+                        goldenJson.put("signature invalid", "this signature is invalid")
+                        throw Exception("ECDSA hardware test failed on test case $currentTestCount,\nerror.txt saved to folder: $errorOutputFolder")
+                    }
+                }
+                "keyVer", "sigVer"-> {
+                    val referenceJSON = JSONObject(questionTestCaseJSON.toString())
+                    ECDSAEngine.runEcdsaWithTestCase(questionTestGroupJSON, referenceJSON, curve, ecdsaOperationMode)
+
+                    if(!referenceJSON.similar(hardwareTestCaseResultJson)){
+                        saveErrorTestCaseToFolder(errorOutputFolder, questionTestCaseJSON, referenceJSON, hardwareTestCaseResultJson)
+                        throw Exception("ECDSA hardware test failed on test case $currentTestCount,\nerror.txt saved to folder: $errorOutputFolder")
+                    }
+                }
+
+            }
 
         }
     }
