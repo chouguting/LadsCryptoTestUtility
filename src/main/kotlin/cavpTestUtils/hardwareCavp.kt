@@ -245,7 +245,7 @@ suspend fun runHardwareCavp(
                         serialCommunicator.sendTextToDevice(stringsToDevice, delayInterval = 100)
                         val questionTestCase = JSONObject(testCaseJson.toString())
                         val questionTestGroup = JSONObject(currentTestGroup.toString())
-                        val resultXml = serialCommunicator.waitForResponse(testId, 20000) //wait for 10 seconds
+                        val resultXml = serialCommunicator.waitForResponse(testId, 30000) //wait for 10 seconds
                         ECDSAEngine.fillInHardwareTestOutput(testId, testCaseJson, resultXml, ecdsaOperationMode)
                         if(validateResult){
                             ECDSAEngine.validateHardwareResult(
@@ -258,7 +258,7 @@ suspend fun runHardwareCavp(
                                 ecdsaCurve,
                                 ecdsaOperationMode
                             )
-                            println("validate ECDSA hardware test passed on test case $currentTestCount")
+//                            println("validate ECDSA hardware test passed on test case $currentTestCount")
                         }
 
                     } else if (algorithmName.lowercase().contains("rsa")) {
