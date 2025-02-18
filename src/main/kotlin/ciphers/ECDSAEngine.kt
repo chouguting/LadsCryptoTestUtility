@@ -385,6 +385,7 @@ class ECDSAEngine(curveString: String) {
                     if(!keyResult){
                         val goldenJson = JSONObject()
                         goldenJson.put("key invalid", "this key is invalid")
+                        saveErrorTestCaseToFolder(errorOutputFolder, questionTestCaseJSON, goldenJson, hardwareTestCaseResultJson)
                         throw Exception("ECDSA hardware test failed on test case $currentTestCount,\nerror.txt saved to folder: $errorOutputFolder")
                     }
 

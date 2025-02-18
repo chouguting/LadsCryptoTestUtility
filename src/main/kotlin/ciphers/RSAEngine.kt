@@ -1,5 +1,6 @@
 package ciphers
 
+import cavpTestUtils.saveErrorTestCaseToFolder
 import org.bouncycastle.crypto.generators.RSAKeyPairGenerator
 import org.bouncycastle.crypto.params.RSAKeyGenerationParameters
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters
@@ -7,6 +8,7 @@ import org.bouncycastle.crypto.params.RSAKeyParameters
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.json.JSONObject
 import tw.edu.ntu.lads.chouguting.java.cipers.CipherUtils
+import tw.edu.ntu.lads.chouguting.java.cipers.XmlUtils
 import java.math.BigInteger
 import java.security.*
 import java.security.interfaces.RSAPrivateCrtKey
@@ -19,7 +21,6 @@ import kotlin.collections.HashMap
 
 
 class RSAEngine(val keyLength: Int) {
-
 
 
     fun String.startsWithTwoZero(): Boolean {
@@ -39,12 +40,10 @@ class RSAEngine(val keyLength: Int) {
     }
 
 
-
-
     fun computeAProbablePrimeFactorBasedOnAuxiliaryPrimes(
-        r1:BigInteger,r2:BigInteger,
-        x:BigInteger, e:BigInteger
-    ):BigInteger{
+        r1: BigInteger, r2: BigInteger,
+        x: BigInteger, e: BigInteger
+    ): BigInteger {
         //r =  ((r2^(-1) mod (2*r1)) * r2) – (((2*r1)^(–1) mod r2) * (2*r1))
         //calculate the modular inverse of 2*r1(mod r2) and r2(mod 2*r1) first
         val twoR1 = r1.multiply(BigInteger.TWO)
@@ -57,38 +56,40 @@ class RSAEngine(val keyLength: Int) {
 
         //regenerate y until (GCD(Y–1, e) = 1) and y is a probable prime
         //if (GCD(Y–1, e) = 1) and y is a probable prime, then return y
-        while (y.subtract(BigInteger.ONE).gcd(e) != BigInteger.ONE || !y.isProbablePrime(100)){
+        while (y.subtract(BigInteger.ONE).gcd(e) != BigInteger.ONE || !y.isProbablePrime(100)) {
             //Y = Y + (2*r1*r2)
             y = y.add(r1.multiply(r2).multiply(BigInteger.TWO))
         }
         return y
     }
-    fun generateKeyPairBasedOnAuxiliaryProbablePrimes(
-        xP1Hex:String,xP2Hex:String,xPHex:String,
-        xQ1Hex:String,xQ2Hex:String,xQHex:String, eHex: String): HashMap<String, String>{
 
-        val resultMap = HashMap<String,String>()
+    fun generateKeyPairBasedOnAuxiliaryProbablePrimes(
+        xP1Hex: String, xP2Hex: String, xPHex: String,
+        xQ1Hex: String, xQ2Hex: String, xQHex: String, eHex: String
+    ): HashMap<String, String> {
+
+        val resultMap = HashMap<String, String>()
         resultMap["e"] = eHex.trimHexString()
         //Based on FIPS 186-4,
         // Appendix B.3.6 Generation of Probable Primes with Conditions Based on Auxiliary Probable Primes
-        val xP = BigInteger(xPHex,16)
-        val xP1 = BigInteger(xP1Hex,16)
-        val xP2 = BigInteger(xP2Hex,16)
-        val xQ = BigInteger(xQHex,16)
-        val xQ1 = BigInteger(xQ1Hex,16)
-        val xQ2 = BigInteger(xQ2Hex,16)
+        val xP = BigInteger(xPHex, 16)
+        val xP1 = BigInteger(xP1Hex, 16)
+        val xP2 = BigInteger(xP2Hex, 16)
+        val xQ = BigInteger(xQHex, 16)
+        val xQ1 = BigInteger(xQ1Hex, 16)
+        val xQ2 = BigInteger(xQ2Hex, 16)
 
-        val e = BigInteger(eHex,16)
+        val e = BigInteger(eHex, 16)
 
         val p1 = xP1.nextProbablePrime()
         val p2 = xP2.nextProbablePrime()
-        val p = computeAProbablePrimeFactorBasedOnAuxiliaryPrimes(p1,p2,xP,e)
+        val p = computeAProbablePrimeFactorBasedOnAuxiliaryPrimes(p1, p2, xP, e)
         var pHex = CipherUtils.bytesToHexString(p.toByteArray()).trimHexString()
 
 
         val q1 = xQ1.nextProbablePrime()
         val q2 = xQ2.nextProbablePrime()
-        val q = computeAProbablePrimeFactorBasedOnAuxiliaryPrimes(q1,q2,xQ,e)
+        val q = computeAProbablePrimeFactorBasedOnAuxiliaryPrimes(q1, q2, xQ, e)
         var qHex = CipherUtils.bytesToHexString(q.toByteArray()).trimHexString()
 
         resultMap["p"] = pHex
@@ -100,7 +101,8 @@ class RSAEngine(val keyLength: Int) {
         resultMap["n"] = nHex.trimHexString()
 
         //calculate lcm((p-1),(q-1))
-        val lcmPQ = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE)).divide(p.subtract(BigInteger.ONE).gcd(q.subtract(BigInteger.ONE)))
+        val lcmPQ = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE))
+            .divide(p.subtract(BigInteger.ONE).gcd(q.subtract(BigInteger.ONE)))
 
         //calculate d = e^(-1) mod lcmPQ
         val d = e.modInverse(lcmPQ)
@@ -289,7 +291,7 @@ class RSAEngine(val keyLength: Int) {
                     val messageHex = testCaseJsonObject.getString("message")
                     val isPSSmode = currentTestGroupJsonObject.getString("sigType") == "pss"
                     val hashAlgorithm = currentTestGroupJsonObject.getString("hashAlg").fixHashAlgorithmString()
-                    val signatureHex = rsaEngine.sign(messageHex, hashAlgorithm, nHex, dHex,isPSSmode)
+                    val signatureHex = rsaEngine.sign(messageHex, hashAlgorithm, nHex, dHex, isPSSmode)
                     testCaseJsonObject.put("signature", signatureHex)
                 }
 
@@ -305,9 +307,324 @@ class RSAEngine(val keyLength: Int) {
                 }
             }
         }
+
+        fun getHardwareTestInput(
+            testId: String,
+            currentTestGroupJsonObject: JSONObject,
+            testCaseJsonObject: JSONObject,
+            rsaMode: String,
+        ): ArrayList<String> {
+            var currentLine = "$testId "
+            val result = ArrayList<String>()
+            currentLine += "6 "
+            when (rsaMode) {
+                "keyGen" -> {
+                    currentLine += "1"
+                    result.add(currentLine)
+                    val eHex = testCaseJsonObject.getString("e")
+                    val xPHex = testCaseJsonObject.getString("xP")
+                    val xQHex = testCaseJsonObject.getString("xQ")
+                    val xP1Hex = testCaseJsonObject.getString("xP1")
+                    val xP2Hex = testCaseJsonObject.getString("xP2")
+                    val xQ1Hex = testCaseJsonObject.getString("xQ1")
+                    val xQ2Hex = testCaseJsonObject.getString("xQ2")
+//                    currentLine += "$xPHex $xQHex $xP1Hex $xP2Hex $xQ1Hex $xQ2Hex $eHex"
+                    result.add("$xPHex $xQHex")
+                    result.add("$xP1Hex $xP2Hex")
+                    result.add("$xQ1Hex $xQ2Hex")
+                    result.add(eHex)
+
+                }
+
+                "sigGen" -> {
+                    currentLine += "2 "
+                    val paddingScheme = currentTestGroupJsonObject.getString("sigType")
+                    when (paddingScheme) {
+                        "pkcs1v1.5" -> {
+                            currentLine += "1 "
+                        }
+
+                        "pss" -> {
+                            currentLine += "2 "
+                        }
+                    }
+                    val hashAlgorithm = currentTestGroupJsonObject.getString("hashAlg")
+                    when (hashAlgorithm) {
+                        "SHA2-256" -> {
+                            currentLine += "1 "
+                        }
+
+                        "SHA2-384" -> {
+                            currentLine += "2 "
+                        }
+
+                        "SHA2-512" -> {
+                            currentLine += "3 "
+                        }
+
+                        "SHA3-256" -> {
+                            currentLine += "4 "
+                        }
+
+                        "SHA3-384" -> {
+                            currentLine += "5 "
+                        }
+
+                        "SHA3-512" -> {
+                            currentLine += "6 "
+                        }
+                    }
+                    result.add(currentLine)
+                    val messageHex = testCaseJsonObject.getString("message")
+                    result.add(messageHex)
+                }
+
+                "sigVer" -> {
+                    currentLine += "3 "
+                    result.add(currentLine)
+                    val messageHex = testCaseJsonObject.getString("message")
+                    result.add(messageHex)
+                    val signatureHex = testCaseJsonObject.getString("signature")
+                    result.add(signatureHex)
+                    val hashAlgorithm = currentTestGroupJsonObject.getString("hashAlg")
+                    when (hashAlgorithm) {
+                        "SHA2-256" -> {
+                            result.add("1")
+                        }
+
+                        "SHA2-384" -> {
+                            result.add("2")
+                        }
+
+                        "SHA2-512" -> {
+                            result.add("3")
+                        }
+
+                        "SHA3-256" -> {
+                            result.add("4")
+                        }
+
+                        "SHA3-384" -> {
+                            result.add("5")
+                        }
+
+                        "SHA3-512" -> {
+                            result.add("6")
+                        }
+                    }
+                    val eHex = currentTestGroupJsonObject.getString("e")
+                    val nHex = currentTestGroupJsonObject.getString("n")
+                    result.add("$eHex $nHex")
+                    val paddingScheme = currentTestGroupJsonObject.getString("sigType")
+                    when (paddingScheme) {
+                        "pkcs1v1.5" -> {
+                            result.add("1")
+                        }
+
+                        "pss" -> {
+                            result.add("2")
+                        }
+                    }
+                }
+            }
+            //result.add(currentLine)
+            return result
+        }
+
+        fun fillInHardwareTestOutput(
+            testId: String,
+            testCaseJson: JSONObject,
+            outputtedXml: String,
+            rsaOperationMode: String
+        ) {
+            val contentXml = XmlUtils.getLabelValue(outputtedXml, testId)
+            when (rsaOperationMode) {
+                "keyGen" -> {
+                    if (XmlUtils.labelExists(contentXml, "p")) {
+                        val pHex = XmlUtils.getLabelValue(contentXml, "p")
+                        testCaseJson.put("p", pHex)
+                    }
+                    if (XmlUtils.labelExists(contentXml, "q")) {
+                        val qHex = XmlUtils.getLabelValue(contentXml, "q")
+                        testCaseJson.put("q", qHex)
+                    }
+                    if (XmlUtils.labelExists(contentXml, "n")) {
+                        val nHex = XmlUtils.getLabelValue(contentXml, "n")
+                        testCaseJson.put("n", nHex)
+                    }
+                    if (XmlUtils.labelExists(contentXml, "d")) {
+                        val dHex = XmlUtils.getLabelValue(contentXml, "d")
+                        testCaseJson.put("d", dHex)
+                    }
+                    if (XmlUtils.labelExists(contentXml, "e")) {
+                        val eHex = XmlUtils.getLabelValue(contentXml, "e")
+                        testCaseJson.put("e", eHex)
+                    }
+                }
+
+                "sigGen" -> {
+                    if (XmlUtils.labelExists(contentXml, "signature")) {
+                        val signatureHex = XmlUtils.getLabelValue(contentXml, "signature")
+                        testCaseJson.put("signature", signatureHex)
+                    }
+                    if (XmlUtils.labelExists(contentXml, "message")) {
+                        val messageHex = XmlUtils.getLabelValue(contentXml, "message")
+                        testCaseJson.put("message", messageHex)
+                    }
+                    if (XmlUtils.labelExists(contentXml, "n")) {
+                        val nHex = XmlUtils.getLabelValue(contentXml, "n")
+                        testCaseJson.put("n", nHex)
+                    }
+                    if (XmlUtils.labelExists(contentXml, "d")) {
+                        val dHex = XmlUtils.getLabelValue(contentXml, "d")
+                        testCaseJson.put("d", dHex)
+                    }
+                    if (XmlUtils.labelExists(contentXml, "e")) {
+                        val eHex = XmlUtils.getLabelValue(contentXml, "e")
+                        testCaseJson.put("e", eHex)
+                    }
+                }
+
+                "sigVer" -> {
+                    if (XmlUtils.labelExists(contentXml, "testPassed")) {
+                        val testPassed = XmlUtils.getLabelValue(contentXml, "testPassed")
+                        testCaseJson.put("testPassed", testPassed)
+                    }
+                }
+            }
+        }
+
+
+        fun validateHardwareResult(
+            errorOutputFolder: String,
+            currentTestCount: Int,
+            questionTestCaseJSON: JSONObject,
+            questionTestGroupJSON: JSONObject,
+            hardwareTestCaseResultJson: JSONObject,
+            rsaOperationMode: String
+        ) {
+            when (rsaOperationMode) {
+                "keyGen" -> {
+                    val referenceJSON = JSONObject(questionTestCaseJSON.toString())
+                    val keyLength = questionTestGroupJSON.getInt("modulo")
+                    val rsaEngine = RSAEngine(keyLength)
+                    val eHex = hardwareTestCaseResultJson.getString("e")
+                    val xPHex = hardwareTestCaseResultJson.getString("xP")
+                    val xQHex = hardwareTestCaseResultJson.getString("xQ")
+                    val xP1Hex = hardwareTestCaseResultJson.getString("xP1")
+                    val xP2Hex = hardwareTestCaseResultJson.getString("xP2")
+                    val xQ1Hex = hardwareTestCaseResultJson.getString("xQ1")
+                    val xQ2Hex = hardwareTestCaseResultJson.getString("xQ2")
+                    val goldenKey = rsaEngine.generateKeyPairBasedOnAuxiliaryProbablePrimes(
+                        xP1Hex, xP2Hex, xPHex, xQ1Hex, xQ2Hex, xQHex, eHex
+                    )
+                    referenceJSON.put("p", goldenKey["p"])
+                    referenceJSON.put("q", goldenKey["q"])
+                    referenceJSON.put("n", goldenKey["n"])
+                    referenceJSON.put("d", goldenKey["d"])
+
+                    //TODO compare the golden key with the hardware key
+                    val n = goldenKey["n"]!!
+                    val d = goldenKey["d"]!!
+                    val p = goldenKey["p"]!!
+                    val q = goldenKey["q"]!!
+                    val hardwareN = hardwareTestCaseResultJson.getString("n")
+                    val hardwareD = hardwareTestCaseResultJson.getString("d")
+                    val hardwareP = hardwareTestCaseResultJson.getString("p")
+                    val hardwareQ = hardwareTestCaseResultJson.getString("q")
+                    if (n != hardwareN || d != hardwareD || p != hardwareP || q != hardwareQ) {
+//                    val errorOutput = "$errorOutputFolder/$currentTestCount.json"
+//                    hardwareTestCaseResultJson.put("error", "key generation failed")
+//                    hardwareTestCaseResultJson.put("goldenKey", goldenKey)
+//                    hardwareTestCaseResultJson.put("goldenN", n)
+//                    hardwareTestCaseResultJson.put("goldenD", d)
+//                    hardwareTestCaseResultJson.put("goldenP", p)
+//                    hardwareTestCaseResultJson.put("goldenQ", q)
+//                    hardwareTestCaseResultJson.put("hardwareN", hardwareN)
+//                    hardwareTestCaseResultJson.put("hardwareD", hardwareD)
+//                    hardwareTestCaseResultJson.put("hardwareP", hardwareP)
+//                    hardwareTestCaseResultJson.put("hardwareQ", hardwareQ)
+//                    hardwareTestCaseResultJson.put("testPassed", "false")
+//                    hardwareTestCaseResultJson.put("errorOutput", errorOutput)
+//                        val goldenJson = JSONObject()
+//                        goldenJson.put("key invalid", "this key is invalid")
+                        saveErrorTestCaseToFolder(
+                            errorOutputFolder,
+                            questionTestCaseJSON,
+                            //goldenJson,
+                            referenceJSON,
+                            hardwareTestCaseResultJson
+                        )
+                        throw Exception("RSA hardware key generation failed on test case $currentTestCount, \nerror.txt saved to folder: $errorOutputFolder")
+                    } else {
+                        hardwareTestCaseResultJson.put("testPassed", "true")
+                    }
+                }
+
+                "sigGen" -> {
+                    //TODO use golden software to verify the hardware signature
+                    //val referenceJSON = JSONObject(questionTestCaseJSON.toString())
+                    val keyLength = questionTestGroupJSON.getInt("modulo")
+                    val rsaEngine = RSAEngine(keyLength)
+
+                    val messageHex = hardwareTestCaseResultJson.getString("message")
+                    val signatureHex = hardwareTestCaseResultJson.getString("signature")
+                    val hashAlgorithm = questionTestGroupJSON.getString("hashAlg").fixHashAlgorithmString()
+                    val nHex = hardwareTestCaseResultJson.getString("n")
+                    val eHex = hardwareTestCaseResultJson.getString("e")
+                    val isPSSmode = questionTestGroupJSON.getString("sigType") == "pss"
+                    val verifyResult = rsaEngine.verify(messageHex, signatureHex, hashAlgorithm, nHex, eHex, isPSSmode)
+                    if (!verifyResult) {
+//                    val errorOutput = "$errorOutputFolder/$currentTestCount.json"
+//                    hardwareTestCaseResultJson.put("error", "signature generation failed")
+//                    hardwareTestCaseResultJson.put("testPassed", "false")
+//                    hardwareTestCaseResultJson.put("errorOutput", errorOutput)
+                        val goldenJson = JSONObject()
+                        goldenJson.put("signature invalid", "this signature is invalid")
+                        saveErrorTestCaseToFolder(
+                            errorOutputFolder,
+                            questionTestCaseJSON,
+                            goldenJson,
+                            hardwareTestCaseResultJson
+                        )
+                        throw Exception("RSA hardware signature generation failed on test case $currentTestCount,\nerror.txt saved to folder: $errorOutputFolder")
+                    } else {
+                        hardwareTestCaseResultJson.put("testPassed", "true")
+                    }
+                }
+
+                "sigVer" -> {
+                    //TODO compare the hardware verification result with the golden software verification result
+                    val keyLength = questionTestGroupJSON.getInt("modulo")
+                    val rsaEngine = RSAEngine(keyLength)
+
+                    val messageHex = questionTestCaseJSON.getString("message")
+                    val signatureHex = questionTestCaseJSON.getString("signature")
+                    val hashAlgorithm = questionTestGroupJSON.getString("hashAlg").fixHashAlgorithmString()
+                    val nHex = questionTestGroupJSON.getString("n")
+                    val eHex = questionTestGroupJSON.getString("e")
+                    val isPSSmode = questionTestGroupJSON.getString("sigType") == "pss"
+                    val verifyResult = rsaEngine.verify(messageHex, signatureHex, hashAlgorithm, nHex, eHex, isPSSmode)
+                    val testPassed = hardwareTestCaseResultJson.getString("testPassed")
+                    //verifyResult is boolean, testPassed is string
+
+                    if (verifyResult.toString() != testPassed) {
+                        val goldenJson = JSONObject()
+                        goldenJson.put("verification invalid", "this verification result is invalid")
+                        saveErrorTestCaseToFolder(
+                            errorOutputFolder,
+                            questionTestCaseJSON,
+                            goldenJson,
+                            hardwareTestCaseResultJson
+                        )
+                        throw Exception("RSA hardware signature verification failed on test case $currentTestCount, \nerror.txt saved to folder: $errorOutputFolder")
+                    }
+                }
+            }
+        }
+
+
     }
-
-
 }
 
 fun KeyPair.toHexHashMap(): HashMap<String, String> {
@@ -407,15 +724,18 @@ fun String.fixHashAlgorithmString(): String {
 //}
 
 fun main() {
-    val xPHex = "C8FCAEC219F575BC0C747886A0AB68434A456E0B4E1E4B44F5A498F924FD113830700BAA1B8D9F0CAF00925203A78C8A4453B0612C5F4B6714A0EA529E11ADAEAA362564F48CA2832CFAAEF510FBC8E773FF46B925D97D6697453FD639518D4CAA68CA601A13889AD341B662D0161F6DF69C03AFB3D93128BC29D9DA2CCD1676"
-    val xQHex = "EA110FCD35A5E40B36121E964ACF66CF1D4FBA23267CD5EF4E3E09DB5F85191D2D11C2BCC674891683EFDB19C5E62B286C607887D52F0BC03DABDB585854EC22109D73ACB6B43B1D5CF1968DC8AF7D3213296C312146CAB180BF7B18BB6C8D09326945D5A55050E958054A5AEBBEF1D2430E2568B39DA50A9B035F64A1E9753B"
+    val xPHex =
+        "C8FCAEC219F575BC0C747886A0AB68434A456E0B4E1E4B44F5A498F924FD113830700BAA1B8D9F0CAF00925203A78C8A4453B0612C5F4B6714A0EA529E11ADAEAA362564F48CA2832CFAAEF510FBC8E773FF46B925D97D6697453FD639518D4CAA68CA601A13889AD341B662D0161F6DF69C03AFB3D93128BC29D9DA2CCD1676"
+    val xQHex =
+        "EA110FCD35A5E40B36121E964ACF66CF1D4FBA23267CD5EF4E3E09DB5F85191D2D11C2BCC674891683EFDB19C5E62B286C607887D52F0BC03DABDB585854EC22109D73ACB6B43B1D5CF1968DC8AF7D3213296C312146CAB180BF7B18BB6C8D09326945D5A55050E958054A5AEBBEF1D2430E2568B39DA50A9B035F64A1E9753B"
     val xP1Hex = "1C01F6F900B9B5AAA0C5E107051C0C6D409A0B640425FE585F442E17D6F8C90B81878F46AFE57CE84609"
     val xP2Hex = "18032A7A82723942A5E1DCE205DA817FB02242AB6F86C8863BDB"
     val xQ1Hex = "06A0C1A61B7902AAAC204118DB11A4BB6A0C7D1B52CF58FDF377BFC3545135114E90FA95"
     val xQ2Hex = "05DD700993BF18CD0BA77719B83C4C5B46C1A9A415D035B5E9EF445CDA45A7356B55573B6A0711FB513F7173DB"
     val eHex = "1CAEAE631B"
     val rsaEngine = RSAEngine(2048)
-    val result = rsaEngine.generateKeyPairBasedOnAuxiliaryProbablePrimes(xP1Hex, xP2Hex, xPHex, xQ1Hex, xQ2Hex, xQHex, eHex)
+    val result =
+        rsaEngine.generateKeyPairBasedOnAuxiliaryProbablePrimes(xP1Hex, xP2Hex, xPHex, xQ1Hex, xQ2Hex, xQHex, eHex)
     println("p:${result["p"]}")
     println("q:${result["q"]}")
     println("n:${result["n"]}")

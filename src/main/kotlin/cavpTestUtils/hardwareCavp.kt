@@ -3,6 +3,7 @@ package cavpTestUtils
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import ciphers.ECDSAEngine
+import ciphers.RSAEngine
 import ciphers.SHAKEEngine
 import kotlinx.coroutines.delay
 import org.json.JSONObject
@@ -258,11 +259,31 @@ suspend fun runHardwareCavp(
                                 ecdsaCurve,
                                 ecdsaOperationMode
                             )
-//                            println("validate ECDSA hardware test passed on test case $currentTestCount")
+                            //println("validate ECDSA hardware test passed on test case $currentTestCount")
                         }
 
                     } else if (algorithmName.lowercase().contains("rsa")) {
                         //TODO: run hardware RSA
+                        val stringToDevice = RSAEngine.getHardwareTestInput(
+                            testId, currentTestGroup, testCaseJson, rsaOperationMode,
+                        )
+                        serialCommunicator.sendTextToDevice(stringToDevice, delayInterval = 1000)
+                        val questionTestCase = JSONObject(testCaseJson.toString())
+                        val questionTestGroup = JSONObject(currentTestGroup.toString())
+                        val resultXml = serialCommunicator.waitForResponse(testId, 30000000)
+                        //delay(2000)
+                        RSAEngine.fillInHardwareTestOutput(testId, testCaseJson, resultXml, rsaOperationMode)
+                        if(validateResult){
+                            RSAEngine.validateHardwareResult(
+                                saveToFolder,
+                                currentTestCount,
+                                questionTestCase,
+                                questionTestGroup,
+                                testCaseJson,
+                                rsaOperationMode
+                            )
+                            //println("validate RSA hardware test passed on test case $currentTestCount")
+                        }
                     }
                     currentTestCount++
 
