@@ -14,10 +14,10 @@
 
 ### 自動化硬體驗證工具
 自動地解析題目檔，將題目檔的內容利用Serial Port送到硬體(FPGA或MCU)中去計算，再將硬體計算的結果與Golden Reference去比對，若有計算錯誤，系統會告訴使用者錯在哪。 <br>
-Demo影片: [https://www.youtube.com/watch?v=bes5fH7AU0c](https://www.youtube.com/watch?v=bes5fH7AU0c)
+* Demo影片: [https://www.youtube.com/watch?v=bes5fH7AU0c](https://www.youtube.com/watch?v=bes5fH7AU0c)
 <img width="3611" height="1238" alt="image" src="https://github.com/user-attachments/assets/9bc7629a-3844-41f7-b264-f0544ec05ba3" />
 
-Demo影片: [https://www.youtube.com/watch?v=bes5fH7AU0c](https://www.youtube.com/watch?v=bes5fH7AU0c)
+
 
 ### 後量子密碼學實驗室
 針對比較新的後量自子密碼學演算法(例如Kyber)，我們提供一個可以可以直接做加解密的GUI介面，讓使用者能測試不同設定下的加解密(或簽章)結果
