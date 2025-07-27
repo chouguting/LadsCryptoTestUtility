@@ -8,7 +8,8 @@
 ## 功能介紹
 ### 密碼學答案產生器
 輸入一些題目檔(例如明文和密鑰)，再利用現成的Java/C++模組去做加解密，確保產生出來的答案(例如密文)是正確的，可以用來作為驗證硬體的Golden Reference
-<img width="1897" height="1061" alt="image" src="https://github.com/user-attachments/assets/897fbcb3-a0df-4d41-990b-adee74a013b8" />
+<img width="1910" height="1078" alt="image" src="https://github.com/user-attachments/assets/1d0a4adb-b09d-4012-92d3-91ae0258e08d" />
+
 
 
 
