@@ -1,5 +1,4 @@
 # LaDS自動化密碼學檢測軟體  LaDS CryptoTest Utility
-==============================
 <br>
 ## 簡介
 這是一款使用Compose Multiplatform開發的一套自動化密碼學硬體測試軟體。利用序列通訊埠和硬體溝通，就能驗證各種密碼硬體的運算結果。支援的演算法包括 AES、SHA、DRBG、RSA、ECDSA 以及 Kyber 和 Dilithium 等後量子演算法。
@@ -14,7 +13,8 @@
 
 
 ### 自動化硬體驗證工具
-自動地解析題目檔，將題目檔的內容利用Serial Port送到硬體(FPGA或MCU)中去計算，再將硬體計算的結果與Golden Reference去比對，若有計算錯誤，系統會告訴使用者錯在哪。
+自動地解析題目檔，將題目檔的內容利用Serial Port送到硬體(FPGA或MCU)中去計算，再將硬體計算的結果與Golden Reference去比對，若有計算錯誤，系統會告訴使用者錯在哪。 <br>
+Demo影片: [https://www.youtube.com/watch?v=bes5fH7AU0c](https://www.youtube.com/watch?v=bes5fH7AU0c)
 <img width="3611" height="1238" alt="image" src="https://github.com/user-attachments/assets/9bc7629a-3844-41f7-b264-f0544ec05ba3" />
 
 Demo影片: [https://www.youtube.com/watch?v=bes5fH7AU0c](https://www.youtube.com/watch?v=bes5fH7AU0c)
